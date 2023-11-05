@@ -31,7 +31,7 @@ export default class scene_pong extends Phaser.Scene {
 
         this.ball = this.physics.add.image(center_width,center_height ,"ball")
         this.ball.setVelocityX(-400);
-        this.ball.setScale(0.75)
+        this.ball.setScale(0.5)
         this.ball.setBounce(1); //Que rebote a la misma velocidad con la que choco
         this.physics.world.setBoundsCollision(false,false,true,true)//chocques con izq,derecha,arriba,abajo
         this.ball.setCollideWorldBounds(true);

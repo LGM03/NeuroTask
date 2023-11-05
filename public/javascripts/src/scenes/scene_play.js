@@ -6,8 +6,20 @@ export default class scene_play extends Phaser.Scene {
     }
 
     create() {
+
+        var textStyle = {
+            fontFamily: 'Arial',  // Puedes cambiar la fuente aquí o usar la personalizada cargada
+            fontSize: '25px',
+            fill: '#00000',     // Color del texto
+        };
+
+
+        // Crea un objeto de texto con los estilos personalizados
+        var text = this.add.text(this.sys.game.config.width/2 ,this.sys.game.config.height/2 -this.sys.game.config.height/4, 'Texto con fondo azul y bordes redondeados', textStyle);
+        text.setOrigin(0.5, 0.5);
+
         // Crear un botón de inicio como texto
-        this.startButton = this.add.image(this.sys.game.config.width  - 80,this.sys.game.config.height/2, "inicio");
+        this.startButton = this.add.image(this.sys.game.config.width/2,this.sys.game.config.height/2 + this.sys.game.config.height/6, "inicio");
     
         // Hacer que el botón sea interactivo
         this.startButton.setInteractive();
@@ -18,4 +30,7 @@ export default class scene_play extends Phaser.Scene {
             this.scene.start("scene_pong");
         });
     }
+
+
+    
 }    
