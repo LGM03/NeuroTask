@@ -1,0 +1,6 @@
+.ventanaJuego{
+    border-radius: 10px; /* Ajusta este valor según tus preferencias */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #FFF7F4;
+    
+}
