@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));//estaba a false, lo cambio a tr
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/juego',juegoRouter);
 
