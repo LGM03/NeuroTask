@@ -1,142 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="es">
-<head>  
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/estilosMainView.css">
-    <link rel="shortcut icon" href="images/cerebroSentado.jpg">
-    <title>NeuroTask</title>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/estilosMainView.css">
+  <link rel="shortcut icon" href="images/cerebroSentado.jpg">
+  <title>NeuroTask</title>
 </head>
+
 <body class="fondo">
-    <header class="container fondocabecera justify-content-center">  <!-- Aqui comienza el contenedor que contiene el logo y el texto de la cabecera  -->
-        <div class="row ">  <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  --> 
-            <div class="col-sm-2">
-              
-                <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80" class="d-flex align-content-center justify-content-center">
-              
+  <header class="container fondocabecera justify-content-center">
+    <!-- Aqui comienza el contenedor que contiene el logo y el texto de la cabecera  -->
+    <div class="row ">
+      <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  -->
+      <div class="col-sm-2">
+
+        <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
+          class="d-flex align-content-center justify-content-center">
+
+      </div>
+      <div class="col-sm-8 ">
+        <h1 class="textoCabecera d-flex align-items-center justify-content-center ">NeuroTask</h1>
+      </div>
+
+      <div class="col-sm-2 ">
+        <button type="button" class="btn botonInicioSesion" data-bs-toggle="modal"
+          data-bs-target="#InicioSesion">Iniciar Sesión </button>
+        <div class="modal fade" id="InicioSesion" data-bs-backdrop="static">
+          <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+              <!-- cabecera del diálogo -->
+              <div class="modal-header">
+                <h4 class="modal-title">Inicio de Sesión</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
-            <div class="col-sm-8 ">
-                <h1 class="textoCabecera d-flex align-items-center justify-content-center ">NeuroTask</h1>
-            </div>
 
-            <div class="col-sm-2 ">
-              <button type="button" class="btn botonInicioSesion" data-bs-toggle="modal" data-bs-target="#InicioSesion">Iniciar Sesión </button>              
-              <div class="modal fade" id="InicioSesion" data-bs-backdrop="static">  <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                  <div class="modal-content">
-              
-                    <!-- cabecera del diálogo -->
-                    <div class="modal-header">
-                      <h4 class="modal-title">Inicio de Sesión</h4>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              <!-- cuerpo del diálogo -->
+              <div class="modal-body alert alert-primary">
+                <div class="container-fluid">
+                  <form id="inicioSesion" method="post" action="/inicio">
+                    <div class="mb-3 row">
+                      <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
+                      <div class="col-sm-9">
+                        <input type="email" class="form-control" name="correo" required>
+                      </div>
                     </div>
-              
-                    <!-- cuerpo del diálogo -->
-                    <div class="modal-body alert alert-primary">
-                        <div class="container-fluid">   
-                          <form id="inicioSesion" method="post" action="/inicio">
-                            <div class="mb-3 row">
-                              <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
-                              <div class="col-sm-9">
-                                <input type="email" class="form-control" name="correo" required>
-                              </div>
-                            </div>
-                            <div class="mb-3 row">
-                              <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
-                              <div class="col-sm-9">
-                                <input type="password" class="form-control" name="contraseña" required>
-                              </div>
-                            </div>
-                            <div class="mb-3 row">
-                              <div class="offset-sm-3 col-sm-9">
-                                <button type="submit" class="btn btn-primary">Confirmar</button> 
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                              </div>
-                            </div>  
-                          </form>
-                        </div>            
-                    </div>      
-                  </div>
+                    <div class="mb-3 row">
+                      <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" name="contraseña" required>
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <div class="offset-sm-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </div> 
+              </div>
             </div>
-          
-        </div>
-    </header>
-    <nav class="container justify-content-center"> <!-- Contenedor encargado de almacenar la barra de Herramientas -->
-        
-        <div class=" d-flex align-items-center barraDeHerramientas rounded">
-    
-          <div class="btn-group d-flex flex-wrap justify-content-center" role="group">
-            <button class="btn cat_atencion filter-btn mx-2 my-2 rounded" data-filter="Atención">Atención</button>
-            <button class="btn cat_mem_corto filter-btn mx-2 my-2 rounded" data-filter="Memoria Corto Plazo">Memoria Corto Plazo</button>
-            <button class="btn cat_calculo filter-btn mx-2 my-2 rounded" data-filter="Cálculo">Cálculo</button>
-            <button class="btn cat_lenguaje filter-btn mx-2 my-2 rounded" data-filter="Lenguaje">Lenguaje</button>
-            <button class="btn cat_per_motora filter-btn mx-2 my-2 rounded" data-filter="Percepción Motora">Percepción Motora</button>
-            <button class="btn cat_mem_trabajo filter-btn mx-2 my-2 rounded" data-filter="Memoria de Trabajo">Memoria de Trabajo</button>
-          
           </div>
-    
-  
-  </div>
-    </nav>
+        </div>
+      </div>
 
-   <section class="container justify-content-center "> <!-- Contenedor encargado de almacenar la seccion donde apareceran los destinos disponibles -->
-    
-        <div class="row"> <!-- formado por x filas que contienen grupos de 3 destinos los cuales se muestran usando el formato card ubicados dentro de columnas -->
-            <!--PLANTILLA EJS-->
-            <%juegos.forEach(function(juego){ %>
+    </div>
+  </header>
+  <nav class="container justify-content-center"> <!-- Contenedor encargado de almacenar la barra de Herramientas -->
 
-          <div class="col-md-3 col-sm-4 col-6 pb-4 d-flex">  
-              <a class="card card-body text-decoration-none sombras" href="../juego?id=<%=juego.id%>"> <!--Paso el id del juego-->
-                  <div class="card-header text-center <%=juego.categoria%>">
-                    <h5> <%=juego.nombre%> </h5>
-                  </div>
-                    <img class="card-img-top " src=<%=juego.imagen%> alt="Imagen juego de Cartas">
-                </a>
-          </div>  
+    <div class=" d-flex align-items-center barraDeHerramientas rounded">
 
-          <% }); %>
-            
-            
-   </section>
+      <div class="btn-group d-flex flex-wrap justify-content-center" role="group">
+        <button class="btn cat_atencion filter-btn mx-2 my-2 rounded" data-filter="Atención">Atención</button>
+        <button class="btn cat_mem_corto filter-btn mx-2 my-2 rounded" data-filter="Memoria Corto Plazo">Memoria Corto
+          Plazo</button>
+        <button class="btn cat_calculo filter-btn mx-2 my-2 rounded" data-filter="Cálculo">Cálculo</button>
+        <button class="btn cat_lenguaje filter-btn mx-2 my-2 rounded" data-filter="Lenguaje">Lenguaje</button>
+        <button class="btn cat_per_motora filter-btn mx-2 my-2 rounded" data-filter="Percepción Motora">Percepción
+          Motora</button>
+        <button class="btn cat_mem_trabajo filter-btn mx-2 my-2 rounded" data-filter="Memoria de Trabajo">Memoria de
+          Trabajo</button>
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>  
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  
-   
-   <script>  //Filtro de categorías
+      </div>
+
+
+    </div>
+  </nav>
+
+
+  <section class="container justify-content-center ">
+    <!-- Contenedor encargado de almacenar la seccion donde apareceran los destinos disponibles -->
+
+    <% if (error != null) { %>
+      <div class="container alert alert-danger text-center">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <div class="row">
+      <!-- formado por x filas que contienen grupos de 3 destinos los cuales se muestran usando el formato card ubicados dentro de columnas -->
+      <!--PLANTILLA EJS-->
+      <%juegos.forEach(function(juego){ %>
+
+        <div class="col-md-3 col-sm-4 col-6 pb-4 d-flex">
+          <a class="card card-body text-decoration-none sombras" href="../juego?id=<%=juego.id%>">
+            <!--Paso el id del juego-->
+            <div class="card-header text-center <%=juego.categoria%>">
+              <h5>
+                <%=juego.nombre%>
+              </h5>
+            </div>
+            <img class="card-img-top " src=<%=juego.imagen%> alt="Imagen juego de Cartas">
+          </a>
+        </div>
+
+        <% }); %>
+
+
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+
+  <script>  //Filtro de categorías
     $(document).ready(function () {
-        $(".filter-btn").on("click", function () {
-            var filter = $(this).data("filter");
-            
-            // Alternar la clase "active" en el botón
-            $(this).toggleClass("active");
-            
-            // Filtrar elementos según los botones activos
-            var activeFilters = $(".filter-btn.active").map(function() {
-                return $(this).data("filter");
-            }).get();
-            
-            if (activeFilters.length === 0) {
-                // Si no hay botones activos, mostrar todos los elementos
-                $(".item").show();
-            } else {
-                // Ocultar todos los elementos
-                $(".item").hide();
-                
-                // Mostrar elementos que coincidan con los botones activos
-                $(".item").each(function() {
-                    var itemCategory = $(this).data("category");
-                    if (activeFilters.includes(itemCategory) || activeFilters.includes("Todos")) {
-                        $(this).show();
-                    }
-                });
+      $(".filter-btn").on("click", function () {
+        var filter = $(this).data("filter");
+
+        // Alternar la clase "active" en el botón
+        $(this).toggleClass("active");
+
+        // Filtrar elementos según los botones activos
+        var activeFilters = $(".filter-btn.active").map(function () {
+          return $(this).data("filter");
+        }).get();
+
+        if (activeFilters.length === 0) {
+          // Si no hay botones activos, mostrar todos los elementos
+          $(".item").show();
+        } else {
+          // Ocultar todos los elementos
+          $(".item").hide();
+
+          // Mostrar elementos que coincidan con los botones activos
+          $(".item").each(function () {
+            var itemCategory = $(this).data("category");
+            if (activeFilters.includes(itemCategory) || activeFilters.includes("Todos")) {
+              $(this).show();
             }
-        });
+          });
+        }
+      });
     });
-</script>
+  </script>
 </body>
+
 </html>

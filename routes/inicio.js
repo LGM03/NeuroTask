@@ -18,44 +18,33 @@ router.post('/', (req, res) => {
         contraseña : req.body.contraseña
     }
 
-    console.log("!! "+datosReserva.nombre+ " "+ datosReserva.apellido + " "+ datosReserva.correo + " "+ datosReserva.fecha+ " "+ datosReserva.destino)
-
     //Compruebo que se han introducido todos los datos necesarios 
-    if (!esValido(datosReserva)) {
-        res.redirect(`/destino?id=${req.query.id}&error=${'Datos de reserva no validos'}`);
+    if (!esValido(datosInicio)) {
+        console.log("fallo en validar")
+        res.redirect(`/?error=${'Datos de usuario no validos'}`);
         return;
     }
 
-    const DAOAp = require("../mysql/daoReserva")
+    const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
 
-    midao.altaReserva(datosReserva, (err, datos) => {
+    midao.leerUsuario(datosInicio, (err, datos) => {
         if (err) {
             console.log(err);  //Si hay un error tengo que poner un mensaje de alerta 
             console.log("FALLO")
-            res.redirect(`/destino?id=${req.query.id}&error=${"No se ha podido realizar la reserva"}`);
+            res.redirect(`/?error=${"El usuario no existe"}`); 
         }
         else {
             console.log("EXITO")
-            res.redirect(`/destino?id=${req.query.id}&exito=${'Reserva guardada con éxito'}`);
+            res.redirect(`/admin`);
         }
     });
 
 });
 
-function esValido(datos) {
-    const nombreComprobar = /^[A-Za-z]+$/
-    const emailComprobar = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-    const fechaComprobar = /^(\d{1,2}\/\d{1,2}\/\d{4})$/
-   
-    console.log("AQUI VIENEN LAS COMPROBACIONES")
-
-    console.log(nombreComprobar.test(datos.nombre))
-    console.log( nombreComprobar.test(datos.apellido))
-    console.log( emailComprobar.test(datos.correo))
-    console.log(fechaComprobar.test((datos.fecha)))
-
-    return nombreComprobar.test(datos.nombre) && nombreComprobar.test(datos.apellido) && emailComprobar.test(datos.correo) && fechaComprobar.test((datos.fecha))
+function esValido(datos) {  //valida la sintaxis del correo
+    const correoComprobar = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
+    return correoComprobar.test(datos.correo)
 }
 
 

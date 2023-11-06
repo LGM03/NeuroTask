@@ -12,7 +12,8 @@ const pool = mysql.createPool({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  
+  var error = req.query.error
+  console.log("has sido redirigido "+ error)
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)
 
@@ -21,7 +22,7 @@ router.get('/', function (req, res, next) {
       console.log(err);
     }
     else {
-      res.render('index', { juegos : datos }); 
+      res.render('index', { juegos : datos , error : error}); 
     }
   });
 });
