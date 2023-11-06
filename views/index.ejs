@@ -36,17 +36,17 @@
                     <!-- cuerpo del diálogo -->
                     <div class="modal-body alert alert-primary">
                         <div class="container-fluid">   
-                          <form>
+                          <form id="inicioSesion" method="post" action="/inicio">
                             <div class="mb-3 row">
-                              <label for="usuario" class="col-sm-3 col-form-label">Nombre de usuario:</label>
+                              <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
                               <div class="col-sm-9">
-                                <input type="text" class="form-control" id="usuario">
+                                <input type="email" class="form-control" name="correo" required>
                               </div>
                             </div>
                             <div class="mb-3 row">
                               <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
                               <div class="col-sm-9">
-                                <input type="password" class="form-control" id="clave">
+                                <input type="password" class="form-control" name="contraseña" required>
                               </div>
                             </div>
                             <div class="mb-3 row">

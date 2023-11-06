@@ -1,4 +1,6 @@
 
+//Como accedo desde aqui a la BD, require no funciona y los import tampoco
+
 export default class scene_play extends Phaser.Scene {
 
     constructor() {
