@@ -18,7 +18,13 @@
 }
 
 .sombras{
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+}
+
+.sombras img {
+    width: 190px; /* Ajusta este valor según tus necesidades */
+    height: auto; /* La altura se ajustará automáticamente para mantener la proporción */
+    object-fit: none; /* Esto hará que la imagen se ajuste a su tamaño original y se corte si es necesario */
 }
 
 

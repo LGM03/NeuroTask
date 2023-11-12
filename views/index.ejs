@@ -97,21 +97,15 @@
   <section class="container justify-content-center ">
     <!-- Contenedor encargado de almacenar la seccion donde apareceran los destinos disponibles -->
 
-    <% if (error != null) { %>
-      <div class="container alert alert-danger text-center">
-        <%= error %>
-      </div>
-    <% } %>
-
     <div class="row">
       <!-- formado por x filas que contienen grupos de 3 destinos los cuales se muestran usando el formato card ubicados dentro de columnas -->
       <!--PLANTILLA EJS-->
       <%juegos.forEach(function(juego){ %>
 
         <div class="col-md-3 col-sm-4 col-6 pb-4 d-flex">
-          <a class="card card-body text-decoration-none sombras" href="../juego?id=<%=juego.id%>">
+          <a class="card card-body text-decoration-none sombras align-items-center" href="../juego?id=<%=juego.id%>">
             <!--Paso el id del juego-->
-            <div class="card-header text-center <%=juego.categoria%>">
+            <div class="card-header text-center <%=juego.categoria%> w-100">
               <h5>
                 <%=juego.nombre%>
               </h5>

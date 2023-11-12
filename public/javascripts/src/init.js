@@ -15,7 +15,5 @@ const config = {
    
 };
 
-console.log("estoy aqui?")
-
 var game = new Phaser.Game(config)
 
