@@ -17,7 +17,7 @@ export default class scene_play extends Phaser.Scene {
         };
 
         // Crea un objeto de texto con los estilos personalizados
-        var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, 'Presiona la pantalla para mover el trampolin.\n Consigue que el astronauta atraviese los meteroitos', estiloInstrucciones);
+        var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, 'Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta.', estiloInstrucciones);
         text.setOrigin(0.5, 0.5);
 
         // Crear un botón de inicio como texto

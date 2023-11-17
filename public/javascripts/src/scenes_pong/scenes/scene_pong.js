@@ -14,6 +14,7 @@ export default class scene_pong extends Phaser.Scene {
         let center_height = this.sys.game.config.height/2;
         let width = this.sys.game.config.width;
         let height = this.sys.game.config.height;
+
         this.add.text(center_width - 5,15,"-", {
             color: '#000000'
         });
@@ -24,12 +25,14 @@ export default class scene_pong extends Phaser.Scene {
             color: '#000000'
         });
 
-        this.add.image(center_width,center_height ,"separador")
+        this.add.image(center_width,center_height ,"separador") //imagen de fondo
+        var meta = this.add.image(30,center_height,"meta")
+        meta.setScale(0.5)
 
         this.izquierda2 = new Palas(this, width /4 ,height/6,"izquierda") //ok
         this.izquierda2.setScale(0.15)
 
-        this.izquierda3 = new Palas(this, width /2 ,height-height/6,"izquierda")
+        this.izquierda3 = new Palas(this, width /2 ,height-height/6,"izquierda") //ok
         this.izquierda3.setScale(0.15)
         
         

@@ -12,6 +12,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         this.load.image("derecha","javascripts/assets/cohete.png")
         this.load.image("separador","javascripts/assets/espacio.png")
         this.load.image("inicio","javascripts/assets/boton.png")   
+        this.load.image("meta","javascripts/assets/meta.png")
         
     }
 }
