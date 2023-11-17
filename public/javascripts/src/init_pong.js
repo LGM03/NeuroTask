@@ -1,6 +1,6 @@
-import bootloader from "./bootloader.js"
-import scene_play from "./scenes/scene_play.js"
-import scene_pong from "./scenes/scene_pong.js";
+import Bootloader_pong from "./scenes_pong/bootloader.js"
+import scene_play from "./scenes_pong/scenes/scene_play.js"
+import scene_pong from "./scenes_pong/scenes/scene_pong.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -10,7 +10,7 @@ const config = {
     physics: {
         default: "arcade"
     },
-    scene: [bootloader, scene_play, scene_pong],
+    scene: [Bootloader_pong, scene_play, scene_pong],
     transparent: true
    
 };

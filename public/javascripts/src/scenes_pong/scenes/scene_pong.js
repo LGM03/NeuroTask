@@ -11,7 +11,9 @@ export default class scene_pong extends Phaser.Scene {
         this.puntosI = 0;
         
         let center_width = this.sys.game.config.width/2;
-        let center_height = this.sys.game.config.height/2
+        let center_height = this.sys.game.config.height/2;
+        let width = this.sys.game.config.width;
+        let height = this.sys.game.config.height;
         this.add.text(center_width - 5,15,"-", {
             color: '#000000'
         });
@@ -24,20 +26,27 @@ export default class scene_pong extends Phaser.Scene {
 
         this.add.image(center_width,center_height ,"separador")
 
-        this.izquierda = new Palas(this,30,center_height,"izquierda")
+        this.izquierda2 = new Palas(this, width /4 ,height/6,"izquierda") //ok
+        this.izquierda2.setScale(0.15)
+
+        this.izquierda3 = new Palas(this, width /2 ,height-height/6,"izquierda")
+        this.izquierda3.setScale(0.15)
+        
         
         this.derecha = new Palas(this,center_width * 2 - 30,center_height,"derecha")
-        this.derecha.setScale(0.5)
+        this.derecha.setScale(0.55)
 
         this.ball = this.physics.add.image(center_width,center_height ,"ball")
-        this.ball.setVelocityX(-400);
-        this.ball.setScale(0.5)
+        this.ball.setVelocityX(350);
+        this.ball.setScale(0.4)
         this.ball.setBounce(1); //Que rebote a la misma velocidad con la que choco
         this.physics.world.setBoundsCollision(false,false,true,true)//chocques con izq,derecha,arriba,abajo
         this.ball.setCollideWorldBounds(true);
 
         //Fisicas
-        this.physics.add.collider(this.ball, this.izquierda,  this.chocaPala  ,  null,this)
+
+        this.physics.add.collider(this.ball, this.izquierda2,  this.chocaPala  ,  null,this)
+        this.physics.add.collider(this.ball, this.izquierda3,  this.chocaPala  ,  null,this)
         this.physics.add.collider(this.ball, this.derecha,  this.chocaPala  ,  null,this)
 
         //Controles
@@ -62,6 +71,7 @@ export default class scene_pong extends Phaser.Scene {
                 this.puntosDerecha.setText(this.puntosD);  // Corregir la variable
             }
             this.ball.setPosition(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
+            this.ball.setVelocityX(350)
         
         }
 
@@ -76,6 +86,7 @@ export default class scene_pong extends Phaser.Scene {
             this.derecha.body.setVelocityY(0)
         }
 
+        /*
          //Pala izq 
          if(this.cursor_S.isDown){ //si la flecha hacia abajo esta presionada 
             this.izquierda.body.setVelocityY(300)
@@ -83,7 +94,7 @@ export default class scene_pong extends Phaser.Scene {
             this.izquierda.body.setVelocityY(-300)
         }else{
             this.izquierda.body.setVelocityY(0)
-        }
+        }*/
 
     }
 
