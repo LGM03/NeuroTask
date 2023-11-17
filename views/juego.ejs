@@ -20,7 +20,7 @@
             <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  -->
             <div class="col-sm-2">
                 <a href="/">
-                <img src="../images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
+                <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
                     class="d-flex align-content-center justify-content-center">
                 </a>
             </div>
@@ -92,11 +92,10 @@
 
         <script src="javascripts/phaser.min.js"></script>
         
-        <script src="javascripts/src/init_pong.js" type="module"></script>
- 
-
-
-    
+        <script type="module">
+            import { arranque } from "../javascripts/src/init.js";
+            arranque("<%=juego.id%>");
+        </script>
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
