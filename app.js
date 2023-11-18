@@ -4,12 +4,33 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const session = require("express-session");
+const mysqlSession = require("express-mysql-session");
+const MySQLStore = mysqlSession(session);
+
+const sessionStore = new MySQLStore({  //donde alamceno las sesiones
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "neurotask"
+});
+
+//Manejos de sesiones
+
+const middlewareSession = session({
+  saveUninitialized: false,
+  secret: "foobar34",
+  resave: false,
+  store: sessionStore
+});
+
 var indexRouter = require('./routes/index');
 var juegoRouter = require('./routes/juego');
-var inicioRouter = require('./routes/inicio');
-var adminRouter = require('./routes/admin')
+var adminRouter = require('./routes/admin');
+var usuarioRouter = require('./routes/usuario')
 
 var app = express();
+app.use(middlewareSession);
 
 // view engine setup
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,10 +42,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));//estaba a false, lo cambio a true
 app.use(cookieParser());
 
+app.use(function(req, res, next) {
+  res.locals.usuario = req.session.usuario ||null;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/juego',juegoRouter);
-app.use('/inicio', inicioRouter);
-app.use('/admin',adminRouter)
+app.use('/admin',adminRouter);
+app.use('/user',usuarioRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -7,6 +7,13 @@ export default class scene_play extends Phaser.Scene {
         super({ key: "scene_play" });
     }
 
+    init(data) {
+
+        this.info = {
+            descripcion : data.descripcion,
+            juego : data.juego}
+    }
+
     create() {
 
         var estiloInstrucciones = {
@@ -17,7 +24,8 @@ export default class scene_play extends Phaser.Scene {
         };
 
         // Crea un objeto de texto con los estilos personalizados
-        var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, 'Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta.', estiloInstrucciones);
+
+        var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, this.info.descripcion, estiloInstrucciones);
         text.setOrigin(0.5, 0.5);
 
         // Crear un botón de inicio como texto
@@ -32,7 +40,7 @@ export default class scene_play extends Phaser.Scene {
         // Asignar un evento de clic al botón
         this.startButton.on("pointerdown", () => {
             // Cambiar a la escena del juego cuando se hace clic en el botón
-            this.scene.start("scene_pong");
+            this.scene.start(this.info.juego);
         });
     }
 

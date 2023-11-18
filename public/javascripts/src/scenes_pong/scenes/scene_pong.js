@@ -3,9 +3,16 @@ export default class scene_pong extends Phaser.Scene {
 
     constructor() {
         super({ key: "scene_pong" });
+        this.tiempoTranscurrido = 0;
     }
 
     create() {
+
+        //Marca el final de la partida, en tiempo, 2 Minutos medidos en ms (120 000)
+
+        //Puesto a 10.000 ms para pruebas (10s)
+        this.time.delayedCall(1, this.finalizarJuego, [], this);
+
 
         this.puntosD = 0;
         this.puntosI = 0;
@@ -29,19 +36,26 @@ export default class scene_pong extends Phaser.Scene {
         var meta = this.add.image(30,center_height,"meta")
         meta.setScale(0.5)
 
+
+        const canvasWidth = this.sys.game.config.width;
+        
         this.izquierda2 = new Palas(this, width /4 ,height/6,"izquierda") //ok
-        this.izquierda2.setScale(0.15)
+        this.izquierda2.setScale(canvasWidth * 0.07/ this.izquierda2.width);
 
         this.izquierda3 = new Palas(this, width /2 ,height-height/6,"izquierda") //ok
-        this.izquierda3.setScale(0.15)
+        this.izquierda3.setScale(canvasWidth * 0.07/ this.izquierda3.width);
         
         
         this.derecha = new Palas(this,center_width * 2 - 30,center_height,"derecha")
-        this.derecha.setScale(0.55)
+        this.derecha.setScale(canvasWidth * 0.07/ this.derecha.width);
 
         this.ball = this.physics.add.image(center_width,center_height ,"ball")
         this.ball.setVelocityX(350);
-        this.ball.setScale(0.4)
+
+        //#######
+        this.ball.setScale(canvasWidth * 0.07/ this.ball.width);
+
+
         this.ball.setBounce(1); //Que rebote a la misma velocidad con la que choco
         this.physics.world.setBoundsCollision(false,false,true,true)//chocques con izq,derecha,arriba,abajo
         this.ball.setCollideWorldBounds(true);
@@ -56,10 +70,11 @@ export default class scene_pong extends Phaser.Scene {
         //Pala derecha
         this.cursor = this.input.keyboard.createCursorKeys(); //crea en el atributo las flechitas
 
+        /*
         //Pala izq
         this.cursor_W= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         this.cursor_S= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-
+*/
 
     }
 
@@ -104,6 +119,15 @@ export default class scene_pong extends Phaser.Scene {
     chocaPala(){
         this.ball.setVelocityY(Phaser.Math.Between(-120,120))
     }
+
+    
+    finalizarJuego() {
+        
+        // Por ejemplo, puedes cambiar a otra escena
+        this.scene.start("scene_fin", {aciertos : this.puntosI, fallos : this.puntosD});
+    }
+
+
 
 }
 

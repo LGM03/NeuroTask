@@ -17,10 +17,12 @@ router.get('/', function (req, res, next) {
 
   midao.leerTodos((err, datos) => {
     if (err) {
+      console.log("HOAL?")
       console.log(err);
     }
     else {
-      res.render('index', { juegos : datos }); 
+      console.log(req.session.usuario)
+      res.render('index', { juegos : datos, usuario : req.session.usuario, error : req.query.error, exito:req.query.exito });  //Cargo la ventana principal con la información de todos los juegos
     }
   });
 });

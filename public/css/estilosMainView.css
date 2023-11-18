@@ -96,8 +96,13 @@ a{ /*La fuente de la cabecera es EB-garamont y su color es morado oscuro*/
     background-color: #ffffff;
     font-weight: bold;
 } 
-
 /*
+.botonsabermas{
+    background-color: #0c93ff;
+    color :white;
+    font: 1em EB-garamont;
+}
+
 --azure-radiance-50: #edfaff;
 --azure-radiance-100: #d7f2ff;
 --azure-radiance-200: #b7ebff;  -> Fondo 

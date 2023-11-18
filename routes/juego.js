@@ -21,12 +21,15 @@ router.get('/', function(req, res, next) {
       console.log(err);
     }
     else {
-      console.log(datos.descripcion)
-      console.log(datos.id)
-      console.log(req.query.id)
       res.render('juego', { juego : datos}); 
     }
   });
 });
+
+router.get('/finJuego', function(req, res, next) {
+
+ console.log("He llegado al servidor")
+});
+
 
 module.exports = router;
