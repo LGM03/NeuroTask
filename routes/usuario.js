@@ -31,6 +31,13 @@ router.post("/login", async (req, res) => {
                         nombre: datos.nombre,
                         correo: correo
                     };
+                    if(datos.edad){
+                        req.session.usuario.tipo = "paciente"
+                        req.session.usuario.edad = datos.edad
+                    }else{
+                        req.session.usuario.tipo = "terapeuta"
+                        req.session.usuario.clinica = datos.clinica
+                    }
                     res.redirect('/');
                 } else {
                     res.redirect(`/?error=${"Credenciales no validas"}`)
