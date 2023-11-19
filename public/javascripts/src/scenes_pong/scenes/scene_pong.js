@@ -3,15 +3,20 @@ export default class scene_pong extends Phaser.Scene {
 
     constructor() {
         super({ key: "scene_pong" });
-        this.tiempoTranscurrido = 0;
+        this.fechaInicio = new Date();
+    }
+
+    init(data){
+        this.idJuego = data.idJuego
     }
 
     create() {
-
+        const MS = 10000
         //Marca el final de la partida, en tiempo, 2 Minutos medidos en ms (120 000)
 
         //Puesto a 10.000 ms para pruebas (10s)
-        this.time.delayedCall(1, this.finalizarJuego, [], this);
+        this.duracion = 1  //en segundos
+        this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
 
 
         this.puntosD = 0;
@@ -124,7 +129,12 @@ export default class scene_pong extends Phaser.Scene {
     finalizarJuego() {
         
         // Por ejemplo, puedes cambiar a otra escena
-        this.scene.start("scene_fin", {aciertos : this.puntosI, fallos : this.puntosD});
+        this.scene.start("scene_fin", 
+                {aciertos : this.puntosI, 
+                    fallos : this.puntosD, 
+                    idJuego : this.idJuego, 
+                    fechaInicio : this.fechaInicio,
+                duracion : this.duracion});
     }
 
 

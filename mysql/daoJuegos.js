@@ -1,3 +1,5 @@
+const { connect } = require("../routes");
+
 var nombre 
 
 class DAOJuegos{
@@ -46,6 +48,24 @@ class DAOJuegos{
         });
     }   
     
+    guardarPartida(datosJuego,callback){  //Almaceno la durancion en s, usar momento.js para humanizar 
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(err,null)
+            }else{
+                const sql = "insert into `partidas_"+datosJuego.usuario+"` values(?,?,?,?,?)"
+                const fechaSQL = new Date(datosJuego.fechaInicio).toISOString().slice(0, 19).replace("T", " ");
+                connection.query(sql,[datosJuego.idJuego, fechaSQL, datosJuego.aciertos,datosJuego.fallos, datosJuego.duracion],function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(err,null)
+                    }else{
+                        callback(null, resultado)
+                    }
+                })
+            }
+        })
+    }
 }
 
 

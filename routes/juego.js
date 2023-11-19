@@ -28,7 +28,34 @@ router.get('/', function(req, res, next) {
 
 router.get('/finJuego', function(req, res, next) {
 
- console.log("He llegado al servidor")
+  console.log("He llegado al servidor")
+
+  const daoAp = require('../mysql/daoJuegos')
+  midao = new daoAp(pool)
+
+  const datosPartida ={
+    idJuego :  req.query.idJuego,
+    fechaInicio : req.query.fechaInicio,
+    aciertos : req.query.aciertos,
+    fallos : req.query.fallos,
+    duracion : req.query.duracion,
+    usuario: req.session.usuario.correo
+  }
+
+  if(req.session.usuario){ //Si tengo una sesion de usuario registrada
+    console.log( req.query.aciertos + " " + req.query.fallos+ " " +req.session.usuario.correo+ " " + req.query.idJuego + " " +  req.query.fechaInicio + " " + req.query.duracion)
+    midao.guardarPartida(datosPartida, (err,datos)=>{
+      if (err) {
+        console.log(err);
+      }
+      else {
+        res.redirect('/')
+      }
+    })
+
+  }
+
+ 
 });
 
 

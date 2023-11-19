@@ -5,7 +5,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
 
     preload() {
         this.load.on("complete",()=>{
-            this.scene.start("scene_play",{descripcion: "Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta.", juego : "scene_pong"})
+            this.scene.start("scene_play",{descripcion: "Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta.", juego : "scene_pong", idJuego : "1"})
         });
 
         //Iconos de ventana de inicio y fin

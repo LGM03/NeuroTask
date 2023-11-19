@@ -9,9 +9,11 @@ export default class scene_play extends Phaser.Scene {
 
     init(data) {
 
-        this.info = {
-            descripcion : data.descripcion,
-            juego : data.juego}
+        this.info = {  //Recojo los parametros traidos de quien inicia la escena 
+            descripcion: data.descripcion,
+            juego: data.juego,
+            idJuego: data.idJuego
+        }
     }
 
     create() {
@@ -30,8 +32,8 @@ export default class scene_play extends Phaser.Scene {
 
         // Crear un botón de inicio como texto
         // this.startButton = this.add.image(this.sys.game.config.width/2,this.sys.game.config.height/2 + this.sys.game.config.height/6, "inicio");
-    
-        this.startButton = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2 + this.sys.game.config.height / 6 ,"inicio")
+
+        this.startButton = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2 + this.sys.game.config.height / 6, "inicio")
         this.startButton.setOrigin(0.5, 0.5);
         this.startButton.setScale(0.5)
 
@@ -40,7 +42,7 @@ export default class scene_play extends Phaser.Scene {
         // Asignar un evento de clic al botón
         this.startButton.on("pointerdown", () => {
             // Cambiar a la escena del juego cuando se hace clic en el botón
-            this.scene.start(this.info.juego);
+            this.scene.start(this.info.juego, { idJuego: this.info.idJuego });
         });
     }
 
