@@ -16,65 +16,8 @@
 <body class="fondo">
     <header class="container fondocabecera justify-content-center ">
         <!-- Aqui comienza el contenedor que contiene el logo y el texto de la cabecera  -->
-        <div class="row ">
-            <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  -->
-            <div class="col-sm-2">
-                <a href="/">
-                <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
-                    class="d-flex align-content-center justify-content-center">
-                </a>
-            </div>
-            <div class="col-sm-8 ">
-                <h1 class="textoCabecera d-flex align-items-center justify-content-center ">NeuroTask</h1>
-            </div>
+         <%-include('cabecera.ejs')%>
 
-            <div class="col-sm-2 ">
-                <button type="button" class="btn botonInicioSesion" data-bs-toggle="modal"
-                    data-bs-target="#InicioSesion">Iniciar Sesión </button>
-                <div class="modal fade" id="InicioSesion" data-bs-backdrop="static">
-                    <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-
-                            <!-- cabecera del diálogo -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Inicio de Sesión</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- cuerpo del diálogo -->
-                            <div class="modal-body alert alert-primary">
-                                <div class="container-fluid">
-                                    <form>
-                                        <div class="mb-3 row">
-                                            <label for="usuario" class="col-sm-3 col-form-label">Nombre de
-                                                usuario:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="usuario">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
-                                            <div class="col-sm-9">
-                                                <input type="password" class="form-control" id="clave">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <div class="offset-sm-3 col-sm-9">
-                                                <button type="submit" class="btn btn-primary">Confirmar</button>
-                                                <button type="button" class="btn btn-primary"
-                                                    data-bs-dismiss="modal">Cancelar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </header>
 
     <body>

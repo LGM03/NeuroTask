@@ -11,11 +11,11 @@ export default class scene_pong extends Phaser.Scene {
     }
 
     create() {
-        const MS = 10000
+        const MS = 1000
         //Marca el final de la partida, en tiempo, 2 Minutos medidos en ms (120 000)
 
         //Puesto a 10.000 ms para pruebas (10s)
-        this.duracion = 1  //en segundos
+        this.duracion = 60  //en segundos
         this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
 
 
@@ -41,24 +41,26 @@ export default class scene_pong extends Phaser.Scene {
         var meta = this.add.image(30,center_height,"meta")
         meta.setScale(0.5)
 
-
-        const canvasWidth = this.sys.game.config.width;
+        const canvasHeight = this.sys.game.config.height;
         
         this.izquierda2 = new Palas(this, width /4 ,height/6,"izquierda") //ok
-        this.izquierda2.setScale(canvasWidth * 0.07/ this.izquierda2.width);
+
+        this.izquierda2.setScale(canvasHeight * 0.2/ this.izquierda2.height);
 
         this.izquierda3 = new Palas(this, width /2 ,height-height/6,"izquierda") //ok
-        this.izquierda3.setScale(canvasWidth * 0.07/ this.izquierda3.width);
+
+        this.izquierda3.setScale(canvasHeight * 0.2/ this.izquierda3.height);
         
         
         this.derecha = new Palas(this,center_width * 2 - 30,center_height,"derecha")
-        this.derecha.setScale(canvasWidth * 0.07/ this.derecha.width);
+        
+        this.derecha.setScale(canvasHeight * 0.25/ this.derecha.height);
 
         this.ball = this.physics.add.image(center_width,center_height ,"ball")
         this.ball.setVelocityX(350);
 
         //#######
-        this.ball.setScale(canvasWidth * 0.07/ this.ball.width);
+        this.ball.setScale(canvasHeight * 0.2/ this.ball.height);
 
 
         this.ball.setBounce(1); //Que rebote a la misma velocidad con la que choco

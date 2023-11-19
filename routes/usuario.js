@@ -25,7 +25,6 @@ router.post("/login", async (req, res) => {
             }
             else {
                 const coincide = await bcrypt.compare(contraseña, datos.contraseña)
-                console.log("HOLA"+datos.edad + "  " + datos.clinica)
                 if (coincide) {
                     req.session.usuario = {
                         nombre: datos.nombre,

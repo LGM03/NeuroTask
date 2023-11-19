@@ -26,16 +26,18 @@ export default class scene_play extends Phaser.Scene {
         };
 
         // Crea un objeto de texto con los estilos personalizados
+        
+        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2 ,"fondoRosa") //imagen de fondo
+        this.fondo.setScale(0.5)
 
         var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, this.info.descripcion, estiloInstrucciones);
         text.setOrigin(0.5, 0.5);
 
-        // Crear un botón de inicio como texto
-        // this.startButton = this.add.image(this.sys.game.config.width/2,this.sys.game.config.height/2 + this.sys.game.config.height/6, "inicio");
-
         this.startButton = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2 + this.sys.game.config.height / 6, "inicio")
         this.startButton.setOrigin(0.5, 0.5);
-        this.startButton.setScale(0.5)
+
+        const canvasHeight = this.sys.game.config.height;
+        this.startButton.setScale(canvasHeight * 0.25/ this.startButton.height);
 
         // Hacer que el botón sea interactivo
         this.startButton.setInteractive();

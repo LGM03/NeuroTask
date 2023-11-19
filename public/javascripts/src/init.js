@@ -1,7 +1,7 @@
-import Bootloader from "./scenes_pong/bootloader.js"
-import scene_play from "./scenes_pong/scenes/scene_play.js"
-import scene_pong from "./scenes_pong/scenes/scene_pong.js"
-import scene_fin from "./scenes_pong/scenes/scene_fin.js";
+import Bootloader from "./bootloader.js"
+import scene_play from "./scenes/scene_play.js"
+import scene_pong from "./scenes/scene_pong.js"
+import scene_fin from "./scenes/scene_fin.js";
 
 export function arranque(idJuego) {
     const config = {
@@ -21,6 +21,7 @@ export function arranque(idJuego) {
         config.scene = [Bootloader, scene_play, scene_pong, scene_fin]
     }
     var game = new Phaser.Game(config)
+    game.canvas.style.borderRadius = '10px';
    
 }
 

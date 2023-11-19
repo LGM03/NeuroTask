@@ -9,11 +9,12 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         });
 
         //Iconos de ventana de inicio y fin
-        this.load.image("inicio","javascripts/assets/boton.png")  
+        this.load.image("inicio","javascripts/assets/botonJugar.png")  
         this.load.image("UnaEstrella","javascripts/assets/estrellita1.png")
         this.load.image("DosEstrella","javascripts/assets/estrellita2.png")
         this.load.image("TresEstrella","javascripts/assets/estrellita3.png")
-        this.load.image("botonContinuar","javascripts/assets/botonVacio.png")
+        this.load.image("botonContinuar","javascripts/assets/botonContinuar.png")
+        this.load.image("fondoRosa","javascripts/assets/fondoRosa.png")
 
 
         //Iconos propios del juego

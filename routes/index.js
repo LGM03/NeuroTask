@@ -17,7 +17,6 @@ router.get('/', function (req, res, next) {
 
   midao.leerTodos((err, datos) => {
     if (err) {
-      console.log("HOAL?")
       console.log(err);
     }
     else {
