@@ -27,6 +27,12 @@
     object-fit: none; /* Esto hará que la imagen se ajuste a su tamaño original y se corte si es necesario */
 }
 
+.card img {
+    max-width: 100%; /* La imagen no será más ancha que el contenedor */
+    height: auto; /* La altura se ajustará automáticamente para mantener la proporción */
+    object-fit: cover; /* La imagen cubrirá el contenedor manteniendo la proporción */
+}
+
 
 .fondo{ /*El fondo de toda la pagina es lila*/
     background-color: #ffffff;
@@ -51,17 +57,6 @@ a{ /*La fuente de la cabecera es EB-garamont y su color es morado oscuro*/
     margin-top: 7%;
 }
  
-#contJuego {
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.infoJuego{
-    background-color: hsl(197, 100%, 65%);
-    font-weight: bold;
-}
 
 .filter-btn.active {
     background-color: #115497;
@@ -96,12 +91,9 @@ a{ /*La fuente de la cabecera es EB-garamont y su color es morado oscuro*/
     background-color: #ffffff;
     font-weight: bold;
 } 
+
+
 /*
-.botonsabermas{
-    background-color: #0c93ff;
-    color :white;
-    font: 1em EB-garamont;
-}
 
 --azure-radiance-50: #edfaff;
 --azure-radiance-100: #d7f2ff;

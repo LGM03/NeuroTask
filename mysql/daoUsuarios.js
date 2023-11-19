@@ -12,7 +12,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
             } else {
                 const sqlTerapeuta = "SELECT * FROM usuario INNER JOIN terapeuta ON usuario.correo = terapeuta.correo WHERE usuario.correo = ?";
                 const sqlPaciente = "SELECT * FROM usuario INNER JOIN paciente ON usuario.correo = paciente.correo WHERE usuario.correo = ?";
-    
+
                 connection.query(sqlTerapeuta, [correo], function (err, resultado) {
                     if (err) {
                         connection.release();
@@ -36,7 +36,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
             }
         });
     }
-    
+
 
     altaUsuario(datosUsuario, callback) {  //TODO podría hacer un rollback??
         this.pool.getConnection(function (err, connection) {
@@ -47,25 +47,37 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
                 connection.query(sql, [datosUsuario.correo, datosUsuario.nombre, datosUsuario.apellido, datosUsuario.contraseña, datosUsuario.salt], function (err, resultado) {
                     if (err) {
                         connection.release();
-                        console.log(err)
                         callback(err, null); //Si ocurre algun error retornamos el error
                     } else {
                         var sql2 = ""
                         if (datosUsuario.edad) {
-                            sql2 = "INSERT INTO `paciente`(correo,edad) VALUES (?,?);";
+                            sql2 = "INSERT INTO `paciente`(correo,edad) VALUES (?,?);"
                             var adicional = datosUsuario.edad
                         } else {
                             sql2 = "INSERT INTO `terapeuta` (correo,clinica)  VALUES (?,?);";
                             adicional = datosUsuario.clinica
                         }
-
                         connection.query(sql2, [datosUsuario.correo, adicional], function (err, resultado) {
-                            connection.release();
                             if (err) {
-                                console.log(err)
+                                connection.release();
                                 callback(err, null); //Si ocurre algun error retornamos el error
                             } else {
-                                callback(null, resultado); //Si todo va bien devolvemos la información 
+                                if (datosUsuario.edad) {
+                                    var sql3 = "CREATE TABLE `partidas_"+ datosUsuario.correo +
+                                        "`(idJ INT, fechaInicio TIMESTAMP, aciertos INT, fallos INT, duracion INT,PRIMARY KEY (idJ, fechaInicio)," +
+                                        "FOREIGN KEY (idJ) REFERENCES juegos(id))";
+                                    connection.query(sql3, [], function (err, resultado) {
+                                        if (err) {
+                                            connection.release();
+                                            callback(err, null); //Si ocurre algun error retornamos el error
+                                        } else {
+                                            callback(null, resultado); //Si todo va bien devolvemos la información 
+                                        }
+                                    });
+                                }else {
+                                    callback(null, resultado); //Si todo va bien devolvemos la información 
+                                }
+
                             }
                         });
                     }

@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   database: "neurotask"
 })
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
   let id = Number(req.query.id)
 
@@ -21,30 +21,30 @@ router.get('/', function(req, res, next) {
       console.log(err);
     }
     else {
-      res.render('juego', { juego : datos}); 
+      res.render('juego', { juego: datos });
     }
   });
 });
 
-router.get('/finJuego', function(req, res, next) {
+router.get('/finJuego', function (req, res, next) {
 
   console.log("He llegado al servidor")
 
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
-  const datosPartida ={
-    idJuego :  req.query.idJuego,
-    fechaInicio : req.query.fechaInicio,
-    aciertos : req.query.aciertos,
-    fallos : req.query.fallos,
-    duracion : req.query.duracion,
-    usuario: req.session.usuario.correo
-  }
+  if (req.session.usuario) { //Si tengo una sesion de usuario registrada
 
-  if(req.session.usuario){ //Si tengo una sesion de usuario registrada
-    console.log( req.query.aciertos + " " + req.query.fallos+ " " +req.session.usuario.correo+ " " + req.query.idJuego + " " +  req.query.fechaInicio + " " + req.query.duracion)
-    midao.guardarPartida(datosPartida, (err,datos)=>{
+    const datosPartida = {
+      idJuego: req.query.idJuego,
+      fechaInicio: req.query.fechaInicio,
+      aciertos: req.query.aciertos,
+      fallos: req.query.fallos,
+      duracion: req.query.duracion,
+      usuario: req.session.usuario.correo
+    }
+    console.log(req.query.aciertos + " " + req.query.fallos + " " + req.session.usuario.correo + " " + req.query.idJuego + " " + req.query.fechaInicio + " " + req.query.duracion)
+    midao.guardarPartida(datosPartida, (err, datos) => {
       if (err) {
         console.log(err);
       }
@@ -53,9 +53,11 @@ router.get('/finJuego', function(req, res, next) {
       }
     })
 
+  }else{
+    res.redirect('/')
   }
 
- 
+
 });
 
 
