@@ -36,6 +36,14 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.descripcion = "¡Recuerda las imagenes y empareja!"
             this.juego = "scene_parejas"
             this.load.image("card", "javascripts/assets/carta.png")
+
+            this.load.image("sol", "javascripts/assets/cartaSol.png")
+            this.load.image("melon", "javascripts/assets/cartaMelon.png")
+            this.load.image("calavera", "javascripts/assets/cartaCalavera.png")
+            this.load.image("jarra", "javascripts/assets/cartaJarra.png")
+            this.load.image("pez", "javascripts/assets/cartaPez.png")
+            this.load.image("bota", "javascripts/assets/cartaBota.png")
+
         }
 
     }
