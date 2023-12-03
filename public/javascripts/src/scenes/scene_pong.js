@@ -15,7 +15,7 @@ export default class scene_pong extends Phaser.Scene {
         //Marca el final de la partida, en tiempo, 2 Minutos medidos en ms (120 000)
 
         //Puesto a 10.000 ms para pruebas (10s)
-        this.duracion = 60  //en segundos
+        this.duracion = 20  //en segundos
         this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
 
 
@@ -110,16 +110,6 @@ export default class scene_pong extends Phaser.Scene {
         }else{
             this.derecha.body.setVelocityY(0)
         }
-
-        /*
-         //Pala izq 
-         if(this.cursor_S.isDown){ //si la flecha hacia abajo esta presionada 
-            this.izquierda.body.setVelocityY(300)
-        }else if (this.cursor_W.isDown){
-            this.izquierda.body.setVelocityY(-300)
-        }else{
-            this.izquierda.body.setVelocityY(0)
-        }*/
 
     }
 
