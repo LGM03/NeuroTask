@@ -1,125 +1,140 @@
-
 export default class scene_cuentas extends Phaser.Scene {
 
     constructor() {
         super({ key: "scene_cuentas" });
-        this.fechaInicio = new Date();
-    }
-
-    init(data){
-        this.idJuego = data.idJuego
+        this.puntuacion = 0;
+        this.operacionActual = '';
+        this.solucion = 0;
     }
 
     create() {
-        const MS = 1000
-        this.duracion = 60  //en segundos
-        this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
+        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
+        this.fondo.setScale(0.5);
 
-        this.aciertos = 0;
-        this.fallos = 0;
-        
-        // Crear un grupo para las cartas
-        var cardsGroup = this.add.group();
+        // Crear la interfaz de usuario
+        this.crearInterfaz();
 
-        // Coordenadas iniciales para las cartas
-        var startX = 100;
-        var startY = 100;
-        var cardWidth = 80;
-        var cardHeight = 120;
+        // Generar la primera operación
+        this.generarOperacion();
 
-        // Crear 8 cartas en un bucle
-        for (var i = 0; i < 8; i++) {
-            var card = this.add.rectangle(startX + i * 100, startY, cardWidth, cardHeight, 0x00ff00);
-            card.setInteractive(); // Hacer la carta interactiva
-            cardsGroup.add(card);
-        }
-
-        // Detectar clics en las cartas
+        // Detectar clics en los números
         this.input.on('gameobjectdown', function (pointer, gameObject) {
-            console.log('Carta clickeada');
-            // Puedes agregar acciones adicionales al hacer clic en una carta
-        });
-    }
-
-    update(time, delta) {
-        if (this.ball.x < 0 || this.ball.x > this.sys.game.config.width) {
-            if (this.ball.x < 0) {
-                this.puntosI += 1;  // Corregir la variable
-                this.puntosIzquierda.setText(this.puntosI);
-                
-            } else {
-                this.puntosD += 1;  // Corregir la variable
-                this.puntosDerecha.setText(this.puntosD);  // Corregir la variable
+            if (gameObject.tipo === 'numero') {
+                var sol = this.respuesta.text
+                this.respuesta.setText(sol+gameObject.value)
+                //this.verificarRespuesta(gameObject.value);
+            }else if(gameObject.tipo === 'solucionar'){
+                this.verificarRespuesta(this.respuesta.text);
+            }else if(gameObject.tipo === 'corregir' && this.respuesta.text.length>0){
+                var sol = this.respuesta.text
+                this.respuesta.setText(sol.slice(0,-1))
             }
-            this.ball.setPosition(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
-            this.ball.setVelocityX(350)
-        
+        }, this);
+    }
+
+    crearInterfaz() {
+        // Sección de la operación
+        this.textoOperacion = this.add.text(this.sys.game.config.width / 2, 100, '', {
+            fontSize: '32px',
+            color: '#fff',
+            fontFamily: 'Arial'
+        }).setOrigin(0.5);
+
+        // Sección de la puntuación
+        this.textoPuntuacion = this.add.text(20, 20, 'Puntuación: 0', {
+            fontSize: '24px',
+            color: '#fff',
+            fontFamily: 'Arial'
+        });
+
+        // Sección de los números
+        const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+        let xPos = 100;
+        let yPos = 200;
+
+        this.respuesta = this.add.text(xPos+ 80, 120, "", {
+            fontSize: '24px',
+            color: '#fff',
+            fontFamily: 'Arial'
+        })
+
+        for (let i = 0; i < numeros.length; i++) {
+            const numero = this.add.text(xPos, yPos, numeros[i].toString(), {
+                fontSize: '24px',
+                color: '#fff',
+                fontFamily: 'Arial'
+            }).setOrigin(0.5);
+            numero.setInteractive();
+            numero.tipo = 'numero';
+            numero.value = numeros[i];
+            xPos += 80;
+
+            // Ajustar la posición para cada fila
+            if (i === 2 || i === 5) {
+                xPos = 100;
+                yPos += 60;
+            }
+
+            console.log(numero.value)
         }
 
-        //Control de las palas
+        this.enviar = this.add.text(xPos+ 110, 120, "Aceptar", {
+            fontSize: '24px',
+            color: '#fff',
+            fontFamily: 'Arial'
+        })
+        this.enviar.setInteractive();
+        this.enviar.tipo = "solucionar"
 
-        //Pala derecha
-        if(this.cursor.down.isDown){ //si la flecha hacia abajo esta presionada 
-            this.derecha.body.setVelocityY(300)
-        }else if (this.cursor.up.isDown){
-            this.derecha.body.setVelocityY(-300)
-        }else{
-            this.derecha.body.setVelocityY(0)
+        this.corregir = this.add.text(xPos+ 130, 300, "Corregir", {
+            fontSize: '24px',
+            color: '#fff',
+            fontFamily: 'Arial'
+        })
+        this.corregir.setInteractive();
+        this.corregir.tipo = "corregir"
+        
+
+    }
+
+    generarOperacion() {
+        
+        const operadores = ['+', '-', '*'];
+        const operador = Phaser.Math.RND.pick(operadores);
+        this.respuesta.setText("");
+        switch (operador) {
+            case '+':
+                var num1 = Phaser.Math.Between(1, 100);
+                var num2 = Phaser.Math.Between(1, 100);
+                this.solucion = num1 + num2;
+                break;
+            case '-':
+                var num1 = Phaser.Math.Between(10, 100);
+                var num2 = Phaser.Math.Between(1, num1);
+                this.solucion = num1 - num2;
+                break;
+            case '*':
+                var num1 = Phaser.Math.Between(1, 50);
+                var num2 = Phaser.Math.Between(2, 10);
+                this.solucion = num1 * num2;
+                break;
         }
 
-        /*
-         //Pala izq 
-         if(this.cursor_S.isDown){ //si la flecha hacia abajo esta presionada 
-            this.izquierda.body.setVelocityY(300)
-        }else if (this.cursor_W.isDown){
-            this.izquierda.body.setVelocityY(-300)
-        }else{
-            this.izquierda.body.setVelocityY(0)
-        }*/
-
+        this.operacionActual = `${num1} ${operador} ${num2}`;
+        this.textoOperacion.setText(this.operacionActual);
     }
 
-    chocaPala(){
-        this.ball.setVelocityY(Phaser.Math.Between(-120,120))
+    verificarRespuesta(respuesta) {
+        console.log("VERIFICANDO"+respuesta)
+        if (parseInt(respuesta) === this.solucion) {
+            this.puntuacion++;
+            this.textoPuntuacion.setText(`Puntuación: ${this.puntuacion}`);
+            this.generarOperacion();
+        } else {
+            // Puedes manejar la respuesta incorrecta de alguna manera, como reiniciar el juego
+            console.log('Respuesta incorrecta');
+            this.respuesta.setText("")
+
+        }
     }
-
-    
-    finalizarJuego() {
-        
-        // Por ejemplo, puedes cambiar a otra escena
-        this.scene.start("scene_fin", 
-                {aciertos : this.aciertos, 
-                    fallos : this.fallos, 
-                    idJuego : this.idJuego, 
-                    fechaInicio : this.fechaInicio,
-                duracion : this.duracion});
-    }
-
-
-
 }
-
-
-/*OPERACIONES VARIAS CON ESCENAS:
-    this.scene.bringToTop(z ) -> Mueve la escena z delante del todo
-    this.scene.sendToBack(z) -> Mueve la escena z atrás del todo
-    this.scene.moveUp(z) -> Mueve la escena z una posicion hacia delante
-    this.scene.moveDown(z) ->Mueve la escena z una posicion hacia atras
-    this.scene.moveAbove(z,w) -> Mueve la escena w encima de una escena  z indicada
-    this.scene.moveBelow(z,w) -> Mueve la escena  w detras de una escena z indicada 
-*/
-
-
-/*estilos del tecxto 
-        color : 'HEX'
-        backgroundColor : 'HEX'
-        fontSize : px
-        padding:{
-            top:
-            bottom:
-            left:
-            right:
-        }
-        
-        
-        */ 

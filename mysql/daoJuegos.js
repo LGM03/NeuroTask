@@ -1,6 +1,3 @@
-const { connect } = require("../routes");
-
-var nombre 
 
 class DAOJuegos{
 
