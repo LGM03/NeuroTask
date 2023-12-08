@@ -5,9 +5,16 @@ export default class scene_cuentas extends Phaser.Scene {
         this.puntuacion = 0;
         this.operacionActual = '';
         this.solucion = 0;
+        this.fallos = 0;
     }
 
     create() {
+
+        const MS = 1000
+        this.duracion = 2  //en segundos
+        this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
+
+
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
         this.fondo.setScale(0.5);
 
@@ -93,8 +100,7 @@ export default class scene_cuentas extends Phaser.Scene {
         })
         this.corregir.setInteractive();
         this.corregir.tipo = "corregir"
-        
-
+    
     }
 
     generarOperacion() {
@@ -125,16 +131,29 @@ export default class scene_cuentas extends Phaser.Scene {
     }
 
     verificarRespuesta(respuesta) {
-        console.log("VERIFICANDO"+respuesta)
         if (parseInt(respuesta) === this.solucion) {
             this.puntuacion++;
             this.textoPuntuacion.setText(`Puntuación: ${this.puntuacion}`);
             this.generarOperacion();
         } else {
-            // Puedes manejar la respuesta incorrecta de alguna manera, como reiniciar el juego
+            this.fallos++;
             console.log('Respuesta incorrecta');
             this.respuesta.setText("")
 
         }
     }
+
+    finalizarJuego() {
+        const minutos = Math.floor(this.duracion / 60000);
+        const segundos = (((this.duracion*1000)  % 60000) / 1000).toFixed(0);
+
+        this.scene.start("scene_fin", 
+                {aciertos : this.puntuacion, 
+                    fallos : this.fallos, 
+                    idJuego : this.idJuego, 
+                    fechaInicio : this.fechaInicio,
+                    duracion :{minutos,segundos}});
+    }
+
+
 }

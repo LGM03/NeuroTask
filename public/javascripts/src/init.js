@@ -3,7 +3,8 @@ import scene_play from "./scenes/scene_play.js"
 import scene_pong from "./scenes/scene_pong.js"
 import scene_fin from "./scenes/scene_fin.js";
 import scene_cuentas from "./scenes/scene_cuentas.js";
-import scene_parejas from "./scenes/scene_parejas.js"
+import scene_parejas from "./scenes/scene_parejas.js";
+import scene_ordenCreciente from "./scenes/scene_ordenCreciente.js";
 
 let juego
 
@@ -35,10 +36,12 @@ export function arranque(idJuego) {
 
     if (idJuego == "1") { //Juego del Pong
         config.scene = [inicio, Bootloader, scene_play, scene_pong, scene_fin] //TODO
-    } else if (idJuego == "2") {
+    } else if (idJuego == "2") { //Juego Cuentas
         config.scene = [inicio, Bootloader, scene_play, scene_cuentas, scene_fin]
-    } else if (idJuego == "3") {
+    } else if (idJuego == "3") { //Juego Emparejar
         config.scene = [inicio, Bootloader, scene_play, scene_parejas, scene_fin]
+    }else if (idJuego == "4") { //Juego Ordenar de Mayor a Menor
+        config.scene = [inicio, Bootloader, scene_play, scene_ordenCreciente, scene_fin]
     }
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';

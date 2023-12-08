@@ -8,6 +8,7 @@ export default class scene_parejas extends Phaser.Scene {
         this.valores = ["sol", "sol", "melon", "melon", "calavera", "calavera", "jarra", "jarra", "pez", "pez", "bota", "bota"];
         this.puntuacion = 0
         this.seleccionables = true; // Variable de estado
+        this.fallos = 0;
     }
 
     init(data) {
@@ -34,11 +35,6 @@ export default class scene_parejas extends Phaser.Scene {
 
             grupo.add(carta);
         }
-
-        // Detectar clics en las cartas
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
-            console.log('Carta clickeada' + gameObject.index)
-        });
     }
 
     crearCarta(index, x, y, value) {
@@ -68,7 +64,7 @@ export default class scene_parejas extends Phaser.Scene {
                             console.log("iguales");
                             this.puntuacion += 1;
                         } else {
-                            console.log("distintas");
+                            this.fallos ++ ;
                             this.seleccionadas[0].setTexture("card")// Oculta el texto de la primera carta
                             this.seleccionadas[0].setDisplaySize(displayWidth, displayHeight);
                             this.seleccionadas[1].setTexture("card")
@@ -102,6 +98,7 @@ export default class scene_parejas extends Phaser.Scene {
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
+                fallos : this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos }
