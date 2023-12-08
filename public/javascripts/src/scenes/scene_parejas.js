@@ -61,10 +61,13 @@ export default class scene_parejas extends Phaser.Scene {
                     this.seleccionables=false;
                     this.time.delayedCall(600, () => {
                         if (this.seleccionadas[0].value === this.seleccionadas[1].value) {
-                            console.log("iguales");
+                            this.cubrirCartaCorrecta(this.seleccionadas[0])
+                            this.cubrirCartaCorrecta(this.seleccionadas[1])
                             this.puntuacion += 1;
                         } else {
                             this.fallos ++ ;
+                            this.cubrirCartaErronea(this.seleccionadas[0])
+                            this.cubrirCartaErronea(this.seleccionadas[1])
                             this.seleccionadas[0].setTexture("card")// Oculta el texto de la primera carta
                             this.seleccionadas[0].setDisplaySize(displayWidth, displayHeight);
                             this.seleccionadas[1].setTexture("card")
@@ -103,6 +106,42 @@ export default class scene_parejas extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos }
             });
+    }
+
+    cubrirCartaCorrecta(carta) {
+        const scaleX = carta.scaleX;
+        const scaleY = carta.scaleY;
+    
+        const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0x00FF00, 0.5);
+        cover.setOrigin(0, 0);
+        
+        this.tweens.add({
+            targets: cover,
+            alpha: 0,
+            duration: 2000,
+            ease: 'Linear',
+            onComplete: () => {
+                cover.destroy();
+            }
+        });
+    }
+
+    cubrirCartaErronea(carta) {
+        const scaleX = carta.scaleX;
+        const scaleY = carta.scaleY;
+    
+        const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0xFF0000, 0.5);
+        cover.setOrigin(0, 0);
+        
+        this.tweens.add({
+            targets: cover,
+            alpha: 0,
+            duration: 2000,
+            ease: 'Linear',
+            onComplete: () => {
+                cover.destroy();
+            }
+        });
     }
 
 

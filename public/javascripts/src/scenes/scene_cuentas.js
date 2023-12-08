@@ -11,7 +11,7 @@ export default class scene_cuentas extends Phaser.Scene {
     create() {
 
         const MS = 1000
-        this.duracion = 2  //en segundos
+        this.duracion = 30  //en segundos
         this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);
 
 
@@ -46,13 +46,6 @@ export default class scene_cuentas extends Phaser.Scene {
             color: '#fff',
             fontFamily: 'Arial'
         }).setOrigin(0.5);
-
-        // Sección de la puntuación
-        this.textoPuntuacion = this.add.text(20, 20, 'Puntuación: 0', {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        });
 
         // Sección de los números
         const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
@@ -133,7 +126,6 @@ export default class scene_cuentas extends Phaser.Scene {
     verificarRespuesta(respuesta) {
         if (parseInt(respuesta) === this.solucion) {
             this.puntuacion++;
-            this.textoPuntuacion.setText(`Puntuación: ${this.puntuacion}`);
             this.generarOperacion();
         } else {
             this.fallos++;
