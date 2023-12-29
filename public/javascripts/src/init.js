@@ -5,6 +5,8 @@ import scene_fin from "./scenes/scene_fin.js";
 import scene_cuentas from "./scenes/scene_cuentas.js";
 import scene_parejas from "./scenes/scene_parejas.js";
 import scene_ordenCreciente from "./scenes/scene_ordenCreciente.js";
+import scene_anagramas from "./scenes/scene_anagramas.js";
+import scene_refranes from "./scenes/scene_refranes.js";
 
 let juego
 
@@ -42,6 +44,10 @@ export function arranque(idJuego) {
         config.scene = [inicio, Bootloader, scene_play, scene_parejas, scene_fin]
     }else if (idJuego == "4") { //Juego Ordenar de Mayor a Menor
         config.scene = [inicio, Bootloader, scene_play, scene_ordenCreciente, scene_fin]
+    }else if(idJuego == "5"){
+        config.scene = [inicio, Bootloader, scene_play, scene_anagramas, scene_fin]
+    }else if(idJuego == "6"){
+        config.scene = [inicio, Bootloader, scene_play, scene_refranes, scene_fin]
     }
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';

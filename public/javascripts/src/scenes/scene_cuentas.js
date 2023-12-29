@@ -6,6 +6,7 @@ export default class scene_cuentas extends Phaser.Scene {
         this.operacionActual = '';
         this.solucion = 0;
         this.fallos = 0;
+        this.fechaInicio = new Date()
     }
 
     create() {

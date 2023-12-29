@@ -59,6 +59,12 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.load.image("botella", "javascripts/assets/cartaBotella.png")
             this.load.image("sandia", "javascripts/assets/cartaSandia.png")
             this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
+        }else if(this.idJuego == "5"){
+            this.descripcion = "Crea Anagramas de las siguientes palabras"
+            this.juego = "scene_anagramas"
+        }else if(this.idJuego == "6"){
+            this.descripcion = "Descubre el Refrán con las siguientes palabras"
+            this.juego = "scene_refranes"
         }
 
     }
