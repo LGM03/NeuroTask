@@ -18,7 +18,8 @@
 }
 
 .sombras{
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color:#fde8f9;  /*#FCCEF6;*/
 }
 
 .sombras img {
@@ -42,7 +43,7 @@ background-size: cover;
 }
 
 a{ /*La fuente de la cabecera es EB-garamont y su color es morado oscuro*/
-    color:#0c61c1 !important;
+    color:#224874 !important;
     text-decoration: none;
     font: 20px EB-garamont;
 }
@@ -78,7 +79,7 @@ a{ /*La fuente de la cabecera es EB-garamont y su color es morado oscuro*/
 } 
 
 .cat_mem_trabajo{ 
-    background-color: #B538BD;
+    background-color: #c466ca;
     font-weight: bold;
 } 
 

@@ -99,7 +99,7 @@ export default class scene_cuentas extends Phaser.Scene {
 
     generarOperacion() {
         
-        const operadores = ['+', '-', '*'];
+        const operadores = ['+', '-', 'X'];
         const operador = Phaser.Math.RND.pick(operadores);
         this.respuesta.setText("");
         switch (operador) {
@@ -113,7 +113,7 @@ export default class scene_cuentas extends Phaser.Scene {
                 var num2 = Phaser.Math.Between(1, num1);
                 this.solucion = num1 - num2;
                 break;
-            case '*':
+            case 'X':
                 var num1 = Phaser.Math.Between(1, 50);
                 var num2 = Phaser.Math.Between(2, 10);
                 this.solucion = num1 * num2;

@@ -4,8 +4,6 @@ export default class scene_refranes extends Phaser.Scene {
     constructor() {
         super({ key: "scene_refranes" });
         this.puntuacion = 0;
-        this.operacionActual = '';
-        this.solucion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
         this.casos = ["Más vale estar solo que mal acompañado",
@@ -66,11 +64,13 @@ export default class scene_refranes extends Phaser.Scene {
 
     crearInterfaz() {
         // Sección de la operación
-        
-        this.refran = this.casos[Phaser.Math.Between(0, this.casos.length - 1)] //Elijo el refran aleatoriamente
-
+        var elegido = Phaser.Math.Between(0, this.casos.length - 1)
+        this.refran = this.casos[elegido] //Elijo el refran aleatoriamente
+        //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos
+        if(this.casos.length!=1){
+            this.casos.splice(elegido,1)
+        }
         let xPos = 100;
-
         this.palabrasGroup = this.add.group();
 
         var arrayDePalabras =  this.refran.split(' '); //Desordeno la frase
@@ -96,12 +96,9 @@ export default class scene_refranes extends Phaser.Scene {
             color: '#fff',
             fontFamily: 'Arial'
         }).setOrigin(0.5, 0.5)
-
-
     }
 
     verificarRespuesta() {  //Colorear algo
-        console.log("C"+this.refran+"A B"+this.respuesta.text+"D")
         if (this.refran== this.respuesta.text.trim()) {
             console.log("Acierto")
            this.puntuacion++

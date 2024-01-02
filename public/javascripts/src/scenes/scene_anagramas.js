@@ -4,8 +4,6 @@ export default class scene_anagramas extends Phaser.Scene {
     constructor() {
         super({ key: "scene_anagramas" });
         this.puntuacion = 0;
-        this.operacionActual = '';
-        this.solucion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
         this.casos = [["ROMA", "AMOR"], ["LLENABA", "BALLENA"], ["QUIEREN", "ENRIQUE"],
@@ -15,7 +13,7 @@ export default class scene_anagramas extends Phaser.Scene {
     create() {
         const MS = 1000
         this.duracion = 20  //en segundos
-        this.time.delayedCall(this.duracion * MS , this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
+        this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
         this.fondo.setScale(0.5);
@@ -27,7 +25,7 @@ export default class scene_anagramas extends Phaser.Scene {
             fontFamily: 'Arial'
         }).setOrigin(0.5, 0.5)
 
-        this.enviar = this.add.text(this.sys.canvas.width / 2 - 80,300, "Aceptar", {
+        this.enviar = this.add.text(this.sys.canvas.width / 2 - 80, 300, "Aceptar", {
             fontSize: '24px',
             color: '#fff',
             fontFamily: 'Arial'
@@ -62,8 +60,13 @@ export default class scene_anagramas extends Phaser.Scene {
 
     crearInterfaz() {
         // Sección de la operación
-        
-        this.arrayAnagrama = this.casos[Phaser.Math.Between(0, this.casos.length - 1)]
+        var elegido = Phaser.Math.Between(0, this.casos.length - 1)
+        this.arrayAnagrama = this.casos[elegido]
+        //Si quedan mas elementos en el array lo saco para que no se repita
+        //Si solo queda ese no, para evitar errores.
+        if (this.casos.length != 1) { 
+            this.casos.splice(elegido, 1)
+        }
         var palabra = this.arrayAnagrama[0]
 
         this.palabra = this.add.text(this.sys.canvas.width / 2, this.sys.canvas.height / 4, palabra, {
@@ -76,10 +79,10 @@ export default class scene_anagramas extends Phaser.Scene {
 
         this.letrasGroup = this.add.group();
         var arrayDeLetras = palabra.split('');
-        arrayDeLetras.sort(function() {
+        arrayDeLetras.sort(function () {
             return 0.5 - Math.random();
         });
-    
+
         for (let i = 0; i < palabra.length; i++) {
             const letra = this.add.text(this.sys.canvas.width / 2 - 80 * (palabra.length / 2 - 1) + 80 * i, this.sys.canvas.height / 2, arrayDeLetras[i], {
                 fontSize: '24px',
@@ -104,12 +107,12 @@ export default class scene_anagramas extends Phaser.Scene {
 
     verificarRespuesta() {  //Colorear algo
         if (this.arrayAnagrama[1] == this.respuesta.text) {
-           this.puntuacion++
+            this.puntuacion++
         } else {
             this.fallos++
         }
         this.respuesta.setText("")
-        this.letrasGroup.clear(true,true)  //Vacio las letras de solucion y las palabras
+        this.letrasGroup.clear(true, true)  //Vacio las letras de solucion y las palabras
         this.palabra.destroy()
         this.crearInterfaz();
     }
