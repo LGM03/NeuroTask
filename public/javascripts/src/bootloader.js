@@ -33,6 +33,19 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if (this.idJuego =="2"){
             this.descripcion = "¡Realiza siguientes operaciones!"
             this.juego = "scene_cuentas"
+            
+            this.load.image("uno", "javascripts/assets/uno.png")        
+            this.load.image("dos", "javascripts/assets/dos.png")           
+            this.load.image("tres", "javascripts/assets/tres.png")           
+            this.load.image("cuatro", "javascripts/assets/cuatro.png")         
+            this.load.image("cinco", "javascripts/assets/cinco.png")
+            this.load.image("seis", "javascripts/assets/seis.png")
+            this.load.image("siete", "javascripts/assets/siete.png")
+            this.load.image("ocho", "javascripts/assets/ocho.png")
+            this.load.image("nueve", "javascripts/assets/nueve.png")
+            this.load.image("cero", "javascripts/assets/cero.png")
+            this.load.image("corregir", "javascripts/assets/corregir.png")
+            this.load.image("aceptar", "javascripts/assets/aceptar.png")
 
         }else if (this.idJuego =="3"){
             this.descripcion = "¡Recuerda las imagenes y empareja!"
@@ -85,7 +98,8 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.load.image("rojoEncendido", "javascripts/assets/rojo1.png")
             this.load.image("rojoApagado", "javascripts/assets/rojo2.png")
 
-
+            this.load.image("memoriza","javascripts/assets/memoriza.png")
+            this.load.image("repite","javascripts/assets/repite.png")
         }
 
     }
