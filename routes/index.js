@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
     }
     else {
       console.log(req.session.usuario)
-      res.render('index', { juegos : datos, usuario : req.session.usuario, error : req.query.error, exito:req.query.exito });  //Cargo la ventana principal con la información de todos los juegos
+      res.render('index', { juegos : datos, usuario : req.session.usuario});  //Cargo la ventana principal con la información de todos los juegos
     }
   });
 });

@@ -75,11 +75,11 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
 
         }else if(this.idJuego == "5"){
-            this.descripcion = "Crea Anagramas de las siguientes palabras"
+            this.descripcion = "¡Ordena las letras y descubre la palabra!"
             this.juego = "scene_anagramas"
 
         }else if(this.idJuego == "6"){
-            this.descripcion = "Descubre el Refrán con las siguientes palabras"
+            this.descripcion = "¡Ordena las palabas y descubre el refrán!"
             this.juego = "scene_refranes"
 
         }else if(this.idJuego == "7"){
@@ -100,6 +100,24 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
 
             this.load.image("memoriza","javascripts/assets/memoriza.png")
             this.load.image("repite","javascripts/assets/repite.png")
+        }else if(this.idJuego=="8"){
+            this.descripcion = "¡Ordena las cartas de MAYOR a MENOR!"
+            this.juego = "scene_ordenDecreciente"
+            this.load.image("sol", "javascripts/assets/cartaSol.png")
+            this.load.image("melon", "javascripts/assets/cartaMelon.png")
+            this.load.image("calavera", "javascripts/assets/cartaCalavera.png")
+            this.load.image("jarra", "javascripts/assets/cartaJarra.png")
+            this.load.image("pez", "javascripts/assets/cartaPez.png")
+            this.load.image("bota", "javascripts/assets/cartaBota.png")
+            this.load.image("barril", "javascripts/assets/cartaBarril.png")
+            this.load.image("campana", "javascripts/assets/cartaCampana.png")
+            this.load.image("corazon", "javascripts/assets/cartaCorazon.png")
+            this.load.image("botella", "javascripts/assets/cartaBotella.png")
+            this.load.image("sandia", "javascripts/assets/cartaSandia.png")
+            this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
+        }else if(this.idJuego == "9"){
+            this.descripcion = "¡Memoriza las figuras que aparecen!"
+            this.juego = "scene_ordenDecreciente"
         }
 
     }

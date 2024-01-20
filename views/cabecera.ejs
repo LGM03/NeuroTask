@@ -1,165 +1,155 @@
 <div class="row ">
-    <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  -->
-    <div class="col-sm-2">
+  <!--  Esta formado por 1 fila que contiene 1 columna de tamaño 2 para el logo y una de tamaño 8 para el texto  -->
+  <div class="col-sm-2">
 
-        <a href="/">
-            <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
-                class="d-flex align-content-center justify-content-center">
-            </a>
-
-    </div>
-    <div class="col-sm-8 ">
-      <h1 class="textoCabecera d-flex align-items-center justify-content-center ">NeuroTask</h1>
-    </div>
-
-    <div class="col-sm-2 ">
-      <%if(usuario){ %>
-        <div class="row d-flex align-items-center">
-          <div class="col-4 textoCabecera text-center">
-            <h6 class="mt-3">¡Hola, <%=usuario.nombre%>!</h2>
-          </div>
-          <form method="post" action="/user/logout" class="col-8">
-            <button type="submit" class="btn botonInicioSesion mt-3 mb-3">Cerrar Sesión</button>
-          </form>
-        </div>
-        <%}else{ %>
-
-          <button type="button" class="btn botonInicioSesion mt-3" data-bs-toggle="modal"
-            data-bs-target="#InicioSesion">Iniciar Sesión </button>
-          <% } %>
-
-    </div>
-
-    <!--Cuadro Modal inicio de Sesion-->
-
-    <div class="modal fade" id="InicioSesion" data-bs-backdrop="static">
-      <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-
-          <!-- cabecera del diálogo -->
-          <div class="modal-header">
-            <h4 class="modal-title">Inicio de Sesión</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <!-- cuerpo del diálogo -->
-          <div class="modal-body alert alert-primary">
-
-            <form id="inicioSesion" method="post" action="/user/login">
-              <div class="mb-3 row">
-                <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
-                <div class="col-sm-9">
-                  <input type="email" class="form-control" name="correo" required>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
-                <div class="col-sm-9">
-                  <input type="password" class="form-control" name="contraseña" required>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <div class="offset-sm-3 col-sm-9">
-                  <button type="submit" class="btn btn-primary">Confirmar</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <h6>¿No tienes cuenta? </h6>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearCuenta"
-              data-bs-dismiss="modal">Crear Cuenta</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <!--Cuadro modal crear cuenta-->
-
-    <div class="modal fade" id="crearCuenta" data-bs-backdrop="static">
-      <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-
-          <!-- cabecera del diálogo -->
-          <div class="modal-header">
-            <h4 class="modal-title">Crear Cuenta</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <!-- cuerpo del diálogo -->
-          <div class="modal-body alert alert-primary">
-
-            <form id="crearCuenta" method="post" action="/user/crearCuenta">
-
-              <div class="mb-2 row">
-                <label for="correo" class="col-sm-2 col-form-label">Correo:</label>
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="correo" name="correo" required>
-                </div>
-              </div>
-
-              <div class="mb-3 row">
-                <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="nombre" name="nombre" required>
-                </div>
-                <label for="apellido" class="col-sm-2 col-form-label">Apellido:</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="apellido" name="apellido" required>
-                </div>
-              </div>
-
-              
-              <div class="mb-3 row">
-                <label for="clave" class="col-sm-2 col-form-label">Contraseña:</label>
-                <div class="col-sm-4">
-                  <input type="password" class="form-control" name="contraseña" id="contraseña" required>
-                  <!--Esto se tiene que validar con js en cliente-->
-                </div>
-                <label for="clave" class="col-sm-2 col-form-label">Repetir Contraseña:</label>
-                <div class="col-sm-4">
-                  <input type="password" class="form-control" name="contraseñaRep" id="contraseñaRep" required>
-                </div>
-              </div>
-
-              <div class="mb-3 row">
-                  <label for="clave" class="col-sm-2 col-form-label">Tipo : </label>
-                  <div class="col-sm-4">
-                    <select id ="Tipo" class="form-select" aria-label="Default select example" name="tipo">
-                      <option selected value="1">Paciente</option>
-                      <option value="2">Terapeuta</option>
-                    </select>
-                  </div>
-
-                  <label for="inputAdicional" id="inputAdicional_text" class ="col-sm-2">Edad:</label>
-                  <div class="col-sm-4">
-                  <input type="text" id="inputAdicional" class="form-control "  name = "edad">
-                </div>
-
-
-            </div>
-
-              <div class="mb-3 row">
-                <div class="offset-sm-3 col-sm-9">
-                  <button type="submit" class="btn btn-primary">Confirmar</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <h6>¿Ya tienes una cuenta? </h6>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#InicioSesion"
-              data-bs-dismiss="modal">Inicia Sesión</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <a href="/">
+      <img src="images/cerebroSentado.jpg" alt="Icono Página no cargado" width="80" height="80"
+        class="d-flex align-content-center justify-content-center">
+    </a>
 
   </div>
+  <div class="col-sm-8 ">
+    <h1 class="textoCabecera d-flex align-items-center justify-content-center ">NeuroTask</h1>
+  </div>
+
+  <div class="col-sm-2 ">
+    <%if(usuario){ %>
+      <div class="row d-flex align-items-center">
+        <div class="col-sm-12 col-md-4 textoCabecera text-center">
+          <h6 class="mt-3">¡Hola, <%=usuario.nombre%>!</h2>
+        </div>
+        <form method="post" action="/user/logout" class="col-sm-12 col-md-8">
+          <button type="submit" class="btn botonInicioSesion mt-3 mb-3">Cerrar Sesión</button>
+        </form>
+      </div>
+      <%}else{ %>
+
+        <button type="button" class="btn botonInicioSesion mt-3" data-bs-toggle="modal"
+          data-bs-target="#InicioSesion">Iniciar Sesión </button>
+        <% } %>
+
+  </div>
+
+  <!--Cuadro Modal inicio de Sesion-->
+
+  <div class="modal fade" id="InicioSesion" data-bs-backdrop="static">
+    <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <!-- cabecera del diálogo -->
+        <div class="modal-header">
+          <h4 class="modal-title">Inicio de Sesión</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- cuerpo del diálogo -->
+        <div class="modal-body alert alert-primary">
+
+          <form id="inicioSesion" method="post" action="/user/login">
+            <div class="mb-3 row">
+              <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" name="correo" required>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="clave" class="col-sm-3 col-form-label">Contraseña:</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" name="contraseña" required>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="offset-sm-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <h6>¿Eres Terapeuta? </h6>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearCuenta"
+            data-bs-dismiss="modal">Crear Cuenta</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--Cuadro modal crear cuenta-->
+
+  <div class="modal fade" id="crearCuenta" data-bs-backdrop="static">
+    <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <!-- cabecera del diálogo -->
+        <div class="modal-header">
+          <h4 class="modal-title">Crear Cuenta</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- cuerpo del diálogo -->
+        <div class="modal-body alert alert-primary">
+
+          <form id="crearCuenta" method="post" action="/user/crearCuenta">
+
+            <div class="mb-2 row">
+              <label for="correo" class="col-sm-2 col-form-label">Correo:</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="correo" name="correo" required>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+              </div>
+              <label for="apellido" class="col-sm-2 col-form-label">Apellido:</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" id="apellido" name="apellido" required>
+              </div>
+            </div>
+
+
+            <div class="mb-3 row">
+              <label for="clave" class="col-sm-2 col-form-label">Contraseña:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="contraseña" id="contraseña" required>
+                <!--Esto se tiene que validar con js en cliente-->
+              </div>
+              <label for="clave" class="col-sm-2 col-form-label">Repetir Contraseña:</label>
+              <div class="col-sm-4">
+                <input type="password" class="form-control" name="contraseñaRep" id="contraseñaRep" required>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="inputAdicional" id="inputAdicional_text" class="col-sm-2">Clínica:</label>
+              <div class="col-sm-10">
+                <input type="text" id="inputAdicional" class="form-control " name="inputAdicional">
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <div class="offset-sm-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <h6>¿Ya tienes una cuenta? </h6>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#InicioSesion"
+            data-bs-dismiss="modal">Inicia Sesión</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

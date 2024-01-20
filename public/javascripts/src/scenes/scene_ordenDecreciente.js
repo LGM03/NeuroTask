@@ -1,15 +1,14 @@
 
-export default class scene_ordenCreciente extends Phaser.Scene {
+export default class scene_ordenDecreciente extends Phaser.Scene {
 
     constructor() {
-        super({ key: "scene_ordenCreciente" });
+        super({ key: "scene_ordenDecreciente" });
         this.fechaInicio = new Date();
         this.seleccionadas = [];
         this.valores = ["sol", "melon", "calavera", "jarra","pez", "bota","barril","campana","corazon","botella","sandia","paraguas"];
         this.cartas = {"sol": 17,"melon": 18, "calavera":19, "jarra":20,"pez":21, "bota":22,"barril":41,"campana":42,"corazon":43,"botella":44,"sandia":45,"paraguas":46 }
         this.puntuacion = 0;
-        this.ordenValido = [17,18,19,20,21,41,42,43,44,45,46]
-       
+        this.ordenValido = [46,45,44,43,42,41,21,20,19,18,17]
         this.fallos = 0;
     }
 
