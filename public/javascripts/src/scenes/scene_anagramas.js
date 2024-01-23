@@ -10,6 +10,12 @@ export default class scene_anagramas extends Phaser.Scene {
         ["CUADERNO", "EDUCARON"], ["ECUADOR", "ACUERDO"], ["BOTINES", "BISONTE"], ["AMIGA", "MAGIA"], ["DIVA", "VIDA"]]
     }
 
+    
+    init(data){
+        this.idJuego = data.idJuego
+    }
+
+
     create() {
         const MS = 1000
         this.duracion = 20  //en segundos
@@ -127,7 +133,8 @@ export default class scene_anagramas extends Phaser.Scene {
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
-                duracion: { minutos, segundos }
+                duracion: { minutos, segundos },
+                segundos : this.duracion
             });
     }
 

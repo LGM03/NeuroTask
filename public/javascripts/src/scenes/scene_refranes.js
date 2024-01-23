@@ -14,6 +14,12 @@ export default class scene_refranes extends Phaser.Scene {
             "Tira la piedra y esconde la mano","El que ríe el último ríe mejor"]
     }
 
+    
+    init(data){
+        this.idJuego = data.idJuego
+    }
+
+    
     create() {
         const MS = 1000
         this.duracion = 20  //en segundos
@@ -122,7 +128,8 @@ export default class scene_refranes extends Phaser.Scene {
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
-                duracion: { minutos, segundos }
+                duracion: { minutos, segundos },
+                segundos : this.duracion
             });
     }
 

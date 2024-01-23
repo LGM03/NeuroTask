@@ -117,7 +117,18 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
         }else if(this.idJuego == "9"){
             this.descripcion = "¡Memoriza las figuras que aparecen!"
-            this.juego = "scene_ordenDecreciente"
+            this.juego = "scene_memorizaFiguras"
+            this.load.image("melon", "javascripts/assets/cartaMelon.png")
+            this.load.image("sandia", "javascripts/assets/cartaSandia.png")
+            this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
+            this.load.image("pera", "javascripts/assets/cartaPera.png")
+            this.load.image("mano", "javascripts/assets/cartaMano.png")
+            this.load.image("corona", "javascripts/assets/cartaCorona.png")
+            this.load.image("maceta", "javascripts/assets/cartaMaceta.png")
+            this.load.image("tambor", "javascripts/assets/cartaTambor.png")
+        }else if(this.idJuego == "10"){
+            this.descripcion = "¡Memoriza los colores que aparecen!"
+            this.juego = "scene_memorizaColores"
         }
 
     }

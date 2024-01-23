@@ -50,9 +50,9 @@ class DAOJuegos{
             if(err){
                 callback(err,null)
             }else{
-                const sql = "insert into `partidas_"+datosJuego.usuario+"` values(?,?,?,?,?)"
+                const sql = "insert into `partidas` values(?,?,?,?,?,?)"
                 const fechaSQL = new Date(datosJuego.fechaInicio).toISOString().slice(0, 19).replace("T", " ");
-                connection.query(sql,[datosJuego.idJuego, fechaSQL, datosJuego.aciertos,datosJuego.fallos, datosJuego.duracion],function(err,resultado){
+                connection.query(sql,[datosJuego.idJuego, datosJuego.usuario,fechaSQL, datosJuego.duracion, datosJuego.aciertos,datosJuego.fallos],function(err,resultado){
                     connection.release();
                     if(err){
                         callback(err,null)

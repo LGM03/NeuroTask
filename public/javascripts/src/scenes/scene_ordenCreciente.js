@@ -121,7 +121,8 @@ export default class scene_ordenCreciente extends Phaser.Scene {
                 fallos : this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
-                duracion: { minutos, segundos }
+                duracion: { minutos, segundos },
+                segundos : this.duracion
             });
     }
 

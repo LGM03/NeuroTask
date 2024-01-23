@@ -43,7 +43,8 @@ router.get('/finJuego', function (req, res, next) {
       duracion: req.query.duracion,
       usuario: req.session.usuario.correo
     }
-    console.log(req.query.aciertos + " " + req.query.fallos + " " + req.session.usuario.correo + " " + req.query.idJuego + " " + req.query.fechaInicio + " " + req.query.duracion)
+    console.log("El id del juego para el servidor es : "+ datosPartida.idJuego)
+
     midao.guardarPartida(datosPartida, (err, datos) => {
       if (err) {
         console.log(err);

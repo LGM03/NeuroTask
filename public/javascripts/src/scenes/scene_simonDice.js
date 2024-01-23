@@ -13,6 +13,10 @@ export default class scene_simonDice extends Phaser.Scene {
         this.seleccionadas = []
     }
 
+    init(data){
+        this.idJuego = data.idJuego
+    }
+
     create() {
         const MS = 1000
         this.duracion = 30  //en segundos
@@ -181,7 +185,8 @@ export default class scene_simonDice extends Phaser.Scene {
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
-                duracion: { minutos, segundos }
+                duracion: { minutos, segundos },
+                segundos : this.duracion
             });
     }
 

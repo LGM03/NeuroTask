@@ -1,13 +1,13 @@
-export default class scene_memorizaFiguras extends Phaser.Scene {
+export default class scene_memorizaColores extends Phaser.Scene {
 
 
     constructor() {
-        super({ key: "scene_memorizaFiguras" });
+        super({ key: "scene_memorizaColores" });
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
         this.seleccionable = false
-        this.cartas = ["corona", "maceta", "paraguas", "tambor", "pera", "melon", "sandia", "mano"]
+        this.colores = ["0xFF0000", "0x0000FF", "0x00FF00", "0xFF8000", "0xFFFF00", "0x582900", "0x572364", "0x000000"]
         this.secuencia_objetivo = []
         this.seleccionadas = []
         
@@ -43,7 +43,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
 
                 const scaleX = gameObject.scaleX;
                 const scaleY = gameObject.scaleY;
-            
+
                 this.cobertura.add(this.add.rectangle(gameObject.x, gameObject.y, gameObject.width * scaleX, gameObject.height * scaleY, 0x504C4F, 0.75).setOrigin(0.5, 0.5));
                 
                 if (this.seleccionadas.length == this.secuencia_objetivo.length) {
@@ -61,7 +61,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
                     }
                     
                     this.cobertura.clear(true,true)
-                    this.cartasGrupo.clear(true,true)
+                    this.coloresGrupo.clear(true,true)
                     this.mostrarTres();
                 }
             }
@@ -92,23 +92,23 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
 
     mostrarTres() {
         this.seleccionable = false //ya no se podra seleccionar 
-        this.cartasGrupo = this.add.group();
+        this.coloresGrupo = this.add.group();
 
-        this.info.setText("Memoriza estas cartas")
+        this.info.setText("Memoriza estos colores")
 
-        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.cartas.length)))
-        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.cartas.length)))
+        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.colores.length)))
+        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.colores.length)))
 
         while (this.secuencia_objetivo[0] == this.secuencia_objetivo[1]) {
-            this.secuencia_objetivo[1] = Math.floor(Math.random() * (this.cartas.length))
+            this.secuencia_objetivo[1] = Math.floor(Math.random() * (this.colores.length))
         }
-        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.cartas.length)))
+        this.secuencia_objetivo.push(Math.floor(Math.random() * (this.colores.length)))
         while (this.secuencia_objetivo[0] == this.secuencia_objetivo[2] || this.secuencia_objetivo[1] == this.secuencia_objetivo[2]) {
-            this.secuencia_objetivo[2] = Math.floor(Math.random() * (this.cartas.length))
+            this.secuencia_objetivo[2] = Math.floor(Math.random() * (this.colores.length))
         }
         this.objetivoGrupo = this.add.group()
         for (var i = 0; i < this.secuencia_objetivo.length; i++) {
-            const carta = this.add.image(((i * 2) + 1) * this.sys.canvas.width / 6, 4 * this.sys.canvas.height / 8,  this.cartas[this.secuencia_objetivo[i]]).setOrigin(0.5).setScale(0.35);
+            const carta = this.add.rectangle(((i * 2) + 1) * this.sys.canvas.width / 6, 4 * this.sys.canvas.height / 8,  this.colores[this.secuencia_objetivo[i]]).setOrigin(0.5).setScale(0.35);
             carta.setInteractive();
             carta.value = 0;
             this.objetivoGrupo.add(carta)
@@ -123,48 +123,50 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
     mostrarTodas() {
         this.seleccionable = true
         this.objetivoGrupo.clear(true,true) //elimino todas la cartas objetivo
-        this.cartasGrupo = this.add.group();
+        this.coloresGrupo = this.add.group();
 
-        this.info.setText("¿Qué cartas han aparecido?")
-        const corona = this.add.image(1 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "corona").setOrigin(0.5).setScale(0.25);
-        corona.setInteractive();
-        corona.value = 0;
-        this.cartasGrupo.add(corona)
+        this.info.setText("¿Qué colores han aparecido?")
 
-        const maceta = this.add.image(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "maceta").setOrigin(0.5).setScale(0.25);
-        maceta.setInteractive();
-        maceta.value = 1;
-        this.cartasGrupo.add(maceta)
+        const rojo = this.add.rectangle(1 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,  599 * 0,25, 852 *  0,25, 0xFF0000, 0.75).setOrigin(0.5);
+        rojo.setInteractive();
+        rojo.value = 0;
+        this.coloresGrupo.add(rojo)
 
-        const paraguas = this.add.image(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "paraguas").setOrigin(0.5).setScale(0.25);
-        paraguas.setInteractive();
-        paraguas.value = 2;
-        this.cartasGrupo.add(paraguas)
+        const azul = this.add.rectangle(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 599 * 0,25, 852 *  0,25, 0x0000FF, 0.75).setOrigin(0.5);
+        azul.setInteractive();
+        azul.value = 1;
+        this.coloresGrupo.add(azul)
 
-        const tambor = this.add.image(7 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "tambor").setOrigin(0.5).setScale(0.25);
-        tambor.setInteractive();
-        tambor.value = 3;
-        this.cartasGrupo.add(tambor)
+        const verde = this.add.rectangle(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,  599 * 0,25, 852 *  0,25, 0x00FF00, 0.75).setOrigin(0.5);
+        verde.setInteractive();
+        verde.value = 2;
+        this.coloresGrupo.add(verde)
 
-        const pera = this.add.image(1 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "pera").setOrigin(0.5).setScale(0.25);
-        pera.setInteractive();
-        pera.value = 4;
-        this.cartasGrupo.add(pera)
+        const naranja = this.add.rectangle(7 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 599 * 0,25, 852 *  0,25, 0xFF8000, 0.75).setOrigin(0.5);
+        naranja.setInteractive();
+        naranja.value = 3;
+        this.coloresGrupo.add(naranja)
 
-        const melon = this.add.image(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "melon").setOrigin(0.5).setScale(0.25);
-        melon.setInteractive();
-        melon.value = 5;
-        this.cartasGrupo.add(melon)
+        const amarillo = this.add.rectangle(1 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,599 * 0,25, 852 *  0,25, 0xFFFF00, 0.75).setOrigin(0.5);
+        amarillo.setInteractive();
+        amarillo.value = 4;
+        this.coloresGrupo.add(amarillo)
 
-        const sandia = this.add.image(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "sandia").setOrigin(0.5).setScale(0.25);
-        sandia.setInteractive();
-        sandia.value = 6;
-        this.cartasGrupo.add(sandia)
 
-        const mano = this.add.image(7 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "mano").setOrigin(0.5).setScale(0.25);
-        mano.setInteractive();
-        mano.value = 7;
-        this.cartasGrupo.add(mano)
+        const marron = this.add.rectangle(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 599 * 0,25, 852 *  0,25, 0x582900, 0.75).setOrigin(0.5);
+        marron.setInteractive();
+        marron.value = 5;
+        this.coloresGrupo.add(marron)
+
+        const morado = this.add.rectangle(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 599 * 0,25, 852 *  0,25, 0x572364, 0.75).setOrigin(0.5);
+        morado.setInteractive();
+        morado.value = 6;
+        this.coloresGrupo.add(morado)
+
+        const blanco = this.add.rectangle(7 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,599 * 0,25, 852 *  0,25, 0x000000, 0.75).setOrigin(0.5);
+        blanco.setInteractive();
+        blanco.value = 7;
+        this.coloresGrupo.add(blanco)
 
     }
 

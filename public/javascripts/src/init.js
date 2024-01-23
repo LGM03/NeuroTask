@@ -10,6 +10,7 @@ import scene_refranes from "./scenes/scene_refranes.js";
 import scene_simonDice from "./scenes/scene_simonDice.js";
 import scene_ordenDecreciente from "./scenes/scene_ordenDecreciente.js";
 import scene_memorizaFiguras from "./scenes/scene_memorizaFiguras.js";
+import scene_memorizaColores from "./scenes/scene_memorizaCoroles.js";
 
 let juego
 
@@ -57,6 +58,8 @@ export function arranque(idJuego) {
         config.scene = [inicio, Bootloader, scene_play, scene_ordenDecreciente, scene_fin]
     }else if(idJuego == "9"){
         config.scene = [inicio, Bootloader, scene_play, scene_memorizaFiguras, scene_fin]
+    }else if(idJuego == "10"){
+        config.scene = [inicio, Bootloader, scene_play, scene_memorizaColores, scene_fin]
     }
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';

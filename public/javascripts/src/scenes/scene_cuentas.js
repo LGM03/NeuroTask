@@ -12,6 +12,12 @@ export default class scene_cuentas extends Phaser.Scene {
         this.teclas = ["uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "cero"]
     }
 
+    
+    init(data){
+        this.idJuego = data.idJuego
+    }
+
+
     create() {
 
         const MS = 1000
@@ -172,7 +178,8 @@ export default class scene_cuentas extends Phaser.Scene {
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
-                duracion: { minutos, segundos }
+                duracion: { minutos, segundos },
+                segundos : this.duracion
             });
     }
 
