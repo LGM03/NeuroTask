@@ -26,6 +26,7 @@ router.get('/', function (req, res, next) {
   });
 });
 
+
 router.get('/finJuego', function (req, res, next) {
 
   console.log("He llegado al servidor")

@@ -13,11 +13,9 @@ export default class scene_memorizaColores extends Phaser.Scene {
         
     }
 
-
     init(data) {
         this.idJuego = data.idJuego
     }
-
 
     create() {
         const MS = 1000
