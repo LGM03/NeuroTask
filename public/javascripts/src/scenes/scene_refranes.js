@@ -42,7 +42,7 @@ export default class scene_refranes extends Phaser.Scene {
 
         $('#juegoLenguaje').removeClass('d-none')
         arrayDePalabras.forEach((element=>{
-            var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100">'+element+'</button></div>'
+            var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">'+element+'</button></div>'
             $('#contenedorBotones').append(botonPalabra)
         }))
     

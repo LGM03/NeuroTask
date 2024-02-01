@@ -2,18 +2,39 @@
     border-radius: 10px; /* Ajusta este valor según tus preferencias */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
-
 }
 
 #contJuego {
+    position: relative;
     height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+#juegoLenguaje{
+    position: absolute;
+    z-index: 2;
+    background-image: url('/images/fondoRosa.png'); /* Ruta de tu imagen */
+    background-size: cover; /* Para cubrir todo el contenido del div */
+    background-position: center;
+}
+
+.fondoBlanco{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+canvas{
+    position: absolute;
+    z-index: 1;
+}
+
 .infoJuego{
     background-color: hsl(197, 100%, 65%);
     font-weight: bold;
-  
 }
+
+.botonPalabra{
+    font-size: 30px;
+}
+
