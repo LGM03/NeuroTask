@@ -23,6 +23,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
         this.crearInterfaz();
         const self = this
+        $("#tituloJuego").text("Ordena las palabras y descubre el refrán")
         $(document).on("click", ".botonPalabra", function (event) {
             self.fraseFormada.push($(this).text())
             $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
@@ -30,7 +31,6 @@ export default class scene_refranes extends Phaser.Scene {
         })
 
         $("#btnAceptar").on("click", function (event) {
-            console.log(self.fraseFormada + " SOLUCION =  "+ self.solucion)
             if (self.fraseFormada.length != 0 && self.fraseFormada.length == self.solucion.length &&
                 self.fraseFormada.every((element, index) => element === self.solucion[index])) {
                 self.puntuacion++

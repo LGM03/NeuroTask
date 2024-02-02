@@ -1,129 +1,115 @@
-export default class scene_anagramas extends Phaser.Scene {
-
+export default class scene_refranes extends Phaser.Scene {
 
     constructor() {
         super({ key: "scene_anagramas" });
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
-        this.casos = [["ROMA", "AMOR"], ["LLENABA", "BALLENA"], ["QUIEREN", "ENRIQUE"],
-        ["CUADERNO", "EDUCARON"], ["ECUADOR", "ACUERDO"], ["BOTINES", "BISONTE"], ["AMIGA", "MAGIA"], ["DIVA", "VIDA"]]
+        this.casos = [["ROMA", "AMOR","MORA","RAMO"], ["LLENABA", "BALLENA"], ["QUIEREN", "ENRIQUE"],
+        ["CUADERNO", "EDUCARON"], ["ECUADOR", "ACUERDO"], ["BOTINES", "BISONTE"], ["AMIGA", "MAGIA"], ["DIVA", "VIDA"],["FRASE","FRESA"]]
+    
     }
 
-    
-    init(data){
+    init(data) {
         this.idJuego = data.idJuego
     }
-
 
     create() {
         const MS = 1000
         this.duracion = 20  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
-
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
-        this.fondo.setScale(0.5);
-
-        // Crear la interfaz de usuario
-        this.add.text(this.sys.canvas.width / 2, 120, "Reordena las letras y obten una nueva palabra", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5, 0.5)
-
-        this.enviar = this.add.text(this.sys.canvas.width / 2 - 80, 300, "Aceptar", {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        })
-        this.enviar.setInteractive();
-        this.enviar.tipo = "enviar"
-
-        this.corregir = this.add.text(this.sys.canvas.width / 2 + 130, 300, "Corregir", {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        })
-        this.corregir.setInteractive();
-        this.corregir.tipo = "corregir"
-
         this.crearInterfaz();
+        const self = this
+        $("#tituloJuego").text("Descubre una palabra con estas letras")
+        $(document).on("click", ".botonPalabra", function (event) {
+            self.fraseFormada+=$(this).text()
+            $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
+            $(this).remove()
+        })
 
-        // Generar la primera operación
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
-            if (gameObject.tipo === 'letra') {
-                var sol = this.respuesta.text
-                this.respuesta.setText(sol + gameObject.value)
-                //this.verificarRespuesta(gameObject.value);
-            } else if (gameObject.tipo === 'enviar') {
-                this.verificarRespuesta(this.respuesta.text);
-            } else if (gameObject.tipo === 'corregir' && this.respuesta.text.length > 0) {
-                var sol = this.respuesta.text
-                this.respuesta.setText(sol.slice(0, -1))
+        $("#btnAceptar").on("click", function (event) {
+            console.log("dada ="+ self.fraseFormada + " solcuon ="+ self.solucion)
+            if (self.fraseFormada.length != 0 &&
+                self.solucion.includes(self.fraseFormada)) {
+                self.puntuacion++
+                self.cubrirResultado(true)
+            } else {
+                self.fallos++
+                self.cubrirResultado(false)
             }
-        }, this);
+            $("#contenedorBotones .botonPalabra").remove()
+            $("#fraseFormada").text("")
+            self.crearInterfaz();
+        })
+
+        $("#btnCorregir").on("click", function (event) {
+            $("#contenedorBotones .botonPalabra").remove()
+            $("#fraseFormada").text("")
+            self.fraseFormada = ""
+            self.arrayDePalabras.forEach((element => {
+                var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
+                $('#contenedorBotones').append(botonPalabra)
+            }))
+
+        })
+    }
+
+    cubrirResultado(esAcierto) {
+        $('canvas').css('z-index', '2');
+        $('#juegoLenguaje').css('z-index', '1');
+        var color = 0xFF0000
+        if (esAcierto) {
+            var color = 0x00FF00
+        }
+        const cover = this.add.rectangle(0, 0, this.sys.game.config.width, this.sys.game.config.height, color, 0.5);
+        cover.setOrigin(0, 0);
+
+        this.tweens.add({
+            targets: cover,
+            alpha: 0,
+            duration: 1250,
+            ease: 'Linear',
+            onComplete: () => {
+                cover.destroy();
+                $('canvas').css('z-index', '1');
+                $('#juegoLenguaje').css('z-index', '2');
+            }
+        });
     }
 
     crearInterfaz() {
         // Sección de la operación
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
-        this.arrayAnagrama = this.casos[elegido]
-        //Si quedan mas elementos en el array lo saco para que no se repita
-        //Si solo queda ese no, para evitar errores.
-        if (this.casos.length != 1) { 
+     
+        this.solucion = this.casos[elegido]
+        this.refran = this.solucion[0] //Elijo el refran aleatoriamente
+        console.log("elegido = "+ this.refran + " "+ this.solucion)
+        //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos
+        if (this.casos.length != 1) {
             this.casos.splice(elegido, 1)
         }
-        var palabra = this.arrayAnagrama[0]
-
-        this.palabra = this.add.text(this.sys.canvas.width / 2, this.sys.canvas.height / 4, palabra, {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5, 0.5)
-
-        let xPos = 100;
-
-        this.letrasGroup = this.add.group();
-        var arrayDeLetras = palabra.split('');
-        arrayDeLetras.sort(function () {
+       
+        this.arrayDePalabras = this.refran.split(''); //Desordeno la frase
+        this.arrayDePalabras.sort(function () {
             return 0.5 - Math.random();
         });
 
-        for (let i = 0; i < palabra.length; i++) {
-            const letra = this.add.text(this.sys.canvas.width / 2 - 80 * (palabra.length / 2 - 1) + 80 * i, this.sys.canvas.height / 2, arrayDeLetras[i], {
-                fontSize: '24px',
-                color: '#000',
-                fontFamily: 'Arial'
-            }).setOrigin(0.5);
-            letra.setInteractive();
-            letra.tipo = 'letra';
-            letra.value = arrayDeLetras[i];
-            this.letrasGroup.add(letra) //Agrego las letras a un grupo
-            xPos += 100;
-        }
-
-        this.respuesta = this.add.text(this.sys.canvas.width / 2, this.sys.canvas.height / 2 + 120, "", {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5, 0.5)
-
-
+        const self = this
+        this.fraseFormada = ""
+        $('#juegoLenguaje').removeClass('d-none')
+        this.arrayDePalabras.forEach((element => {
+            var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
+            $('#contenedorBotones').append(botonPalabra)
+        }))
+      
     }
 
-    verificarRespuesta() {  //Colorear algo
-        if (this.arrayAnagrama[1] == this.respuesta.text) {
-            this.puntuacion++
-        } else {
-            this.fallos++
-        }
-        this.respuesta.setText("")
-        this.letrasGroup.clear(true, true)  //Vacio las letras de solucion y las palabras
-        this.palabra.destroy()
-        this.crearInterfaz();
-    }
+
 
     finalizarJuego() {
+        $('canvas').css('z-index', '2');
+        $('#juegoLenguaje').css('z-index', '1');
+        $('#juegoLenguaje').addClass('d-none')
         const minutos = Math.floor(this.duracion / 60000);
         const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
 
@@ -134,8 +120,11 @@ export default class scene_anagramas extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion
+                segundos: this.duracion
             });
     }
 
 }
+
+
+
