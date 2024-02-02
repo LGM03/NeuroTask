@@ -22,7 +22,38 @@ export default class scene_refranes extends Phaser.Scene {
         this.duracion = 20  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
         this.crearInterfaz();
+        const self = this
+        $(document).on("click", ".botonPalabra", function (event) {
+            self.fraseFormada.push($(this).text())
+            $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
+            $(this).remove()
+        })
 
+        $("#btnAceptar").on("click", function (event) {
+            console.log(self.fraseFormada + " SOLUCION =  "+ self.solucion)
+            if (self.fraseFormada.length != 0 && self.fraseFormada.length == self.solucion.length &&
+                self.fraseFormada.every((element, index) => element === self.solucion[index])) {
+                self.puntuacion++
+                self.cubrirResultado(true)
+            } else {
+                self.fallos++
+                self.cubrirResultado(false)
+            }
+            $("#contenedorBotones .botonPalabra").remove()
+            $("#fraseFormada").text("")
+            self.crearInterfaz();
+        })
+
+        $("#btnCorregir").on("click", function (event) {
+            $("#contenedorBotones .botonPalabra").remove()
+            $("#fraseFormada").text("")
+            self.fraseFormada = []
+            self.arrayDePalabras.forEach((element => {
+                var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
+                $('#contenedorBotones').append(botonPalabra)
+            }))
+
+        })
     }
 
     cubrirResultado(esAcierto) {
@@ -56,53 +87,20 @@ export default class scene_refranes extends Phaser.Scene {
         if (this.casos.length != 1) {
             this.casos.splice(elegido, 1)
         }
-        let solucion = this.refran.split(' ')
-        var arrayDePalabras = this.refran.split(' '); //Desordeno la frase
-        arrayDePalabras.sort(function () {
+        this.solucion = this.refran.split(' ')
+        this.arrayDePalabras = this.refran.split(' '); //Desordeno la frase
+        this.arrayDePalabras.sort(function () {
             return 0.5 - Math.random();
         });
 
         const self = this
+        this.fraseFormada = []
         $('#juegoLenguaje').removeClass('d-none')
-        arrayDePalabras.forEach((element => {
+        this.arrayDePalabras.forEach((element => {
             var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
             $('#contenedorBotones').append(botonPalabra)
         }))
-
-        let fraseFormada = []
-        $(document).on("click", ".botonPalabra", function (event) {
-            fraseFormada.push($(this).text())
-            $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
-            $(this).remove()
-        })
-
-        $("#btnCorregir").on("click", function (event) {
-            $("#contenedorBotones .botonPalabra").remove()
-            $("#fraseFormada").text("")
-            fraseFormada = []
-            arrayDePalabras.forEach((element => {
-                var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
-                $('#contenedorBotones').append(botonPalabra)
-            }))
-
-        })
-
-        $("#btnAceptar").on("click", function (event) {
-
-            if (fraseFormada.length != 0 && fraseFormada.length == solucion.length &&
-                fraseFormada.every((element, index) => element === solucion[index])) {
-                self.puntuacion++
-                self.cubrirResultado(true)
-
-            } else {
-                self.fallos++
-                self.cubrirResultado(false)
-            }
-
-            $("#contenedorBotones .botonPalabra").remove()
-            $("#fraseFormada").text("")
-            self.crearInterfaz();
-        })
+      
     }
 
 
