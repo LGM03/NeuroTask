@@ -27,7 +27,8 @@ const middlewareSession = session({
 var indexRouter = require('./routes/index');
 var juegoRouter = require('./routes/juego');
 var adminRouter = require('./routes/admin');
-var usuarioRouter = require('./routes/usuario')
+var usuarioRouter = require('./routes/usuario');
+var tareasRouter = require('./routes/tareas')
 
 var app = express();
 app.use(middlewareSession);
@@ -51,7 +52,7 @@ app.use('/', indexRouter);
 app.use('/juego',juegoRouter);
 app.use('/admin',adminRouter);
 app.use('/user',usuarioRouter);
-
+app.use('/tareas',tareasRouter);
 
 
 // catch 404 and forward to error handler

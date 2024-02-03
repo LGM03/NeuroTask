@@ -1,6 +1,6 @@
 $(function () {
     $("#listarPacientes").on("click", function (event) {
-        
+
         $("#divListadoUsuarios").removeClass('d-none')
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
@@ -9,7 +9,7 @@ $(function () {
             url: "/admin/listarUsuarios",
             method: "GET",
             success: function (datos, b, c) {
-                console.log(datos)
+
                 if (datos.length == 0) {
                     $("#alertaListadoUsuarios").removeClass('d-none')
                 } else {
@@ -34,7 +34,7 @@ $(function () {
             url: "/admin/leerJuegos",
             method: "GET",
             success: function (datos, b, c) {
-                console.log(datos)
+
                 if (datos.length == 0) {
                     $("#alertaListadoJuegos").removeClass('d-none')
                 } else {
@@ -48,7 +48,82 @@ $(function () {
                 $("#alertaListadoJuegos").removeClass('d-none')
             }
         })
-        
+
+    })
+
+    $(document).on("click", ".btnVerPlanificacion", function () {
+        var divContenedor = $(this).closest('.cajaPaciente');
+        var usuario = divContenedor.data("correo")
+        divContenedor.removeClass('cajaPaciente')
+        $("#divListadoUsuarios .cajaPaciente").remove()
+        divContenedor.addClass('cajaPaciente')
+        $("#tituloUsuarios").text("Información del usuario")
+
+        $("#cuadranteCalendario").removeClass("d-none")
+
+        //Logica de calendario a mes visto
+        $('#calendario').fullCalendar({ //
+            header: {
+                left: 'prev,next today',  //opciones para moverse por las fechas del calendario
+                center: 'title', //centramos el titulo
+            },
+            dayRender: function (date, cell) {
+                var data = { //Paso a la consulta el usuario y dia en cuestion
+                    usuario: usuario,
+                    dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
+                };
+
+                $.ajax({ // veo para cada dia que actividades hay
+                    method: "GET",
+                    url: "/tareas/tareaUsuarioDia",
+                    data: data,
+                    success: function (datos, state, jqXHR) {
+                        console.log(datos.length)
+                        if (datos.length== 0) {
+                            cell.css("background-color", "rgba(159, 255, 162)");
+                        } else {
+                            cell.css("background-color", "rgba(255, 227, 144)");  //amarillo para dias con momentos libres                           
+                        }
+                    },
+                    error: function (jqXHR, statusText, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+
+            }, dayClick: function (date, jsEvent, view) {
+                var data = { //Paso a la consulta el usuario y dia en cuestion
+                    usuario: usuario,
+                    dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
+                };
+
+                $.ajax({ // veo para cada dia que actividades hay
+                    method: "GET",
+                    url: "/tareas/tareaUsuarioDia",
+                    data: data,
+                    success: function (datos, state, jqXHR) {
+
+                        $("#divTablaCalendario").removeClass("d-none")
+                        $("#tituloTabla").text("Tareas asignadas el " + date.format('DD-MM-YYYY'))
+                        console.log("da "+ datos+ " "+ datos.hecho)
+                        if (datos != undefined) {
+                            datos.forEach(function (dato,indice) {
+                                var terminado = "Si"
+                                if(dato.hecho == 0){
+                                    terminado = "No"
+                                }
+                                var fila = '<tr><td>' + (indice + 1) + '</td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + terminado + '</td></tr>';                                $("#bodyTabla").append(fila);
+                            });
+                        }
+                    },
+                    error: function (jqXHR, statusText, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+
+            }
+
+        });
+
     })
 })
 
@@ -61,21 +136,21 @@ function crearCajaPaciente(element) {
 
     // Contenedor para el nombre y la fecha
     const infoContainer = $('<div class="text-start"></div>');
-    const nombreCom = $('<h5 class="mb-0">' + element.nombre + ' '+ element.apellido +', '+ element.edad+'</h5>')
+    const nombreCom = $('<h5 class="mb-0">' + element.nombre + ' ' + element.apellido + ', ' + element.edad + '</h5>')
     infoContainer.append(nombreCom)
 
     const tipoContainer = $('<div class = "text-start"></div>');
-    const tipo = $('<p class="mb-0" id = "correoPaciente"> ' + element.correoP + '</p>')
+    const tipo = $('<p class="mb-0 correoPaciente"> ' + element.correoP + '</p>')
     tipoContainer.append(tipo)
 
     const cajaBotones = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
 
-    var botonHistorial = $('<button class="alert alert-success p-1 w-100" id = "btnVerHistorial"> Ver Historiales </button>')
-    var botonEstadisticas = $('<button class="alert alert-warning p-1 w-100" id = "btnVerEstadisticas"> Ver Estadísticas </button>')
+    var botonHistorial = $('<button class="alert alert-success p-1 w-100 btnVerHistorial"> Ver Historiales </button>')
+    var botonEstadisticas = $('<button class="alert alert-warning p-1 w-100 btnVerEstadisticas"> Ver Estadísticas </button>')
 
     const cajaBotones2 = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
-    var botonPlanificacion =  $('<button class="alert alert-info p-1 w-100" id = "btnVerPlanificacion"> Ver Planificación </button>')
-    var botonComentarios =  $('<button class="alert alert-secondary p-1 w-100" id = "btnVerComentarios"> Ver Comentarios </button>')
+    var botonPlanificacion = $('<button class="alert alert-info p-1 w-100 btnVerPlanificacion"> Ver Planificación </button>')
+    var botonComentarios = $('<button class="alert alert-secondary p-1 w-100 btnVerComentarios"> Ver Comentarios </button>')
 
     cajaBotones.append(botonHistorial);
     cajaBotones.append(botonEstadisticas);
@@ -87,8 +162,8 @@ function crearCajaPaciente(element) {
     cajaInfo.append(infoContainer);
     cajaInfo.append(tipoContainer);
 
-    caja.append(cajaInfo,cajaBotones,cajaBotones2)
-
+    caja.append(cajaInfo, cajaBotones, cajaBotones2)
+    caja.data("correo", element.correoP)
     $("#divListadoUsuarios").append(caja);
 }
 
@@ -97,13 +172,13 @@ function crearCajaJuego(element) {
 
     const caja = $('<div class="row bg-light rounded m-2 d-flex justify-content-around cajaJuego" ></div>');
 
-    const imagen = $('<img src="'+element.imagen+'"alt="'+element.nombre+'" class = "mt-1 imagenListada">')
+    const imagen = $('<img src="' + element.imagen + '"alt="' + element.nombre + '" class = "mt-1 imagenListada">')
     const cajaInfo = $('<div class="col col-md-8 cajaInfo bg-light rounded m-2 d-flex flex-column"></div>');
     // Sección de info de la reserva
 
     // Contenedor para el nombre y la fecha
     const infoContainer = $('<div class="text-start"></div>');
-    const nombreCom = $('<h5 class="mb-0">' + element.id + ' :  '+ element.nombre +'</h5>')
+    const nombreCom = $('<h5 class="mb-0">' + element.id + ' :  ' + element.nombre + '</h5>')
     infoContainer.append(nombreCom)
 
     const tipoContainer = $('<div class = "text-start"></div>');
@@ -114,9 +189,9 @@ function crearCajaJuego(element) {
     const descripcion = $('<p class="mb-0"> ' + element.descripcion + '</p>')
     descripcionContainer.append(descripcion)
 
-    cajaInfo.append(infoContainer,tipoContainer,descripcionContainer)
+    cajaInfo.append(infoContainer, tipoContainer, descripcionContainer)
 
-    caja.append(imagen,cajaInfo)
+    caja.append(imagen, cajaInfo)
 
     $("#divListadoJuegos").append(caja);
 }

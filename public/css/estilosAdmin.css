@@ -9,3 +9,8 @@
 .imagenListada{
     max-width: 100px;
 }
+
+.fondoCalendario{ /*colo de fondo del calendario*/
+    background-color: #fdbce6;
+    
+}
