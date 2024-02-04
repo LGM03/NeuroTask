@@ -1,6 +1,6 @@
 $(function () {
     $("#listarPacientes").on("click", function (event) {
-
+        $("#cuadranteCalendario").addClass("d-none")
         $("#divListadoUsuarios").removeClass('d-none')
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
@@ -79,18 +79,19 @@ $(function () {
                     data: data,
                     success: function (datos, state, jqXHR) {
                         console.log(datos.length)
-                        if (datos.length== 0) {
+                        if (datos.length == 0) {
                             cell.css("background-color", "rgba(159, 255, 162)");
                         } else {
                             cell.css("background-color", "rgba(255, 227, 144)");  //amarillo para dias con momentos libres                           
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        console.log(errorThrown);
+                        alert("Ha ocurrido un error con el calendario")
                     }
                 });
 
             }, dayClick: function (date, jsEvent, view) {
+                $(".tareaJugador").remove()
                 var data = { //Paso a la consulta el usuario y dia en cuestion
                     usuario: usuario,
                     dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
@@ -104,25 +105,55 @@ $(function () {
 
                         $("#divTablaCalendario").removeClass("d-none")
                         $("#tituloTabla").text("Tareas asignadas el " + date.format('DD-MM-YYYY'))
-                        console.log("da "+ datos+ " "+ datos.hecho)
+                       
                         if (datos != undefined) {
-                            datos.forEach(function (dato,indice) {
-                                var terminado = "Si"
-                                if(dato.hecho == 0){
-                                    terminado = "No"
+                            datos.forEach(function (dato) {
+                                console.log(dato.idTarea)
+                                if (dato.hecho == 0) {
+                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + "No" + '</td></tr>';
+                                } else {
+                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td></td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + "Si" + '</td></tr>';
                                 }
-                                var fila = '<tr><td>' + (indice + 1) + '</td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + terminado + '</td></tr>';                                $("#bodyTabla").append(fila);
+                                $("#bodyTabla").append(fila);
+
                             });
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        console.log(errorThrown);
+                        alert("Ha ocurrido un error con el calendario")
                     }
                 });
 
             }
 
         });
+
+    })
+
+    $(document).on("click", ".btnEliminarTarea", function (event) {
+
+        var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
+        var divTarea = $(this).closest('tr.tareaJugador')
+        console.log(idTarea);
+        var data = { id: idTarea };
+        $.ajax({
+            url: "/tareas/eliminar",
+            method: "DELETE",
+            data :data,
+            success: function (datos, b, c) {
+
+                if (datos == 0) {
+                    alert("No se pudo eliminar la tarea")
+                } else {
+                    divTarea.slideUp(1000)
+                }
+            },
+            error: function (a, b, c) {
+                alert("No se pudo eliminar la tarea")
+            }
+        })
+
+      
 
     })
 })

@@ -6,21 +6,35 @@ class DAOTareas{
     }
  
     tareaUsuarioDia(datos,callback) {
-        console.log("DAo "+ datos)
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT categoria, hecho, nombre, idTarea from calendario inner join juegos on idJ = juegos.id where idP = ? and fecha = ?";
+                connection.query(sql,[datos.usuario, datos.dia], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }   
+
+    borrarTarea(id,callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, hecho, nombre from calendario inner join juegos on idJ = juegos.id where idP = ? and fecha = ?";
-                connection.query(sql,[datos.usuario, datos.dia], function (err, resultado) {
+                const sql = "delete from calendario where idTarea = ? ";
+                connection.query(sql,[id], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
-                        console.log(`Error en la consulta a la base de datos: ${err.message}`);
                         callback(err, null);
                     } else {
-                        console.log(resultado[0])
                         callback(null, resultado);
                     }
                 });

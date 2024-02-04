@@ -20,7 +20,6 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
     usuario : req.query.usuario,
     dia : req.query.dia
   }
-  console.log("servidor "+ data.usuario + " "+ data.dia)
 
   midao.tareaUsuarioDia(data, (err, datos) => {
     if (err) {
@@ -28,6 +27,25 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
     }
     else {
       res.send(datos);
+    }
+  });
+});
+
+
+//Accede a la base de datos borrando la tarea con el id dado
+router.delete('/eliminar', function (req, res, next) { 
+   
+  const DAOAp = require("../mysql/daoTareas")
+  const midao = new DAOAp(pool)
+
+  var id = req.body.id
+
+  midao.borrarTarea(id, (err, datos) => {
+    if (err) {
+      res.json(0);
+    }
+    else {
+      res.json(1);
     }
   });
 });

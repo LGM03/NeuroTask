@@ -79,7 +79,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.juego = "scene_anagramas"
 
         }else if(this.idJuego == "6"){
-            this.descripcion = "¡Ordena las palabas y descubre el refrán!"
+            this.descripcion = "¡Ordena las palabras y descubre el refrán!"
             this.juego = "scene_refranes"
 
         }else if(this.idJuego == "7"){
