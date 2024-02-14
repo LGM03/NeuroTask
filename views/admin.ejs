@@ -16,6 +16,7 @@
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/estilosMainView.css">
   <link rel="stylesheet" href="css/estilosAdmin.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <link rel="shortcut icon" href="images/cerebroSentado.jpg">
   <title>NeuroTask</title>
 </head>
@@ -143,7 +144,7 @@
 
                       <!-- cabecera del diálogo -->
                       <div class="modal-header">
-                        <h4 class="modal-title">Crear Cuenta</h4>
+                        <h4 class="modal-title">Vincular nuevo paciente</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
 
@@ -183,7 +184,6 @@
 
                   <p class=" alert alert-warning" id="alertaListadoUsuarios">No hay pacientes disponibles</p>
 
-
                 </div>
 
 
@@ -191,6 +191,28 @@
                   <h1>Listado de Juegos</h1>
 
                   <p class=" alert alert-warning" id="alertaListadoJuegos">No hay juegos disponibles</p>
+                </div>
+
+                <div id="cuadranteHistorial" class=" text-center d-none">
+                  <h1>Historial de Partidas</h1>
+                  <table class="table table-striped " id="tablaHistorial">
+
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Juego</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Aciertos</th>
+                        <th scope="col">Fallos</th>
+                        <th scope="col">Duración (seg)</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bodyTablaHistorial">
+
+                    </tbody>
+                  </table>
+
                 </div>
 
                 <!--CALENDARIO-->
@@ -206,11 +228,15 @@
                     </div>
                   </div>
 
-                  <div class = " mt-2 text-center d-none"  id="divTablaCalendario">
+                  <div class=" mt-2 text-center d-none" id="divTablaCalendario">
                     <h3 id="tituloTabla"></h3>
-                    <button class = "btn alert alert-info w-100"><strong>Asignar Nueva Tarea</strong></button>
+
+                    <button class="btn alert alert-info w-100" data-bs-toggle="modal"
+                      data-bs-target="#crearTarea"><strong>Asignar Nueva Tarea</strong></button>
+
+
                     <table class="table table-striped " id="tablaCalendario">
-                     
+
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -219,8 +245,8 @@
                           <th scope="col">Terminado</th>
                         </tr>
                       </thead>
-                      <tbody id = "bodyTabla" >
-                      
+                      <tbody id="bodyTabla">
+
                       </tbody>
                     </table>
                   </div>
@@ -232,7 +258,54 @@
 
             </div>
 
+            <!--Modal de registro de nueva tarea-->
 
+            <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
+              <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                  <!-- cabecera del diálogo -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Crear Tarea</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <!-- cuerpo del diálogo -->
+                  <div class="modal-body alert alert-info">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col ">
+                          <p id="diaModal"></p>
+                          <form>
+                            <div class="form-group">
+                              <label for="juego">Juego:</label>
+                              <select class="form-control" name="juego" id="selectJuego">
+                                <!-- Opciones del select -->
+                              </select>
+                            </div>
+                  
+                            <div class="form-group">
+                              <label for="frecuencia">Frecuencia:</label>
+                              <select class="form-control" name="frecuencia" id="frecuencia">
+                                <option value="0">Sólo hoy</option>
+                                <option value="1">Cada día</option>
+                                <option value="2">Todas las Semanas</option>
+                              </select>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="asignarTarea">Asignar</button>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
 
 
   </section>
@@ -244,6 +317,7 @@
   <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone-with-data.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
   <script src="/javascripts/jsTerapeuta/funcionesAdmin.js"></script>
 

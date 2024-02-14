@@ -31,6 +31,22 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
   });
 });
 
+router.get('/partidasUsuario', function (req, res, next) { 
+   
+  const DAOAp = require("../mysql/daoTareas")
+  const midao = new DAOAp(pool)
+
+
+  req.query.usuario
+  midao.historialUsuario( req.query.usuario, (err, datos) => {
+    if (err) {
+      res.send({});
+    }
+    else {
+      res.send(datos);
+    }
+  });
+});
 
 //Accede a la base de datos borrando la tarea con el id dado
 router.delete('/eliminar', function (req, res, next) { 

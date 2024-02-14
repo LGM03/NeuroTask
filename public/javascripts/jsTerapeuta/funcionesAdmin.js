@@ -1,6 +1,60 @@
+
 $(function () {
+
+    //Preparo el modal de las tareas
+    $.ajax({
+        url: "/admin/leerJuegos",
+        method: "GET",
+        success: function (datos, b, c) {
+
+            if (datos.length == 0) {
+                Toastify({
+                    text: "No hay juegos disponibles para asignar",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "#FFFFFF",
+                        color: "#fe8ee5"
+                    }
+                }).showToast();
+
+            } else {
+                datos.forEach((elem) => {
+                    $("#selectJuego").append($('<option>', {
+                        value: elem.id,
+                        text: elem.nombre
+                    }));
+                })
+
+            }
+        },
+        error: function (a, b, c) {
+            Toastify({
+                text: "No se pudo cargar el listado de juegos",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#FFFFFF",
+                    color: "#fe8ee5"
+                }
+            }).showToast();
+
+        }
+    })
+
+
     $("#listarPacientes").on("click", function (event) {
+
         $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteHistorial").addClass("d-none")
         $("#divListadoUsuarios").removeClass('d-none')
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
@@ -27,6 +81,8 @@ $(function () {
 
     $("#listarJuegos").on("click", function (event) {
         $("#divListadoUsuarios").addClass('d-none')
+        $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteHistorial").addClass("d-none")
         $("#divListadoJuegos").removeClass('d-none')
         $("#alertaListadoJuegos").addClass('d-none')
         $("#divListadoJuegos .cajaJuego").remove()
@@ -51,15 +107,92 @@ $(function () {
 
     })
 
-    $(document).on("click", ".btnVerPlanificacion", function () {
+    $(document).on("click", ".btnVerHistorial", function () {
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
         $("#divListadoUsuarios .cajaPaciente").remove()
         divContenedor.addClass('cajaPaciente')
-        $("#tituloUsuarios").text("Información del usuario")
+        $("#tituloUsuarios").text("Historial del usuario")
+        $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteHistorial").removeClass("d-none")
 
+        $.ajax({
+            method: "GET",
+            url: "/tareas/partidasUsuario",
+            data: { usuario: usuario },
+            success: function (datos, state, jqXHR) {
+
+                console.log(datos)
+                if (datos.length != 0) {
+                    console.log("A")
+                    datos.forEach(function (dato, indice) {
+                        console.log(dato)
+                        const date = new Date(dato.fechaInicio);
+
+                        const formattedDate = `${("0" + date.getUTCDate()).slice(-2)}-${("0" + (date.getUTCMonth() + 1)).slice(-2)}-${date.getUTCFullYear()} ${("0" + date.getUTCHours()).slice(-2)}:${("0" + date.getUTCMinutes()).slice(-2)}`;
+
+                        var fila = '<tr><td>' + (indice + 1) + '</td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>' + formattedDate + '</td></tr>';
+
+                        $("#bodyTablaHistorial").append(fila);
+                    });
+                } else {
+                    Toastify({
+                        text: "No hay tareas en el histórico",
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "bottom", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "#FFFFFF",
+                            color: "#fe8ee5",
+                            border: "#fe8ee5"
+                        }
+                    }).showToast();
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                Toastify({
+                    text: "Ha ocurrido un error con el historial",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "#FFFFFF",
+                        color: "#fe8ee5",
+                        border: "#fe8ee5"
+                    }
+                }).showToast();
+
+            }
+        });
+
+
+    })
+
+
+
+
+    $(document).on("click", ".btnVerPlanificacion", function () {
+        $('#calendario').fullCalendar('removeEvents');
+        $('#calendario').fullCalendar('removeEventSources');
+        $('#calendario').fullCalendar('destroy');
+        var divContenedor = $(this).closest('.cajaPaciente');
+        $("#cuadranteHistorial").addClass("d-none")
+        var usuario = divContenedor.data("correo")
+        divContenedor.removeClass('cajaPaciente')
+        $("#divListadoUsuarios .cajaPaciente").remove()
+        divContenedor.addClass('cajaPaciente')
+        $("#tituloUsuarios").text("Planificación del usuario")
         $("#cuadranteCalendario").removeClass("d-none")
+
+
 
         //Logica de calendario a mes visto
         $('#calendario').fullCalendar({ //
@@ -78,15 +211,25 @@ $(function () {
                     url: "/tareas/tareaUsuarioDia",
                     data: data,
                     success: function (datos, state, jqXHR) {
-                        console.log(datos.length)
-                        if (datos.length == 0) {
-                            cell.css("background-color", "rgba(159, 255, 162)");
-                        } else {
-                            cell.css("background-color", "rgba(255, 227, 144)");  //amarillo para dias con momentos libres                           
+                        if (datos.length != 0) {
+                            cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        alert("Ha ocurrido un error con el calendario")
+                        Toastify({
+                            text: "Ha ocurrido un error con el calendario",
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "bottom", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "#FFFFFF",
+                                color: "#fe8ee5"
+                            }
+                        }).showToast();
+
                     }
                 });
 
@@ -97,6 +240,8 @@ $(function () {
                     dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
                 };
 
+                $("#diaModal").text("Tarea para el " + date.format('DD-MM-YYYY'))
+
                 $.ajax({ // veo para cada dia que actividades hay
                     method: "GET",
                     url: "/tareas/tareaUsuarioDia",
@@ -105,8 +250,8 @@ $(function () {
 
                         $("#divTablaCalendario").removeClass("d-none")
                         $("#tituloTabla").text("Tareas asignadas el " + date.format('DD-MM-YYYY'))
-                       
-                        if (datos != undefined) {
+
+                        if (datos.length != 0) {
                             datos.forEach(function (dato) {
                                 console.log(dato.idTarea)
                                 if (dato.hecho == 0) {
@@ -117,10 +262,40 @@ $(function () {
                                 $("#bodyTabla").append(fila);
 
                             });
+                        } else {
+                            Toastify({
+                                text: "No hay tareas asignadas para esta fecha",
+                                duration: 3000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "bottom", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "#FFFFFF",
+                                    color: "#fe8ee5",
+                                    border: "#fe8ee5"
+                                }
+                            }).showToast();
+
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        alert("Ha ocurrido un error con el calendario")
+                        Toastify({
+                            text: "Ha ocurrido un error con el calendario",
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "bottom", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "#FFFFFF",
+                                color: "#fe8ee5",
+                                border: "#fe8ee5"
+                            }
+                        }).showToast();
+
                     }
                 });
 
@@ -139,21 +314,47 @@ $(function () {
         $.ajax({
             url: "/tareas/eliminar",
             method: "DELETE",
-            data :data,
+            data: data,
             success: function (datos, b, c) {
 
                 if (datos == 0) {
-                    alert("No se pudo eliminar la tarea")
+                    Toastify({
+                        text: "No se pudo eliminar la tarea",
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "bottom", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "#FFFFFF",
+                            color: "#fe8ee5",
+                            border: "#fe8ee5"
+                        }
+                    }).showToast();
                 } else {
                     divTarea.slideUp(1000)
                 }
             },
             error: function (a, b, c) {
-                alert("No se pudo eliminar la tarea")
+                Toastify({
+                    text: "No se pudo eliminar la tarea",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "#FFFFFF",
+                        color: "#fe8ee5",
+                        border: "#fe8ee5"
+                    }
+                }).showToast();
             }
         })
 
-      
+
 
     })
 })

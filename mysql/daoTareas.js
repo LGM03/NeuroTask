@@ -23,6 +23,24 @@ class DAOTareas{
         });
     }   
 
+    historialUsuario(usuario,callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT categoria, nombre, fechaInicio, aciertos, fallos,duracion from juegos inner join partidas on idJ = juegos.id where idP = ? order by fechaInicio";
+                connection.query(sql,[usuario], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }   
+
     borrarTarea(id,callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
