@@ -176,9 +176,6 @@ $(function () {
 
     })
 
-
-
-
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
         $('#calendario').fullCalendar('removeEventSources');
@@ -241,6 +238,8 @@ $(function () {
                 };
 
                 $("#diaModal").text("Tarea para el " + date.format('DD-MM-YYYY'))
+                $("#diaModal").data("fecha",  date.format('YYYY-MM-DD'))
+                $("#diaModal").data("usuario", usuario)
 
                 $.ajax({ // veo para cada dia que actividades hay
                     method: "GET",
@@ -315,7 +314,7 @@ $(function () {
             url: "/tareas/eliminar",
             method: "DELETE",
             data: data,
-            success: function (datos, b, c) {
+            success: function (datos, state, jqXHR) {
 
                 if (datos == 0) {
                     Toastify({
@@ -336,7 +335,7 @@ $(function () {
                     divTarea.slideUp(1000)
                 }
             },
-            error: function (a, b, c) {
+            error: function (jqXHR, statusText, errorThrown) {
                 Toastify({
                     text: "No se pudo eliminar la tarea",
                     duration: 3000,
@@ -356,6 +355,82 @@ $(function () {
 
 
 
+    })
+
+    $("#asignarTarea").on("click", function (event) {
+
+        var freq = $("#frecuencia").prop("value")
+        var juego = $("#selectJuego").prop("value")
+
+        if (freq != "" && juego != "") {
+            var dia = $("#diaModal").data("fecha")
+            var usuario = $("#diaModal").data("usuario")
+            var data = {
+                usuario: usuario,
+                juego: juego
+            }
+            console.log(freq)
+            switch (freq) {
+                case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
+                    data.seRepite = false
+                    data.fecha = dia
+                    break
+                case "1":  //Si se debe jugar todos los dias inserto solo repetir a true y sin fecha
+                    data.seRepite = true
+                    data.fecha = null
+                    break
+                case "2": //Si se debe jugar cada 7 dias inserto fecha y repetir a true
+                    data.seRepite = true
+                    data.fecha = dia
+            }
+
+            $.ajax({
+                url: "/tareas/asignar",
+                method: "POST",
+                data: data,
+                success: function (datos, state, jqXHR) {
+                    console.log("datos")
+                    var text
+                    if (datos == 0) {
+                        text = "No se pudo asignar la tarea"
+                    } else {
+                        text = "Tarea asignada con éxito"
+                    }
+                    Toastify({
+                        text: text,
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "bottom", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "#FFFFFF",
+                            color: "#fe8ee5",
+                            border: "#fe8ee5"
+                        }
+                    }).showToast();
+
+                    $("#crearTarea").modal("close")
+                },
+                error: function (jqXHR, statusText, errorThrown) {
+                    Toastify({
+                        text: "No se pudo asignar la tarea",
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "bottom", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "#FFFFFF",
+                            color: "#fe8ee5",
+                            border: "#fe8ee5"
+                        }
+                    }).showToast();
+                }
+            })
+        }
     })
 })
 
