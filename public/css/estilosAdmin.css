@@ -14,3 +14,15 @@
     background-color: #fdbce6;
     
 }
+
+.azulClaro{
+    background-color: #CFF4FC;
+}
+
+.grisClaro{
+    background-color: #E2E3E5;
+}
+
+textarea{
+    max-height: 200px;
+}

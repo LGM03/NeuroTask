@@ -18,6 +18,9 @@
 #juegoLenguaje{
     position: absolute;
     z-index: 2;
+    background-image: url('/images/fondoRosa.png'); /* Ruta de tu imagen */
+    background-size: cover; /* Para cubrir todo el contenido del div */
+    background-position: center;
 }
 
 .fondoBlanco{

@@ -8,20 +8,7 @@ $(function () {
         success: function (datos, b, c) {
 
             if (datos.length == 0) {
-                Toastify({
-                    text: "No hay juegos disponibles para asignar",
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#FFFFFF",
-                        color: "#fe8ee5"
-                    }
-                }).showToast();
-
+                nuevoToast("No hay juegos disponibles para asignar")
             } else {
                 datos.forEach((elem) => {
                     $("#selectJuego").append($('<option>', {
@@ -33,19 +20,7 @@ $(function () {
             }
         },
         error: function (a, b, c) {
-            Toastify({
-                text: "No se pudo cargar el listado de juegos",
-                duration: 3000,
-                newWindow: true,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#FFFFFF",
-                    color: "#fe8ee5"
-                }
-            }).showToast();
+            nuevoToast("No se pudo cargar el listado de juegos")
 
         }
     })
@@ -53,12 +28,16 @@ $(function () {
 
     $("#listarPacientes").on("click", function (event) {
 
+
+        $("#tituloUsuarios").text("Listado de Usuarios")
         $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
         $("#divListadoUsuarios").removeClass('d-none')
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
         $("#divListadoUsuarios .cajaPaciente").remove()
+
         $.ajax({
             url: "/admin/listarUsuarios",
             method: "GET",
@@ -82,6 +61,7 @@ $(function () {
     $("#listarJuegos").on("click", function (event) {
         $("#divListadoUsuarios").addClass('d-none')
         $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
         $("#divListadoJuegos").removeClass('d-none')
         $("#alertaListadoJuegos").addClass('d-none')
@@ -115,6 +95,7 @@ $(function () {
         divContenedor.addClass('cajaPaciente')
         $("#tituloUsuarios").text("Historial del usuario")
         $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteHistorial").removeClass("d-none")
 
         $.ajax({
@@ -125,7 +106,7 @@ $(function () {
 
                 console.log(datos)
                 if (datos.length != 0) {
-                    console.log("A")
+                   
                     datos.forEach(function (dato, indice) {
                         console.log(dato)
                         const date = new Date(dato.fechaInicio);
@@ -137,38 +118,12 @@ $(function () {
                         $("#bodyTablaHistorial").append(fila);
                     });
                 } else {
-                    Toastify({
-                        text: "No hay tareas en el histórico",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "bottom", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "#FFFFFF",
-                            color: "#fe8ee5",
-                            border: "#fe8ee5"
-                        }
-                    }).showToast();
+                    nuevoToast("No hay tareas en el histórico")
 
                 }
             },
             error: function (jqXHR, statusText, errorThrown) {
-                Toastify({
-                    text: "Ha ocurrido un error con el historial",
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#FFFFFF",
-                        color: "#fe8ee5",
-                        border: "#fe8ee5"
-                    }
-                }).showToast();
+                nuevoToast("Ha ocurrido un error con el historial")
 
             }
         });
@@ -176,12 +131,87 @@ $(function () {
 
     })
 
+    $(document).on("click", ".btnVerComentarios", function () {
+        $('#cajaComentarios').empty()
+        var divContenedor = $(this).closest('.cajaPaciente');
+        var usuario = divContenedor.data("correo")
+        divContenedor.removeClass('cajaPaciente')
+        $("#divListadoUsuarios .cajaPaciente").remove()
+        divContenedor.addClass('cajaPaciente')
+        $("#btnEnviarComentario").data("usuario", usuario)
+
+        $("#tituloUsuarios").text("Anotaciones sobre el usuario")
+        $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteComentarios").removeClass("d-none")
+
+        $.ajax({
+            method: "GET",
+            url: "/comentarios/leerPorUsuario",
+            data: { usuario: usuario },
+            success: function (datos, state, jqXHR) {
+                if (datos.length != 0) {
+                    datos.forEach(function (dato) {
+
+                        nuevaCajaComentario(dato)
+
+                    });
+                } else {
+                    var alerta = $('<div class="alert alert-secondary" role="alert" id = "alertaComentarios"> No hay comentarios disponibles </div>');
+
+                    $("#cajaComentarios").append(alerta)
+
+                    nuevoToast("No hay comentarios")
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                nuevoToast("Ha ocurrido un error con los comentarios")
+
+            }
+        });
+
+
+    })
+
+    $("#btnEnviarComentario").on("click", function (event) {
+        event.preventDefault()
+        $("#alertaComentarios").addClass("d-none")
+        var usuario = $("#btnEnviarComentario").data("usuario")
+
+        var comentario = $("#comentarioNuevo").val()
+
+        if (comentario.trim() != "") {
+            $.ajax({
+                method: "POST",
+                url: "/comentarios/publicar",
+                data: { usuario: usuario, comentario: comentario },
+                success: function (datos, state, jqXHR) {
+                    if (datos != 0) {
+                        $("#alertaComentarios").addClass("d-none")
+
+                        nuevaCajaComentario(datos)
+                    } else {
+                       nuevoToast("Ha ocurrido un error con el comentario")
+                    }
+
+                },
+                error: function (jqXHR, statusText, errorThrown) {
+                    nuevoToast("Ha ocurrido un error con el comentario")
+
+                }
+            });
+        } else {
+           nuevoToast("Escriba un comentario para poder publicarlo")
+        }
+    })
+
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
         $('#calendario').fullCalendar('removeEventSources');
-        $('#calendario').fullCalendar('destroy');
         var divContenedor = $(this).closest('.cajaPaciente');
         $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteComentarios").addClass("d-none")
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
         $("#divListadoUsuarios .cajaPaciente").remove()
@@ -192,6 +222,93 @@ $(function () {
 
 
         //Logica de calendario a mes visto
+        crearCalendario(usuario)
+
+    })
+
+    $(document).on("click", ".btnEliminarTarea", function (event) {
+        var divContenedor = $(this).closest('.cajaPaciente');
+        var usuario = divContenedor.data("correo")
+        var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
+        var divTarea = $(this).closest('tr.tareaJugador')
+        console.log(idTarea);
+        var data = { id: idTarea };
+        $.ajax({
+            url: "/tareas/eliminar",
+            method: "DELETE",
+            data: data,
+            success: function (datos, state, jqXHR) {
+
+                if (datos == 0) {
+                    nuevoToast("No se pudo eliminar la tarea")
+                } else {
+                    divTarea.slideUp(1000)
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+               nuevoToast("No se pudo eliminar la tarea")
+            }
+        })
+
+
+
+    })
+
+    $("#asignarTarea").on("click", function (event) {
+
+        var divContenedor = $('.correoPaciente');
+        var usuario = divContenedor.text()
+        var freq = $("#frecuencia").prop("value")
+        var juego = $("#selectJuego").prop("value")
+        console.log(usuario + " "+ freq)
+        if (freq != "" && juego != "") {
+            var dia = $("#diaModal").data("fecha")
+            var usuario = $("#diaModal").data("usuario")
+            var data = {
+                usuario: usuario.trim(),
+                juego: juego
+            }
+            switch (freq) {
+                case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
+                console.log("es un dia ")
+                    data.seRepite = false
+                    data.fecha = dia
+                    break
+                case "1":  //Si se debe jugar todos los dias inserto solo repetir a true y sin fecha
+                    data.seRepite = true
+                    data.fecha = null
+                    break
+                case "2": //Si se debe jugar cada 7 dias inserto fecha y repetir a true
+                    data.seRepite = true
+                    data.fecha = dia
+            }
+
+            $.ajax({
+                url: "/tareas/asignar",
+                method: "POST",
+                data: data,
+                success: function (datos, state, jqXHR) {
+
+                    var text
+                    if (datos == 0) {
+                        nuevoToast("No se pudo asignar la tarea")
+                    } else {
+                        $('#crearTarea').modal('hide');
+                        // Refresca el calendario
+                        crearCalendario(usuario)
+
+                        nuevoToast("Tarea asignada con éxito")
+                    }
+                },
+                error: function (jqXHR, statusText, errorThrown) {
+                    nuevoToast("No se pudo asignar la tarea")
+                }
+            })
+        }
+    })
+
+    function crearCalendario(usuario){
+        $("#calendario").fullCalendar('destroy')
         $('#calendario').fullCalendar({ //
             header: {
                 left: 'prev,next today',  //opciones para moverse por las fechas del calendario
@@ -210,22 +327,12 @@ $(function () {
                     success: function (datos, state, jqXHR) {
                         if (datos.length != 0) {
                             cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
+                        }else{
+                            cell.css("background-color", "");
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        Toastify({
-                            text: "Ha ocurrido un error con el calendario",
-                            duration: 3000,
-                            newWindow: true,
-                            close: true,
-                            gravity: "bottom", // `top` or `bottom`
-                            position: "right", // `left`, `center` or `right`
-                            stopOnFocus: true, // Prevents dismissing of toast on hover
-                            style: {
-                                background: "#FFFFFF",
-                                color: "#fe8ee5"
-                            }
-                        }).showToast();
+                       nuevoToast("Ha ocurrido un error con el calendario")
 
                     }
                 });
@@ -238,7 +345,7 @@ $(function () {
                 };
 
                 $("#diaModal").text("Tarea para el " + date.format('DD-MM-YYYY'))
-                $("#diaModal").data("fecha",  date.format('YYYY-MM-DD'))
+                $("#diaModal").data("fecha", date.format('YYYY-MM-DD'))
                 $("#diaModal").data("usuario", usuario)
 
                 $.ajax({ // veo para cada dia que actividades hay
@@ -252,7 +359,6 @@ $(function () {
 
                         if (datos.length != 0) {
                             datos.forEach(function (dato) {
-                                console.log(dato.idTarea)
                                 if (dato.hecho == 0) {
                                     var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + "No" + '</td></tr>';
                                 } else {
@@ -262,38 +368,12 @@ $(function () {
 
                             });
                         } else {
-                            Toastify({
-                                text: "No hay tareas asignadas para esta fecha",
-                                duration: 3000,
-                                newWindow: true,
-                                close: true,
-                                gravity: "bottom", // `top` or `bottom`
-                                position: "right", // `left`, `center` or `right`
-                                stopOnFocus: true, // Prevents dismissing of toast on hover
-                                style: {
-                                    background: "#FFFFFF",
-                                    color: "#fe8ee5",
-                                    border: "#fe8ee5"
-                                }
-                            }).showToast();
+                            nuevoToast("No hay tareas asignadas para esta fecha")
 
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                        Toastify({
-                            text: "Ha ocurrido un error con el calendario",
-                            duration: 3000,
-                            newWindow: true,
-                            close: true,
-                            gravity: "bottom", // `top` or `bottom`
-                            position: "right", // `left`, `center` or `right`
-                            stopOnFocus: true, // Prevents dismissing of toast on hover
-                            style: {
-                                background: "#FFFFFF",
-                                color: "#fe8ee5",
-                                border: "#fe8ee5"
-                            }
-                        }).showToast();
+                        nuevoToast("Ha ocurrido un error con el calendario")
 
                     }
                 });
@@ -301,137 +381,7 @@ $(function () {
             }
 
         });
-
-    })
-
-    $(document).on("click", ".btnEliminarTarea", function (event) {
-
-        var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
-        var divTarea = $(this).closest('tr.tareaJugador')
-        console.log(idTarea);
-        var data = { id: idTarea };
-        $.ajax({
-            url: "/tareas/eliminar",
-            method: "DELETE",
-            data: data,
-            success: function (datos, state, jqXHR) {
-
-                if (datos == 0) {
-                    Toastify({
-                        text: "No se pudo eliminar la tarea",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "bottom", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "#FFFFFF",
-                            color: "#fe8ee5",
-                            border: "#fe8ee5"
-                        }
-                    }).showToast();
-                } else {
-                    divTarea.slideUp(1000)
-                }
-            },
-            error: function (jqXHR, statusText, errorThrown) {
-                Toastify({
-                    text: "No se pudo eliminar la tarea",
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "#FFFFFF",
-                        color: "#fe8ee5",
-                        border: "#fe8ee5"
-                    }
-                }).showToast();
-            }
-        })
-
-
-
-    })
-
-    $("#asignarTarea").on("click", function (event) {
-
-        var freq = $("#frecuencia").prop("value")
-        var juego = $("#selectJuego").prop("value")
-
-        if (freq != "" && juego != "") {
-            var dia = $("#diaModal").data("fecha")
-            var usuario = $("#diaModal").data("usuario")
-            var data = {
-                usuario: usuario,
-                juego: juego
-            }
-            console.log(freq)
-            switch (freq) {
-                case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
-                    data.seRepite = false
-                    data.fecha = dia
-                    break
-                case "1":  //Si se debe jugar todos los dias inserto solo repetir a true y sin fecha
-                    data.seRepite = true
-                    data.fecha = null
-                    break
-                case "2": //Si se debe jugar cada 7 dias inserto fecha y repetir a true
-                    data.seRepite = true
-                    data.fecha = dia
-            }
-
-            $.ajax({
-                url: "/tareas/asignar",
-                method: "POST",
-                data: data,
-                success: function (datos, state, jqXHR) {
-                    console.log("datos")
-                    var text
-                    if (datos == 0) {
-                        text = "No se pudo asignar la tarea"
-                    } else {
-                        text = "Tarea asignada con éxito"
-                    }
-                    Toastify({
-                        text: text,
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "bottom", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "#FFFFFF",
-                            color: "#fe8ee5",
-                            border: "#fe8ee5"
-                        }
-                    }).showToast();
-
-                    $("#crearTarea").modal("close")
-                },
-                error: function (jqXHR, statusText, errorThrown) {
-                    Toastify({
-                        text: "No se pudo asignar la tarea",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "bottom", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "#FFFFFF",
-                            color: "#fe8ee5",
-                            border: "#fe8ee5"
-                        }
-                    }).showToast();
-                }
-            })
-        }
-    })
+    }
 })
 
 function crearCajaPaciente(element) {
@@ -457,7 +407,7 @@ function crearCajaPaciente(element) {
 
     const cajaBotones2 = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
     var botonPlanificacion = $('<button class="alert alert-info p-1 w-100 btnVerPlanificacion"> Ver Planificación </button>')
-    var botonComentarios = $('<button class="alert alert-secondary p-1 w-100 btnVerComentarios"> Ver Comentarios </button>')
+    var botonComentarios = $('<button class="alert alert-secondary p-1 w-100 btnVerComentarios"> Ver Anotaciones </button>')
 
     cajaBotones.append(botonHistorial);
     cajaBotones.append(botonEstadisticas);
@@ -501,4 +451,47 @@ function crearCajaJuego(element) {
     caja.append(imagen, cajaInfo)
 
     $("#divListadoJuegos").append(caja);
+}
+
+function nuevaCajaComentario(dato) {
+    var fecha = moment(dato.fecha)
+    var comentarioBox = $('<div class="card mb-3">' +
+        '<div class="card-header">' +
+        '<div class="row">' +
+        '<div class="col-md-6">' +
+        '<strong class="nombre-usuario"></strong>' +
+        '</div>' +
+        '<div class="col-md-6 text-end">' +
+        '<small class="fecha-comentario"></small>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="card-body">' +
+        '<p class="contenido-comentario"></p>' +
+        '</div>' +
+        '</div>');
+
+    // Insertamos los datos del comentario
+    comentarioBox.find('.nombre-usuario').text(dato.idT);
+    comentarioBox.find('.fecha-comentario').text(fecha.format("DD-MM-YYYY"));
+    comentarioBox.find('.contenido-comentario').text(dato.comentario);
+
+    // Añadimos la caja de comentario al final del div especificado
+    $('#cajaComentarios').prepend(comentarioBox);
+}
+
+function nuevoToast(text){
+    Toastify({
+        text: text,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+            background: "#FFFFFF",
+            color: "#fe8ee5"
+        }
+    }).showToast();
 }

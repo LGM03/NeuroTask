@@ -65,16 +65,15 @@ class DAOTareas {
 
     asignarTarea(data, callback) {
 
-        data.seRepite = data.seRepite ? 1 : 0;
-        
-        console.log(data)
+        const boolToNumber = (seRepite) => seRepite ? 1 : 0;
+
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "insert into calendario (idT,idP,idJ,seRepite,fecha) values (?,?,?,?,?)";
-                connection.query(sql, [data.terapeuta, data.usuario, data.juego, data.seRepite, data.fecha], function (err, resultado) {
+                connection.query(sql, [data.terapeuta, data.usuario, data.juego, boolToNumber(data.seRepite), data.fecha], function (err, resultado) {
                     connection.release();
                     if (err) {
                         console.log(err)

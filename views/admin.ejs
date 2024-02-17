@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/estilosMainView.css">
   <link rel="stylesheet" href="css/estilosAdmin.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
   <link rel="shortcut icon" href="images/cerebroSentado.jpg">
   <title>NeuroTask</title>
 </head>
@@ -178,23 +179,25 @@
               </div>
 
               <div class="col-sm-12 col-md-9 alert alert-primary">
-                <!-- Aquí van los usuarios -->
+
+                <!--CUADRANTE DE USUARIOS-->
                 <div id="divListadoUsuarios" class="text-center d-none">
-                  <h1 id="tituloUsuarios">Listado de Usuarios</h1>
+                  <h2 id="tituloUsuarios">Listado de Usuarios</h2>
 
                   <p class=" alert alert-warning" id="alertaListadoUsuarios">No hay pacientes disponibles</p>
 
                 </div>
 
-
+                <!--CUADRANTE DE JUEGOS-->
                 <div id="divListadoJuegos" class=" text-center d-none">
-                  <h1>Listado de Juegos</h1>
+                  <h2>Listado de Juegos</h2>
 
                   <p class=" alert alert-warning" id="alertaListadoJuegos">No hay juegos disponibles</p>
                 </div>
 
-                <div id="cuadranteHistorial" class=" text-center d-none">
-                  <h1>Historial de Partidas</h1>
+                <!--CUADRANTE DEL HISTORIAL-->
+                <div id="cuadranteHistorial" class="text-center d-none">
+                  <h2>Historial de Partidas</h2>
                   <table class="table table-striped " id="tablaHistorial">
 
                     <thead>
@@ -212,10 +215,9 @@
 
                     </tbody>
                   </table>
-
                 </div>
 
-                <!--CALENDARIO-->
+                <!--CUADRANTE DEL CALENDARIO-->
                 <div class="container bg-light rounded pb-3 mx-auto d-none" id="cuadranteCalendario">
                   <div class="row">
                     <div class="col-md-12">
@@ -252,6 +254,114 @@
                   </div>
                 </div>
 
+                <!--CUADRANTE DE COMENTARIOS-->
+                <div class="container d-none" id="cuadranteComentarios">
+                  <div class="row justify-content-center">
+                    <div>
+                      <div class="card border-info mt-4">
+                        <div class="card-header azulClaro text-center">
+                          <h4> Agregar Comentario</h4>
+                        </div>
+                        <div class="card-body">
+                          <!-- Comment form -->
+                          <form id="comentarioForm">
+                            <div class="mb-3">
+                              <label for="comentarioNuevo" class="form-label">Nuevo Comentario</label>
+                              <textarea class="form-control" id="comentarioNuevo" name="comentarioNuevo"
+                                required></textarea>
+                            </div>
+                            <div class="text-center">
+                              <button class="btn azulClaro" id="btnEnviarComentario">Enviar</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Container for displaying comments -->
+                  <div class="row justify-content-center mt-4">
+                    <div class="col-md-11">
+                      <div class="card border-secondary">
+                        <div class="card-header grisClaro text-center">
+                          <h4>Comentarios</h4>
+                        </div>
+                        <div class="card-body" id="cajaComentarios">
+                          <!-- Comments will be dynamically inserted here -->
+
+                          <div class="card mb-3">
+                            <div class="card-header">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <strong>Nombre de Usuario</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                  <small>Fecha del comentario</small>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-body">
+                              Contenido del comentario Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                              vestibulum, ex at malesuada eleifend, nunc justo faucibus lectus, non faucibus nisi lorem
+                              nec nulla. Sed in metus et velit molestie auctor. Integer at lacus vel nunc consectetur
+                              consequat. Pellentesque vulputate, mauris at fermentum tempor, dui arcu bibendum mi, ac
+                              ullamcorper ligula leo ac ex. Nulla facilisi. Phasellus eu metus in nisl scelerisque
+                              commodo. Quisque quis rutrum est. Aliquam nec tortor elit.
+                            </div>
+                          </div>
+
+                          <div class="card mb-3">
+                            <div class="card-header">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <strong>Nombre de Usuario</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                  <small>Fecha del comentario</small>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-body">
+                              Contenido del comentario Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                              vestibulum, ex at malesuada eleifend, nunc justo faucibus lectus, non faucibus nisi lorem
+                              nec nulla. Sed in metus et velit molestie auctor. Integer at lacus vel nunc consectetur
+                              consequat. Pellentesque vulputate, mauris at fermentum tempor, dui arcu bibendum mi, ac
+                              ullamcorper ligula leo ac ex. Nulla facilisi. Phasellus eu metus in nisl scelerisque
+                              commodo. Quisque quis rutrum est. Aliquam nec tortor elit.
+                            </div>
+                          </div>
+
+                          <div class="card mb-3">
+                            <div class="card-header">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <strong>Nombre de Usuario</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                  <small>Fecha del comentario</small>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-body">
+                              Contenido del comentario Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                              vestibulum, ex at malesuada eleifend, nunc justo faucibus lectus, non faucibus nisi lorem
+                              nec nulla. Sed in metus et velit molestie auctor. Integer at lacus vel nunc consectetur
+                              consequat. Pellentesque vulputate, mauris at fermentum tempor, dui arcu bibendum mi, ac
+                              ullamcorper ligula leo ac ex. Nulla facilisi. Phasellus eu metus in nisl scelerisque
+                              commodo. Quisque quis rutrum est. Aliquam nec tortor elit.
+                            </div>
+                          </div>
+
+
+                          <!--Fin de caja de comentario-->
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--CUADRANTE DE ESTADISTICAS-->
               </div>
 
 
@@ -284,7 +394,7 @@
                                 <!-- Opciones del select -->
                               </select>
                             </div>
-                  
+
                             <div class="form-group">
                               <label for="frecuencia">Frecuencia:</label>
                               <select class="form-control" name="frecuencia" id="frecuencia" required>
