@@ -11,7 +11,7 @@ class DAOJuegos{
                 console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
-                const sql = "SELECT * from juegos";
+                const sql = "SELECT * from juegos inner join categorias on categorias.id_cat = juegos.id_categoria";
                 connection.query(sql, null, function (err, resultado) {
                     connection.release();
                     if (err) {
@@ -39,6 +39,26 @@ class DAOJuegos{
                         callback(err, null);
                     } else {
                         callback(null, resultado[0]);
+                    }
+                });
+            }
+        });
+    }   
+
+    leerCategorias(callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                console.log(`Error al obtener la conexión: ${err.message}`);
+                callback(err, null);
+            } else {
+                const sql = "SELECT * FROM categorias;";
+                connection.query(sql,null, function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        console.log(`Error en la consulta a la base de datos: ${err.message}`);
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
                     }
                 });
             }

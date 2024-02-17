@@ -27,6 +27,22 @@ router.get('/', function (req, res, next) {
 });
 
 
+router.get('/leerCategorias', function (req, res, next) {
+
+  console.log("A")
+  const DAOAp = require("../mysql/daoJuegos")
+  const midao = new DAOAp(pool)
+
+  midao.leerCategorias((err, datos) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(datos)
+    }
+  });
+});
+
 router.get('/finJuego', function (req, res, next) {
 
   console.log("He llegado al servidor")

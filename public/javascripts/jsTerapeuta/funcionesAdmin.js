@@ -33,6 +33,7 @@ $(function () {
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteEstadisticas").addClass("d-none")
         $("#divListadoUsuarios").removeClass('d-none')
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
@@ -63,6 +64,7 @@ $(function () {
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteEstadisticas").addClass("d-none")
         $("#divListadoJuegos").removeClass('d-none')
         $("#alertaListadoJuegos").addClass('d-none')
         $("#divListadoJuegos .cajaJuego").remove()
@@ -96,6 +98,7 @@ $(function () {
         $("#tituloUsuarios").text("Historial del usuario")
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
+        $("#cuadranteEstadisticas").addClass("d-none")
         $("#cuadranteHistorial").removeClass("d-none")
 
         $.ajax({
@@ -106,7 +109,7 @@ $(function () {
 
                 console.log(datos)
                 if (datos.length != 0) {
-                   
+
                     datos.forEach(function (dato, indice) {
                         console.log(dato)
                         const date = new Date(dato.fechaInicio);
@@ -141,6 +144,7 @@ $(function () {
         $("#btnEnviarComentario").data("usuario", usuario)
 
         $("#tituloUsuarios").text("Anotaciones sobre el usuario")
+        $("#cuadranteEstadisticas").addClass("d-none")
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
         $("#cuadranteComentarios").removeClass("d-none")
@@ -174,6 +178,7 @@ $(function () {
 
     })
 
+
     $("#btnEnviarComentario").on("click", function (event) {
         event.preventDefault()
         $("#alertaComentarios").addClass("d-none")
@@ -192,25 +197,66 @@ $(function () {
 
                         nuevaCajaComentario(datos)
                     } else {
-                       nuevoToast("Ha ocurrido un error con el comentario")
+                        nuevoToast("Ha ocurrido un error con el comentario")
                     }
 
                 },
                 error: function (jqXHR, statusText, errorThrown) {
                     nuevoToast("Ha ocurrido un error con el comentario")
-
                 }
             });
         } else {
-           nuevoToast("Escriba un comentario para poder publicarlo")
+            nuevoToast("Escriba un comentario para poder publicarlo")
         }
     })
+
+
+    $(document).on("click", ".btnVerEstadisticas", function () {
+
+        $('#cajaEstadisticas').empty()
+        var divContenedor = $(this).closest('.cajaPaciente');
+        var usuario = divContenedor.data("correo")
+        divContenedor.removeClass('cajaPaciente')
+        $("#divListadoUsuarios .cajaPaciente").remove()
+        divContenedor.addClass('cajaPaciente')
+        $("#tituloUsuarios").text("Estadísticas")
+        $("#cuadranteCalendario").addClass("d-none")
+        $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteComentarios").addClass("d-none")
+        $("#cuadranteEstadisticas").removeClass("d-none")
+
+        $.ajax({
+            method: "GET",
+            url: "/juego/leerCategorias",
+            success: function (datos, state, jqXHR) {
+                datos.forEach(function (dato) {
+                    console.log(dato)
+                    $("#selectCategorias").append($('<option>', {
+                        value: dato.id_cat,
+                        text: dato.categoria
+                    }));
+                });
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                nuevoToast("Ha ocurrido un error con las categorias")
+            }
+        });
+
+    })
+
+    $('#selectCategorias').change(function () {
+        var opcionSeleccionada = $(this).val();
+        console.log("Se ha seleccionado la opción: " + opcionSeleccionada);
+
+        // Realizar más acciones según la opción seleccionada
+    });
 
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
         $('#calendario').fullCalendar('removeEventSources');
         var divContenedor = $(this).closest('.cajaPaciente');
         $("#cuadranteHistorial").addClass("d-none")
+        $("#cuadranteEstadisticas").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
@@ -218,8 +264,6 @@ $(function () {
         divContenedor.addClass('cajaPaciente')
         $("#tituloUsuarios").text("Planificación del usuario")
         $("#cuadranteCalendario").removeClass("d-none")
-
-
 
         //Logica de calendario a mes visto
         crearCalendario(usuario)
@@ -246,7 +290,7 @@ $(function () {
                 }
             },
             error: function (jqXHR, statusText, errorThrown) {
-               nuevoToast("No se pudo eliminar la tarea")
+                nuevoToast("No se pudo eliminar la tarea")
             }
         })
 
@@ -260,7 +304,7 @@ $(function () {
         var usuario = divContenedor.text()
         var freq = $("#frecuencia").prop("value")
         var juego = $("#selectJuego").prop("value")
-        console.log(usuario + " "+ freq)
+        console.log(usuario + " " + freq)
         if (freq != "" && juego != "") {
             var dia = $("#diaModal").data("fecha")
             var usuario = $("#diaModal").data("usuario")
@@ -270,7 +314,7 @@ $(function () {
             }
             switch (freq) {
                 case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
-                console.log("es un dia ")
+                    console.log("es un dia ")
                     data.seRepite = false
                     data.fecha = dia
                     break
@@ -307,7 +351,7 @@ $(function () {
         }
     })
 
-    function crearCalendario(usuario){
+    function crearCalendario(usuario) {
         $("#calendario").fullCalendar('destroy')
         $('#calendario').fullCalendar({ //
             header: {
@@ -327,12 +371,12 @@ $(function () {
                     success: function (datos, state, jqXHR) {
                         if (datos.length != 0) {
                             cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
-                        }else{
+                        } else {
                             cell.css("background-color", "");
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
-                       nuevoToast("Ha ocurrido un error con el calendario")
+                        nuevoToast("Ha ocurrido un error con el calendario")
 
                     }
                 });
@@ -480,7 +524,7 @@ function nuevaCajaComentario(dato) {
     $('#cajaComentarios').prepend(comentarioBox);
 }
 
-function nuevoToast(text){
+function nuevoToast(text) {
     Toastify({
         text: text,
         duration: 3000,

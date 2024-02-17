@@ -362,60 +362,82 @@
                 </div>
 
                 <!--CUADRANTE DE ESTADISTICAS-->
-              </div>
+                <div class="container text-center d-none" id="cuadranteEstadisticas">
+                  <h2>Estadísticas del Usuario</h2>
+                  <div class="row bg-light rounded ">
+                    <div class="col text-center m-3 ">
+                      <div class="azulClaro m-2 p-3 w-100 rounded d-flex align-items-center justify-content-around">
+                        <label for="selectCategorias"><strong>Seleccione una categoría</strong></label>
 
+                        <select name="categorias" id="selectCategorias" class = "form-control custom-select w-50">
+                        </select>
 
-
-            </div>
-
-            <!--Modal de registro de nueva tarea-->
-
-            <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
-              <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-
-                  <!-- cabecera del diálogo -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Crear Tarea</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                  </div>
-
-                  <!-- cuerpo del diálogo -->
-                  <div class="modal-body alert alert-info">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col ">
-                          <p id="diaModal"></p>
-                          <form>
-                            <div class="form-group">
-                              <label for="juego">Juego:</label>
-                              <select class="form-control" name="juego" id="selectJuego" required>
-                                <!-- Opciones del select -->
-                              </select>
-                            </div>
-
-                            <div class="form-group">
-                              <label for="frecuencia">Frecuencia:</label>
-                              <select class="form-control" name="frecuencia" id="frecuencia" required>
-                                <option value="0">Sólo hoy</option>
-                                <option value="1">Cada día</option>
-                                <option value="2">Todas las Semanas</option>
-                              </select>
-                            </div>
-                          </form>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="mt-5" style="height: 200px; border: 1px solid #ccc;" id = "cajaEstadisticas">
+                         
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="asignarTarea">Asignar</button>
-                  </div>
+
 
                 </div>
 
+
+
               </div>
-            </div>
+
+              <!--Modal de registro de nueva tarea-->
+
+              <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
+                <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+
+                    <!-- cabecera del diálogo -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Crear Tarea</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- cuerpo del diálogo -->
+                    <div class="modal-body alert alert-info">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col ">
+                            <p id="diaModal"></p>
+                            <form>
+                              <div class="form-group">
+                                <label for="juego">Juego:</label>
+                                <select class="form-control" name="juego" id="selectJuego" required>
+                                  <!-- Opciones del select -->
+                                </select>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="frecuencia">Frecuencia:</label>
+                                <select class="form-control" name="frecuencia" id="frecuencia" required>
+                                  <option value="0">Sólo hoy</option>
+                                  <option value="1">Cada día</option>
+                                  <option value="2">Todas las Semanas</option>
+                                </select>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id="asignarTarea">Asignar</button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
 
 
   </section>
