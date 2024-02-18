@@ -43,6 +43,24 @@ class DAOTareas {
         });
     }
 
+    planificacionesJugadas(datos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT hecho, COUNT(*) AS contador FROM calendario inner join juegos on idJ = juegos.id  where idP = ? and month(fecha) = ?  and  id_categoria = ? GROUP BY hecho";
+                connection.query(sql, [datos.usuario, datos.fecha,datos.categoria], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
+
     borrarTarea(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

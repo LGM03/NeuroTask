@@ -36,9 +36,26 @@ router.get('/partidasUsuario', function (req, res, next) {
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
 
-
-  req.query.usuario
   midao.historialUsuario(req.query.usuario, (err, datos) => {
+    if (err) {
+      res.send({});
+    }
+    else {
+      res.send(datos);
+    }
+  });
+});
+
+router.get('/planificacionesJugadas', function (req, res, next) {
+
+  const DAOAp = require("../mysql/daoTareas")
+  const midao = new DAOAp(pool)
+
+  console.log("AB")
+  var data =
+    { usuario: req.query.usuario, categoria: req.query.categoria, fecha: req.query.fecha }
+console.log(data)
+  midao.planificacionesJugadas(data, (err, datos) => {
     if (err) {
       res.send({});
     }
@@ -70,7 +87,7 @@ router.post('/asignar', function (req, res, next) {
   console.log("ABD")
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
-  
+
   var data = {
     usuario: req.body.usuario,
     juego: req.body.juego,
@@ -80,7 +97,7 @@ router.post('/asignar', function (req, res, next) {
   }
 
   console.log(data)
-  
+
   midao.asignarTarea(data, (err, datos) => {
     if (err) {
       res.json(0);

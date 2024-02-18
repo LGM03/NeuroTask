@@ -16,12 +16,11 @@ $(function () {
                         text: elem.nombre
                     }));
                 })
-
+                $("#selectJuego option[value='1']").prop("selected", true);
             }
         },
         error: function (a, b, c) {
             nuevoToast("No se pudo cargar el listado de juegos")
-
         }
     })
 
@@ -171,11 +170,8 @@ $(function () {
             },
             error: function (jqXHR, statusText, errorThrown) {
                 nuevoToast("Ha ocurrido un error con los comentarios")
-
             }
         });
-
-
     })
 
 
@@ -219,7 +215,7 @@ $(function () {
         divContenedor.removeClass('cajaPaciente')
         $("#divListadoUsuarios .cajaPaciente").remove()
         divContenedor.addClass('cajaPaciente')
-        $("#tituloUsuarios").text("Estadísticas")
+        $("#tituloUsuarios").text("Estadísticas del Usuario")
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteHistorial").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
@@ -230,7 +226,7 @@ $(function () {
             url: "/juego/leerCategorias",
             success: function (datos, state, jqXHR) {
                 datos.forEach(function (dato) {
-                    console.log(dato)
+                    $("#selectCategorias").data("usuario", usuario)
                     $("#selectCategorias").append($('<option>', {
                         value: dato.id_cat,
                         text: dato.categoria
@@ -244,12 +240,80 @@ $(function () {
 
     })
 
-    $('#selectCategorias').change(function () {
-        var opcionSeleccionada = $(this).val();
-        console.log("Se ha seleccionado la opción: " + opcionSeleccionada);
+    $('#btnGraficos').on("click", function (event) {
 
-        // Realizar más acciones según la opción seleccionada
-    });
+        event.preventDefault()
+        var opcionSeleccionada = $("#selectCategorias").val();
+        var fechaSeleccionada = $("#selectMeses").val();
+        var usuario = $("#selectCategorias").data("usuario")
+        $.ajax({  //Consulto los valores de las reservas para esa facultad
+            method: "GET",
+            url: "/tareas/planificacionesJugadas",
+            data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
+            success: function (datos, state, jqXHR) {
+                if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
+                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                    var alerta = $('<div class="alert alert-secondary" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
+                    $("#cajaEstadisticas").append(alerta)
+                } else {  //Si hay reservas muestro el canvas
+                    $("#alertaEstadisticas").remove()
+
+                    //Creo el canva
+                    const canvas = document.createElement('canvas');
+                    var titulo = $('<p><strong>Relacion de planificación cumplida</strong></p>');
+                    
+                    //Meto el canva en el div
+                    const container = $('#cajaEstadisticas');
+                    container.empty();
+                    container.append(titulo)
+                    container.append(canvas);
+
+                    const ctx = canvas.getContext('2d');
+
+                    // Configuración de la gráfica
+                    const config = {
+                        type: 'pie',
+                        data: {
+                          labels: ['Cumplida', 'Pendiente'],
+                          datasets: [{
+                            data: [datos[0].contador, datos[1].contador],
+                            backgroundColor: [
+                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1
+                          }]
+                        },
+                        options: {
+                            title: {
+                              display: true,
+                              text: "Estadísticas reserva del facultad: ",
+                              fontColor: "black",
+                              fontSize: 18, // Tamaño de la letra del título
+                            }
+                          }
+                        
+                      };
+
+                    // Crear la gráfica
+                    new Chart(ctx, config);
+
+
+                }
+
+
+            },
+            error: function (jqXHR, statusText, errorThrown) { //Si ha ocurrido un error aviso al usuario
+                nuevoToast("Ha ocurrido un error con las estadísticas")
+            }
+        })
+    })
+
+
 
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
@@ -293,9 +357,6 @@ $(function () {
                 nuevoToast("No se pudo eliminar la tarea")
             }
         })
-
-
-
     })
 
     $("#asignarTarea").on("click", function (event) {
