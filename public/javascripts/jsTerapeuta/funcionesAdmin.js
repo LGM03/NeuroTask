@@ -208,8 +208,6 @@ $(function () {
 
 
     $(document).on("click", ".btnVerEstadisticas", function () {
-
-        $('#cajaEstadisticas').empty()
         $('#cajaRendimientoGeneral').empty()
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
@@ -308,8 +306,7 @@ $(function () {
     $('#btnGraficos').on("click", function (event) {
 
         event.preventDefault()
-        
-        $('#cajaEstadisticas').empty()
+        $('.cajaGraficas').empty()
         var opcionSeleccionada = $("#selectCategorias").val();
         var fechaSeleccionada = $("#selectMeses").val();
         var usuario = $("#selectCategorias").data("usuario")
@@ -320,25 +317,25 @@ $(function () {
             success: function (datos, state, jqXHR) {
                 if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
                     nuevoToast("No hay estadísticas disponibles para mostrar")
-                    var alerta = $('<div class="alert alert-secondary" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
-                    $("#cajaEstadisticas").append(alerta)
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas" role="alert"> No hay estadísticas sobre planificación </div>');
+                    $("#cajaGraficoHechos").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
-                    $("#alertaEstadisticas").remove()
+                    $("#cajaGraficoHechos .alertaEstadisticas").remove()
 
                     //Creo el canva
-                    const canvas = document.createElement('canvas');
+                    var canvas = document.createElement('canvas');
                     var titulo = $('<p><strong>Relación de planificación cumplida</strong></p>');
 
                     //Meto el canva en el div
-                    const container = $('#cajaEstadisticas');
+                    var container = $('#cajaGraficoHechos');
                     container.empty();
                     container.append(titulo)
                     container.append(canvas);
 
-                    const ctx = canvas.getContext('2d');
+                    var ctx = canvas.getContext('2d');
 
                     // Configuración de la gráfica
-                    const config = {
+                    var config = {
                         type: 'pie',
                         data: {
                             labels: ['Cumplida', 'Pendiente'],
@@ -356,18 +353,76 @@ $(function () {
                             }]
                         }
                     };
-
                     // Crear la gráfica
                     new Chart(ctx, config);
-
                 }
-
-
             },
             error: function (jqXHR, statusText, errorThrown) { //Si ha ocurrido un error aviso al usuario
                 nuevoToast("Ha ocurrido un error con las estadísticas")
             }
         })
+
+        $.ajax({  //Consulto los valores de las reservas para esa facultad
+            method: "GET",
+            url: "/tareas/progresoCategoria",
+            data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
+            success: function (datos, state, jqXHR) {
+                if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
+                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas" role="alert" > No hay estadísticas sobre progreso </div>');
+                    $("#cajaGraficoProgreso").append(alerta)
+                } else {  //Si hay reservas muestro el canvas
+                    console.log(datos)
+                    $("#cajaGraficoProgreso .alertaEstadisticas").remove()
+
+                    //Creo el canva
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 300 
+                    canvas.height = 300 
+                    var titulo = $('<p><strong>Progreso Mensual</strong></p>');
+
+                    //Meto el canva en el div
+                    const container = $('#cajaGraficoProgreso');
+                    container.empty();
+                    container.append(titulo)
+                    container.append(canvas);
+                    const ctx = canvas.getContext('2d');
+
+                    const labels = datos.map(item => 'Semana ' + item.semana);
+                    var dataAciertos = datos.map(item => item['sum(aciertos)']);
+                    var dataFallos = datos.map(item => item['sum(fallos)']);
+
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Aciertos',
+                                    data: dataAciertos,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Fallos',
+                                    data: dataFallos,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        }
+                    });
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) { //Si ha ocurrido un error aviso al usuario
+                nuevoToast("Ha ocurrido un error con las estadísticas")
+            }
+        })
+
+
     })
 
 

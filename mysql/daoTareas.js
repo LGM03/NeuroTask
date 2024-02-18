@@ -79,6 +79,28 @@ class DAOTareas {
         });
     }
 
+    progresoCategoria(datos, callback) {
+        console.log("ADAS")
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT WEEK(fechaInicio, 3) AS semana, sum(aciertos), sum(fallos) FROM partidas inner join juegos on idJ = juegos.id  inner join categorias on id_categoria =id_cat where idP = ? and id_categoria = ? and month(fechaInicio) = ? GROUP BY WEEK(fechaInicio, 3)";
+                connection.query(sql, [datos.usuario, datos.categoria, datos.fecha], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        console.log(err)
+                        callback(err, null);
+                    } else {
+                        console.log(resultado)
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
+
+
 
     borrarTarea(id, callback) {
         this.pool.getConnection(function (err, connection) {
