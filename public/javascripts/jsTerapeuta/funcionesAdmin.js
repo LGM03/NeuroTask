@@ -239,7 +239,7 @@ $(function () {
             }
         });
 
-
+        Chart.defaults.font.size = 22;
         $.ajax({
             method: "GET",
             url: "/tareas/rendimientoGeneral",
