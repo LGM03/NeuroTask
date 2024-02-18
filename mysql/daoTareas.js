@@ -61,6 +61,25 @@ class DAOTareas {
         });
     }
 
+    rendimientoGeneral(datos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT categoria, aciertos, fallos FROM partidas inner join juegos on idJ = juegos.id  inner join categorias on id_categoria =id_cat where idP = ? GROUP BY id_categoria";
+                connection.query(sql, [datos.usuario], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
+
+
     borrarTarea(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

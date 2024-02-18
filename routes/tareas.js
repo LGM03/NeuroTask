@@ -51,11 +51,27 @@ router.get('/planificacionesJugadas', function (req, res, next) {
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
 
-  console.log("AB")
   var data =
     { usuario: req.query.usuario, categoria: req.query.categoria, fecha: req.query.fecha }
 console.log(data)
   midao.planificacionesJugadas(data, (err, datos) => {
+    if (err) {
+      res.send({});
+    }
+    else {
+      res.send(datos);
+    }
+  });
+});
+
+router.get('/rendimientoGeneral', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+
+  const DAOAp = require("../mysql/daoTareas")
+  const midao = new DAOAp(pool)
+
+  var data =
+    { usuario: req.query.usuario}
+  midao.rendimientoGeneral(data, (err, datos) => {
     if (err) {
       res.send({});
     }

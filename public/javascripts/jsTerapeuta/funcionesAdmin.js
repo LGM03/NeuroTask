@@ -210,6 +210,7 @@ $(function () {
     $(document).on("click", ".btnVerEstadisticas", function () {
 
         $('#cajaEstadisticas').empty()
+        $('#cajaRendimientoGeneral').empty()
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
@@ -238,11 +239,77 @@ $(function () {
             }
         });
 
+
+        $.ajax({
+            method: "GET",
+            url: "/tareas/rendimientoGeneral",
+            data: { usuario: usuario },
+            success: function (datos, state, jqXHR) {
+                if (datos.length > 0) {
+                    const canvas = document.createElement('canvas');
+                    var titulo = $('<p><strong>Rendimiento general</strong></p>');
+
+                    //Meto el canva en el div
+                    const container = $('#cajaRendimientoGeneral');
+                    container.empty();
+                    container.append(titulo)
+                    container.append(canvas);
+
+                    const ctx = canvas.getContext('2d');
+
+                    const labels = datos.map(item => item.categoria);
+                    const aciertos = datos.map(item => item.aciertos);
+                    const fallos = datos.map(item => item.fallos);
+
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Aciertos',
+                                    data: aciertos,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Fallos',
+                                    data: fallos,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                } else {
+                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                    var alerta = $('<div class="alert alert-secondary" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
+                    $("#cajaRendimientoGeneral").append(alerta)
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                nuevoToast("Ha ocurrido un error con las categorias")
+            }
+        });
+
+
     })
 
     $('#btnGraficos').on("click", function (event) {
 
         event.preventDefault()
+        
+        $('#cajaEstadisticas').empty()
         var opcionSeleccionada = $("#selectCategorias").val();
         var fechaSeleccionada = $("#selectMeses").val();
         var usuario = $("#selectCategorias").data("usuario")
@@ -260,8 +327,8 @@ $(function () {
 
                     //Creo el canva
                     const canvas = document.createElement('canvas');
-                    var titulo = $('<p><strong>Relacion de planificación cumplida</strong></p>');
-                    
+                    var titulo = $('<p><strong>Relación de planificación cumplida</strong></p>');
+
                     //Meto el canva en el div
                     const container = $('#cajaEstadisticas');
                     container.empty();
@@ -274,34 +341,24 @@ $(function () {
                     const config = {
                         type: 'pie',
                         data: {
-                          labels: ['Cumplida', 'Pendiente'],
-                          datasets: [{
-                            data: [datos[0].contador, datos[1].contador],
-                            backgroundColor: [
-                              'rgba(75, 192, 192, 0.2)',
-                              'rgba(255, 99, 132, 0.2)',
-                            ],
-                            borderColor: [
-                              'rgba(75, 192, 192, 1)',
-                              'rgba(255, 99, 132, 1)',
-                            ],
-                            borderWidth: 1
-                          }]
-                        },
-                        options: {
-                            title: {
-                              display: true,
-                              text: "Estadísticas reserva del facultad: ",
-                              fontColor: "black",
-                              fontSize: 18, // Tamaño de la letra del título
-                            }
-                          }
-                        
-                      };
+                            labels: ['Cumplida', 'Pendiente'],
+                            datasets: [{
+                                data: [datos[0].contador, datos[1].contador],
+                                backgroundColor: [
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(255, 99, 132, 0.2)',
+                                ],
+                                borderColor: [
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        }
+                    };
 
                     // Crear la gráfica
                     new Chart(ctx, config);
-
 
                 }
 
