@@ -208,6 +208,7 @@ $(function () {
 
 
     $(document).on("click", ".btnVerEstadisticas", function () {
+        $('.cajaGraficas').empty()
         $('#cajaRendimientoGeneral').empty()
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
@@ -291,7 +292,7 @@ $(function () {
 
                 } else {
                     nuevoToast("No hay estadísticas disponibles para mostrar")
-                    var alerta = $('<div class="alert alert-secondary" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
+                    var alerta = $('<div class="alert alert-secondary mt-3" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
                     $("#cajaRendimientoGeneral").append(alerta)
                 }
             },
@@ -317,7 +318,7 @@ $(function () {
             success: function (datos, state, jqXHR) {
                 if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
                     nuevoToast("No hay estadísticas disponibles para mostrar")
-                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas" role="alert"> No hay estadísticas sobre planificación </div>');
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert"> No hay estadísticas sobre planificación </div>');
                     $("#cajaGraficoHechos").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
                     $("#cajaGraficoHechos .alertaEstadisticas").remove()
@@ -369,7 +370,7 @@ $(function () {
             success: function (datos, state, jqXHR) {
                 if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
                     nuevoToast("No hay estadísticas disponibles para mostrar")
-                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas" role="alert" > No hay estadísticas sobre progreso </div>');
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
                     console.log(datos)

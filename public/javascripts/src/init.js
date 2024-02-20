@@ -11,6 +11,7 @@ import scene_simonDice from "./scenes/scene_simonDice.js";
 import scene_ordenDecreciente from "./scenes/scene_ordenDecreciente.js";
 import scene_memorizaFiguras from "./scenes/scene_memorizaFiguras.js";
 import scene_memorizaColores from "./scenes/scene_memorizaCoroles.js";
+import scene_dificultad from "./scenes/scene_dificultad.js";
 
 let juego
 
@@ -41,25 +42,25 @@ export function arranque(idJuego) {
     };
 
     if (idJuego == "1") { //Juego del Pong
-        config.scene = [inicio, Bootloader, scene_play, scene_pong, scene_fin] //TODO
+        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_pong, scene_fin] //TODO
     } else if (idJuego == "2") { //Juego Cuentas
-        config.scene = [inicio, Bootloader, scene_play, scene_cuentas, scene_fin]
+        config.scene = [inicio, Bootloader, scene_dificultad,  scene_play, scene_cuentas, scene_fin]
     } else if (idJuego == "3") { //Juego Emparejar
-        config.scene = [inicio, Bootloader, scene_play, scene_parejas, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_parejas, scene_fin]
     }else if (idJuego == "4") { //Juego Ordenar de Mayor a Menor
-        config.scene = [inicio, Bootloader, scene_play, scene_ordenCreciente, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_ordenCreciente, scene_fin]
     }else if(idJuego == "5"){
-        config.scene = [inicio, Bootloader, scene_play, scene_anagramas, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_anagramas, scene_fin]
     }else if(idJuego == "6"){
-        config.scene = [inicio, Bootloader, scene_play, scene_refranes, scene_fin]
+        config.scene = [inicio, Bootloader, scene_dificultad,  scene_play, scene_refranes, scene_fin]
     }else if(idJuego == "7"){
-        config.scene = [inicio, Bootloader, scene_play, scene_simonDice, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_simonDice, scene_fin]
     }else if(idJuego == "8"){
-        config.scene = [inicio, Bootloader, scene_play, scene_ordenDecreciente, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_ordenDecreciente, scene_fin]
     }else if(idJuego == "9"){
-        config.scene = [inicio, Bootloader, scene_play, scene_memorizaFiguras, scene_fin]
+        config.scene = [inicio, Bootloader,  scene_dificultad, scene_play, scene_memorizaFiguras, scene_fin]
     }else if(idJuego == "10"){
-        config.scene = [inicio, Bootloader, scene_play, scene_memorizaColores, scene_fin]
+        config.scene = [inicio, Bootloader, scene_dificultad,  scene_play, scene_memorizaColores, scene_fin]
     }
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';

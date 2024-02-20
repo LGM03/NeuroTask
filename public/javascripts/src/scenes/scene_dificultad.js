@@ -1,10 +1,10 @@
 
 //Como accedo desde aqui a la BD, require no funciona y los import tampoco
 
-export default class scene_play extends Phaser.Scene {
+export default class scene_dificultad extends Phaser.Scene {
 
     constructor() {
-        super({ key: "scene_play" });
+        super({ key: "scene_dificultad" });
     }
 
     init(data) {
@@ -12,8 +12,7 @@ export default class scene_play extends Phaser.Scene {
         this.info = {  //Recojo los parametros traidos de quien inicia la escena 
             descripcion: data.descripcion,
             juego: data.juego,
-            idJuego: data.idJuego,
-            dificultad : data.dificultad
+            idJuego: data.idJuego
         }
     }
 
@@ -46,7 +45,7 @@ export default class scene_play extends Phaser.Scene {
         // Asignar un evento de clic al botón
         this.startButton.on("pointerdown", () => {
             // Cambiar a la escena del juego cuando se hace clic en el botón
-            this.scene.start(this.info.juego, { idJuego: this.info.idJuego, dificultad : this.info.dificultad });
+            this.scene.start("scene_play", this.info);
         });
     }
 
