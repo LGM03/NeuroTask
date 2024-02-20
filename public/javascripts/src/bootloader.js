@@ -9,7 +9,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
 
     preload() {
         this.load.on("complete", () => {
-            this.scene.start("scene_play", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego })
+            this.scene.start("scene_dificultad", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego })
         });
 
         //Iconos de ventana de inicio y fin

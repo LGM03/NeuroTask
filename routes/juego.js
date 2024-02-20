@@ -45,8 +45,6 @@ router.get('/leerCategorias', function (req, res, next) {
 
 router.get('/finJuego', function (req, res, next) {
 
-  console.log("He llegado al servidor")
-
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
@@ -58,7 +56,8 @@ router.get('/finJuego', function (req, res, next) {
       aciertos: req.query.aciertos,
       fallos: req.query.fallos,
       duracion: req.query.duracion,
-      usuario: req.session.usuario.correo
+      usuario: req.session.usuario.correo,
+      nivel : req.query.nivel
     }
     console.log("El id del juego para el servidor es : "+ datosPartida.idJuego)
 

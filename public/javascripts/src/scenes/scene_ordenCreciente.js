@@ -15,6 +15,7 @@ export default class scene_ordenCreciente extends Phaser.Scene {
 
     init(data) {
         this.idJuego = data.idJuego
+        this.nivel = data.nivel
     }
 
     create() {
@@ -122,7 +123,8 @@ export default class scene_ordenCreciente extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion
+                segundos : this.duracion,
+                nivel : this.nivel
             });
     }
 

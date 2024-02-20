@@ -13,6 +13,7 @@ export default class scene_parejas extends Phaser.Scene {
 
     init(data) {
         this.idJuego = data.idJuego
+        this.nivel = data.nivel
     }
 
     create() {
@@ -85,7 +86,7 @@ export default class scene_parejas extends Phaser.Scene {
 
     update(time, delta) {
 
-        console.log(this.puntuacion)
+        console.log(this.puntuacion + " "+ this.fallos)
         if (this.puntuacion === this.valores.length / 2) { //Cuando ya he encontrado todas Salida
             this.finalizarJuego()
         }
@@ -105,7 +106,8 @@ export default class scene_parejas extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion
+                segundos :minutos*60+segundos,
+                nivel : this.nivel
             });
     }
 

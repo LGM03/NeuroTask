@@ -15,6 +15,7 @@ export default class scene_refranes extends Phaser.Scene {
 
     init(data) {
         this.idJuego = data.idJuego
+        this.nivel = data.nivel
     }
 
     create() {
@@ -100,7 +101,6 @@ export default class scene_refranes extends Phaser.Scene {
             var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
             $('#contenedorBotones').append(botonPalabra)
         }))
-      
     }
 
 
@@ -119,7 +119,8 @@ export default class scene_refranes extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion
+                segundos: this.duracion,
+                nivel : this.nivel
             });
     }
 

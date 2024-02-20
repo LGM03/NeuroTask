@@ -14,7 +14,8 @@ export default class scene_cuentas extends Phaser.Scene {
 
     
     init(data){
-        this.idJuego = data.idJuego
+        this.idJuego = data.idJuego,
+        this.nivel = data.nivel
     }
 
 
@@ -179,7 +180,8 @@ export default class scene_cuentas extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion
+                segundos : this.duracion,
+                nivel : this.nivel
             });
     }
 

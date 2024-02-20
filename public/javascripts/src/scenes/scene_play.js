@@ -13,7 +13,7 @@ export default class scene_play extends Phaser.Scene {
             descripcion: data.descripcion,
             juego: data.juego,
             idJuego: data.idJuego,
-            dificultad : data.dificultad
+            nivel : data.nivel
         }
     }
 
@@ -46,7 +46,7 @@ export default class scene_play extends Phaser.Scene {
         // Asignar un evento de clic al botón
         this.startButton.on("pointerdown", () => {
             // Cambiar a la escena del juego cuando se hace clic en el botón
-            this.scene.start(this.info.juego, { idJuego: this.info.idJuego, dificultad : this.info.dificultad });
+            this.scene.start(this.info.juego, { idJuego: this.info.idJuego, nivel : this.info.nivel });
         });
     }
 

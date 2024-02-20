@@ -8,6 +8,7 @@ export default class scene_pong extends Phaser.Scene {
 
     init(data) {
         this.idJuego = data.idJuego
+        this.nivel = data.nivel
     }
 
     create() {
@@ -119,8 +120,8 @@ export default class scene_pong extends Phaser.Scene {
 
 
     finalizarJuego() {
-        const minutos = Math.floor(this.duracion / 60000);
-        const segundos = ((this.duracion % 60000) / 1000).toFixed(0);
+        const minutos = Math.floor(this.duracion / 60);
+        const segundos = ((this.duracion % 60)).toFixed(0);
         // Por ejemplo, puedes cambiar a otra escena
         this.scene.start("scene_fin",
             {
@@ -129,7 +130,8 @@ export default class scene_pong extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion
+                segundos: this.duracion,
+                nivel : this.nivel
             });
     }
 

@@ -18,35 +18,18 @@ export default class scene_dificultad extends Phaser.Scene {
 
     create() {
 
-        var estiloInstrucciones = {
-            fontFamily: 'Arial',  // Puedes cambiar la fuente aquí o usar la personalizada cargada
-            fontSize: '40px',
-            fontWeight: 'bold',
-            fill: '#00000',     // Color del texto
-            align: 'center'
-        };
-
-        // Crea un objeto de texto con los estilos personalizados
-
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa") //imagen de fondo
-        this.fondo.setScale(0.5)
-
-        var text = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2 - this.sys.game.config.height / 4, this.info.descripcion, estiloInstrucciones);
-        text.setOrigin(0.5, 0.5);
-
-        this.startButton = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2 + this.sys.game.config.height / 6, "inicio")
-        this.startButton.setOrigin(0.5, 0.5);
-
-        const canvasHeight = this.sys.game.config.height;
-        this.startButton.setScale(canvasHeight * 0.15 / this.startButton.height);
-
-        // Hacer que el botón sea interactivo
-        this.startButton.setInteractive();
+        $('#ventanaDificultad').removeClass('d-none')
+        console.log("A")
+        const self  = this
         // Asignar un evento de clic al botón
-        this.startButton.on("pointerdown", () => {
-            // Cambiar a la escena del juego cuando se hace clic en el botón
-            this.scene.start("scene_play", this.info);
-        });
+        $('#ventanaDificultad').on("click",".btnDificultad",function(event){
+            console.log("A")
+            $('#ventanaDificultad').addClass('d-none')
+            console.log(self.info)
+            self.info.nivel = $(this).data("nivel")
+            console.log(self.info)
+            self.scene.start("scene_play", self.info);
+        })
     }
 
 }    

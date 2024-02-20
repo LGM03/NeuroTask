@@ -15,7 +15,8 @@ export default class scene_fin extends Phaser.Scene {
             fallos: data.fallos,
             fechaInicio: data.fechaInicio,
             duracion: data.duracion,
-            segundos :data.segundos
+            segundos :data.segundos,
+            nivel : data.nivel
         }
     }
 
@@ -64,7 +65,7 @@ export default class scene_fin extends Phaser.Scene {
         this.icContinuar.setInteractive();
 
         this.icContinuar.on("pointerdown", () => { //Sale del juego, envia los datos al servidor  //Tiene que haber otra forma de hacer esto
-            window.location.href = `/juego/finJuego?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}`;
+            window.location.href = `/juego/finJuego?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}&nivel=${this.info.nivel}`;
         })
     }
 
