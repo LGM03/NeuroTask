@@ -16,7 +16,7 @@ export default class scene_pong extends Phaser.Scene {
         //Marca el final de la partida, en tiempo, 2 Minutos medidos en ms (120 000)
 
         //Puesto a 10.000 ms para pruebas (10s)
-        this.duracion = 20  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
 
 
@@ -134,9 +134,6 @@ export default class scene_pong extends Phaser.Scene {
                 nivel : this.nivel
             });
     }
-
-
-
 }
 
 

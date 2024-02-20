@@ -13,14 +13,14 @@ export default class scene_simonDice extends Phaser.Scene {
         this.seleccionadas = []
     }
 
-    init(data){
+    init(data) {
         this.idJuego = data.idJuego
         this.nivel = data.nivel
     }
 
     create() {
         const MS = 1000
-        this.duracion = 30  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
@@ -59,7 +59,7 @@ export default class scene_simonDice extends Phaser.Scene {
                             this.secuencia_objetivo = []
                             this.seleccionadas = []
                         }
-                        this.seleccionable=false //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
+                        this.seleccionable = false //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
 
                         this.elaborarSecuencia();
                     }
@@ -97,8 +97,8 @@ export default class scene_simonDice extends Phaser.Scene {
 
         setTimeout(async () => {
 
-            var mensajeMemoriza = this.add.image(this.sys.canvas.width/2, this.sys.canvas.height/2,"memoriza")
-            await this.esperar(1500) 
+            var mensajeMemoriza = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "memoriza")
+            await this.esperar(1500)
             mensajeMemoriza.destroy()
 
             for (var i = 0; i < this.secuencia_objetivo.length; i++) {
@@ -106,14 +106,18 @@ export default class scene_simonDice extends Phaser.Scene {
                 this.iluminarBombilla(this.secuencia_objetivo[i]);
             }
             //Agrego un nuevo elemento a la secuencia actual y lo muestro
-            var nuevo = Math.floor(Math.random() * 4)
-
+            
             await this.esperar(1250) //Espero 2 segundos antes de mostrar la siguiente bombilla iluminada 
-            this.iluminarBombilla(nuevo);
-            await this.esperar(1250)
-            this.secuencia_objetivo.push(nuevo)
-            var mensajeRepite = this.add.image(this.sys.canvas.width/2, this.sys.canvas.height/2,"repite")
-            await this.esperar(1500) 
+            for (var i = 0; i < this.nivel; i++) {
+                var nuevo = Math.floor(Math.random() * 4)
+                this.iluminarBombilla(nuevo);
+                await this.esperar(1250)
+                this.secuencia_objetivo.push(nuevo)
+            }
+
+
+            var mensajeRepite = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "repite")
+            await this.esperar(1500)
             mensajeRepite.destroy()
             this.seleccionable = true
             this.rondas++;
@@ -187,8 +191,8 @@ export default class scene_simonDice extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion,
-                nivel : this.nivel
+                segundos: this.duracion,
+                nivel: this.nivel
             });
     }
 

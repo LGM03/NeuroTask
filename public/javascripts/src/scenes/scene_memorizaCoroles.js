@@ -20,7 +20,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
 
     create() {
         const MS = 1000
-        this.duracion = 30  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad

@@ -22,7 +22,7 @@ export default class scene_cuentas extends Phaser.Scene {
     create() {
 
         const MS = 1000
-        this.duracion = 30  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
 
 
