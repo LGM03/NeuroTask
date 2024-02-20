@@ -26,8 +26,6 @@ $(function () {
 
 
     $("#listarPacientes").on("click", function (event) {
-
-
         $("#tituloUsuarios").text("Listado de Usuarios")
         $("#cuadranteCalendario").addClass("d-none")
         $("#cuadranteComentarios").addClass("d-none")
@@ -115,7 +113,7 @@ $(function () {
 
                         const formattedDate = `${("0" + date.getUTCDate()).slice(-2)}-${("0" + (date.getUTCMonth() + 1)).slice(-2)}-${date.getUTCFullYear()} ${("0" + date.getUTCHours()).slice(-2)}:${("0" + date.getUTCMinutes()).slice(-2)}`;
 
-                        var fila = '<tr><td>' + (indice + 1) + '</td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>' + formattedDate + '</td></tr>';
+                        var fila = '<tr><td>'+ dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>'  + dato.nivel + '</td><td>' + formattedDate + '</td></tr>';
 
                         $("#bodyTablaHistorial").append(fila);
                     });
@@ -474,26 +472,26 @@ $(function () {
         var usuario = divContenedor.text()
         var freq = $("#frecuencia").prop("value")
         var juego = $("#selectJuego").prop("value")
-        console.log(usuario + " " + freq)
+        var nivel = $("#selectNivel").prop("value")
         if (freq != "" && juego != "") {
             var dia = $("#diaModal").data("fecha")
             var usuario = $("#diaModal").data("usuario")
             var data = {
                 usuario: usuario.trim(),
-                juego: juego
+                juego: juego,
+                nivel : nivel
             }
-            switch (freq) {
+            switch (freq) { //Se usa valor entero en lugar de bool para facilitar el insert en la base de datos
                 case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
-                    console.log("es un dia ")
-                    data.seRepite = false
+                    data.seRepite = 0
                     data.fecha = dia
                     break
                 case "1":  //Si se debe jugar todos los dias inserto solo repetir a true y sin fecha
-                    data.seRepite = true
+                    data.seRepite = 1
                     data.fecha = null
                     break
                 case "2": //Si se debe jugar cada 7 dias inserto fecha y repetir a true
-                    data.seRepite = true
+                    data.seRepite = 1
                     data.fecha = dia
             }
 
@@ -503,7 +501,6 @@ $(function () {
                 data: data,
                 success: function (datos, state, jqXHR) {
 
-                    var text
                     if (datos == 0) {
                         nuevoToast("No se pudo asignar la tarea")
                     } else {
@@ -575,9 +572,9 @@ $(function () {
                         if (datos.length != 0) {
                             datos.forEach(function (dato) {
                                 if (dato.hecho == 0) {
-                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + "No" + '</td></tr>';
+                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>'  + dato.nivel + '</td><td>' + "No" + '</td></tr>';
                                 } else {
-                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td></td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + "Si" + '</td></tr>';
+                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td></td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.nivel + '</td><td> Si' + '</td></tr>';
                                 }
                                 $("#bodyTabla").append(fila);
 
@@ -638,7 +635,6 @@ function crearCajaPaciente(element) {
     caja.data("correo", element.correoP)
     $("#divListadoUsuarios").append(caja);
 }
-
 
 function crearCajaJuego(element) {
 

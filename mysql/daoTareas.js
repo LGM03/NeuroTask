@@ -10,7 +10,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, hecho, nombre, idTarea from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
+                const sql = "SELECT categoria, hecho, nombre, idTarea, nivel from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
                     " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true)) "
                     ;
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
@@ -31,7 +31,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, nombre, fechaInicio, aciertos, fallos,duracion from juegos inner join partidas on idJ = juegos.id where idP = ? order by fechaInicio";
+                const sql = "SELECT categoria, nombre, fechaInicio, aciertos, fallos,duracion , nivel from juegos inner join partidas on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? order by fechaInicio";
                 connection.query(sql, [usuario], function (err, resultado) {
                     connection.release();
                     if (err) {
@@ -125,15 +125,14 @@ class DAOTareas {
 
     asignarTarea(data, callback) {
 
-        const boolToNumber = (seRepite) => seRepite ? 1 : 0;
-
+        console.log(data)
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
-                const sql = "insert into calendario (idT,idP,idJ,seRepite,fecha) values (?,?,?,?,?)";
-                connection.query(sql, [data.terapeuta, data.usuario, data.juego, boolToNumber(data.seRepite), data.fecha], function (err, resultado) {
+                const sql = "insert into calendario (idT,idP,idJ,seRepite,nivel,fecha) values (?,?,?,?,?,?)";
+                connection.query(sql, [data.terapeuta, data.usuario, data.juego, data.seRepite,data.nivel,data.fecha], function (err, resultado) {
                     connection.release();
                     if (err) {
                         console.log(err)

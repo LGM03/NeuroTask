@@ -132,7 +132,8 @@ router.post('/asignar', function (req, res, next) {
     juego: req.body.juego,
     seRepite: req.body.seRepite,
     fecha: req.body.fecha,
-    terapeuta: req.session.usuario.correo
+    terapeuta: req.session.usuario.correo,
+    nivel : req.body.nivel
   }
 
   console.log(data)
