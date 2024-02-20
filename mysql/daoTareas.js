@@ -10,12 +10,13 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, hecho, nombre, idTarea from calendario inner join juegos on idJ = juegos.id where idP = ? and " +
+                const sql = "SELECT categoria, hecho, nombre, idTarea from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
                     " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true)) "
                     ;
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
                     connection.release();
                     if (err) {
+                        console.log(err)
                         callback(err, null);
                     } else {
                         callback(null, resultado);

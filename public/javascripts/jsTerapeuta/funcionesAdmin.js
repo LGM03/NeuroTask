@@ -174,7 +174,6 @@ $(function () {
         });
     })
 
-
     $("#btnEnviarComentario").on("click", function (event) {
         event.preventDefault()
         $("#alertaComentarios").addClass("d-none")
@@ -205,7 +204,6 @@ $(function () {
             nuevoToast("Escriba un comentario para poder publicarlo")
         }
     })
-
 
     $(document).on("click", ".btnVerEstadisticas", function () {
         $('.cajaGraficas').empty()
@@ -426,8 +424,6 @@ $(function () {
 
     })
 
-
-
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
         $('#calendario').fullCalendar('removeEventSources');
@@ -543,6 +539,7 @@ $(function () {
                     url: "/tareas/tareaUsuarioDia",
                     data: data,
                     success: function (datos, state, jqXHR) {
+                        console.log(datos)
                         if (datos.length != 0) {
                             cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
                         } else {
