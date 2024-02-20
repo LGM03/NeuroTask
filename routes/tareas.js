@@ -31,6 +31,31 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
   });
 });
 
+router.get('/tareaPlan', function (req, res, next) {
+
+  if (req.session.usuario) {
+    const DAOAp = require("../mysql/daoTareas")
+    const midao = new DAOAp(pool)
+
+    var data = {
+      usuario: req.session.usuario.correo,
+      dia: req.query.dia
+    }
+
+    console.log(data)
+    midao.tareaUsuarioDia(data, (err, datos) => {
+      if (err) {
+        res.send({});
+      }
+      else {
+
+        console.log(datos)
+        res.send(datos);
+      }
+    });
+  }
+});
+
 router.get('/partidasUsuario', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
@@ -86,7 +111,7 @@ router.get('/progresoCategoria', function (req, res, next) { /*Se ve el rendimie
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
 
-  var data ={
+  var data = {
     usuario: req.query.usuario,
     categoria: req.query.categoria,
     fecha: req.query.fecha
@@ -133,7 +158,7 @@ router.post('/asignar', function (req, res, next) {
     seRepite: req.body.seRepite,
     fecha: req.body.fecha,
     terapeuta: req.session.usuario.correo,
-    nivel : req.body.nivel
+    nivel: req.body.nivel
   }
 
   console.log(data)

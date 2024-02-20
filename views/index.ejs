@@ -7,6 +7,7 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
   <link rel="stylesheet" href="css/estilosMainView.css">
   <link rel="shortcut icon" href="images/cerebroSentado.jpg">
   <title>NeuroTask</title>
@@ -30,8 +31,11 @@
             <button class="btn  m-2 p-2 botonNav" src="/admin" type="submit"><strong>Administrar</strong></button>
           </form>
           <%}else{%>
-            <button class="btn btn-primary m-2 p-2 botonNav">¡Jugar la planificación de hoy!</button>
-
+            <div id="cajaJugarPlan">
+              <h1 id="textoElige" class="d-none">¡Elige un juego!</h1>
+              <button class="btn btn-primary m-2 p-2 botonNav d-none" id="btnJugarPlan">¡Jugar la planificación de
+                hoy!</button>
+            </div>
             <%}%>
 
     </div>
@@ -45,7 +49,6 @@
     <!-- Contenedor encargado de almacenar la seccion donde apareceran los destinos disponibles -->
 
     <div class="row">
-      <!-- formado por x filas que contienen grupos de 3 destinos los cuales se muestran usando el formato card ubicados dentro de columnas -->
       <!--PLANTILLA EJS-->
       <%juegos.forEach(function(juego){ %>
 
@@ -70,7 +73,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
     crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone-with-data.min.js"></script>
+  <script src="/javascripts/jsTerapeuta/funcionesUsuario.js"></script>
 
 </body>
 
