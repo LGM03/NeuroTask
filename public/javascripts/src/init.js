@@ -65,8 +65,6 @@ export function arranque(idJuego) {
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';
 
-    game.scale.setGameSize(contJuego.offsetWidth, contJuego.offsetHeight);
-
 }
 
 export default class inicio extends Phaser.Scene { //escena que llama al bootloader y le pasa el id del juego correspondiente

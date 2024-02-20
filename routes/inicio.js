@@ -11,7 +11,6 @@ const pool = mysql.createPool({
 
 
 router.post('/', (req, res) => {
-    console.log(req.body)
     
     datosInicio = {
         correo: req.body.correo,
