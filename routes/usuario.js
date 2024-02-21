@@ -1,14 +1,7 @@
 var express = require('express');
 const bcrypt = require('bcrypt');
 var router = express.Router();
-
-const mysql = require("mysql")
-const pool = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "neurotask"
-})
+const pool = require('./bd')
 
 //Cuando se mande un formulario de reserva 
 
@@ -30,7 +23,6 @@ router.post("/login", async (req, res) => {
                         nombre: datos.nombre,
                         correo: correo
                     };
-                    console.log(datos)
                     if (datos.edad) {
                         req.session.usuario.tipo = "paciente"
                         req.session.usuario.edad = datos.edad
@@ -65,14 +57,15 @@ router.post("/logout", (req, res) => {
 
 router.post('/crearCuenta', (req, res) => {
 
-    datosUsuario = { //Recojo la información que viene del forms
+    var datosUsuario = { //Recojo la información que viene del forms
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         correo: req.body.correo,
         contraseña: req.body.contraseña,
-        clinica: req.body.inputAdicional
+        clinica: req.body.clinica
     }
 
+    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
     const saltRounds = 10; // Número de rondas para el proceso de hashing (mayor es más seguro, pero más lento)
@@ -85,10 +78,10 @@ router.post('/crearCuenta', (req, res) => {
 
             midao.altaUsuario(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
                 if (err) {
-                    res.redirect(`/?error=${"Ya existe una cuenta con esos datos"}`); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
+                    res.json(0); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
                 }
                 else {
-                    res.redirect(`/?exito=${'Cuenta creada con éxito'}`); //Si todo ha ido bien redirijo a /destino con el mensaje de exito
+                    res.json(datos)
                 }
             });
 
@@ -106,7 +99,8 @@ router.post('/crearPaciente', (req, res) => {
         apellido: req.body.apellidoPaciente,
         correo: req.body.correoPaciente,
         edad: req.body.edadPaciente,
-        correoTer: req.session.usuario.correo //Paso tambien el correo del terapeuta que esta creando el usuario
+        correoTer: req.session.usuario.correo, //Paso tambien el correo del terapeuta que esta creando el usuario
+        deterioro : req.body.deterioroPaciente
     }
 
     const DAOAp = require("../mysql/daoUsuarios")

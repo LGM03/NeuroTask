@@ -1,15 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-const mysql = require("mysql")
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "neurotask"
-})
-
-
+const pool = require('./bd')
 //Accede a la base de datos buscando todas las tareas de un usuario para un dia concreto
 router.get('/tareaUsuarioDia', function (req, res, next) {
 

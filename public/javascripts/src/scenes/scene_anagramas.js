@@ -21,7 +21,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
         this.crearInterfaz();
         const self = this
-        $("#tituloJuego").text("Descubre una palabra con estas letras")
+        $("#tituloJuego").text("Descubre una palabra con todas estas letras")
         $(document).on("click", ".botonPalabra", function (event) {
             self.fraseFormada+=$(this).text()
             $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())

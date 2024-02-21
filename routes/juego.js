@@ -1,13 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-const mysql = require("mysql")
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "neurotask"
-})
+const pool = require('./bd')
 
 router.get('/', function (req, res, next) {
 
