@@ -46,7 +46,9 @@ $(function () {
         }
 
         $("#alertaCrearCuenta").removeClass("d-none")
-        if (correo.trim() == "") {
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+       
+        if (correo.trim() == "" || !regex.test(correo)) {
             $("#alertaCrearCuenta").removeClass("d-none")
             $("#alertaCrearCuenta").text("El correo introducido no es válido")
             $("#correo").css("border-color", "red");
