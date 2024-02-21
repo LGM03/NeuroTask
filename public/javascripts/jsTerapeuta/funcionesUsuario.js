@@ -18,7 +18,6 @@ $(function () {
                 $("#btnJugarPlan").removeClass("d-none")
                 $("#textoElige").addClass("d-none")
             }
-            console.log(plan)
         },
         error: function (jqXHR, statusText, errorThrown) {
             nuevoToast("Ha ocurrido un error con el calendario")
@@ -29,6 +28,7 @@ $(function () {
     $("#btnCrearNuevaCuenta").on("click", function (event) {
 
         event.preventDefault()
+        $("#crearCuenta input").css("border-color", "")
         var correo = $("#correo").prop("value")
         var contraseña1 = $("#contraseña").prop("value")
         var contraseña2 = $("#contraseñaRep").prop("value")
@@ -83,6 +83,7 @@ $(function () {
                         $("#crearCuenta input").css("border-color", "")
                         $("#alertaCrearCuenta").addClass("d-none")
                         $("#correo, #contraseña, #contraseñaRep, #inputAdicional, #nombre, #apellido").val("");
+                        $("#InicioSesion").modal("show")
                     }
                 },
                 error: function (jqXHR, statusText, errorThrown) {

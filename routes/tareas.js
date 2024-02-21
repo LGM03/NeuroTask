@@ -24,7 +24,7 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
 
 router.get('/tareaPlan', function (req, res, next) {
 
-  if (req.session.usuario) {
+  if (req.session.usuario != undefined) {
     const DAOAp = require("../mysql/daoTareas")
     const midao = new DAOAp(pool)
 
@@ -32,15 +32,11 @@ router.get('/tareaPlan', function (req, res, next) {
       usuario: req.session.usuario.correo,
       dia: req.query.dia
     }
-
-    console.log(data)
     midao.tareaUsuarioDia(data, (err, datos) => {
       if (err) {
         res.send({});
       }
       else {
-
-        console.log(datos)
         res.send(datos);
       }
     });
