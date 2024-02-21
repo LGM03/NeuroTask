@@ -1,5 +1,9 @@
 $(function () {
 
+    /*
+
+    SUSTITUIR POR UN BOTON JUGAR PLANIFICACION SI NO HAY PONER TOAST
+
     let plan
     $.ajax({ // veo para cada dia que actividades hay
         method: "GET",
@@ -13,22 +17,21 @@ $(function () {
                 $("#textoElige").removeClass("d-none")
                 $("#btnJugarPlan").addClass("d-none")
                 plan = []
-            } else {
+            } else if (datos.length > 0) {
                 plan = datos
                 $("#btnJugarPlan").removeClass("d-none")
                 $("#textoElige").addClass("d-none")
             }
         },
         error: function (jqXHR, statusText, errorThrown) {
-            nuevoToast("Ha ocurrido un error con el calendario")
-
+            nuevoToast("Ha ocurrido un error")
         }
-    });
+    });*/
 
     $("#btnCrearNuevaCuenta").on("click", function (event) {
-
         event.preventDefault()
         $("#crearCuenta input").css("border-color", "")
+        $("#alertaCrearCuenta").removeClass("d-none")
         var correo = $("#correo").prop("value")
         var contraseña1 = $("#contraseña").prop("value")
         var contraseña2 = $("#contraseñaRep").prop("value")
@@ -45,11 +48,9 @@ $(function () {
             clinica: clinica
         }
 
-        $("#alertaCrearCuenta").removeClass("d-none")
         var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-       
+
         if (correo.trim() == "" || !regex.test(correo)) {
-            $("#alertaCrearCuenta").removeClass("d-none")
             $("#alertaCrearCuenta").text("El correo introducido no es válido")
             $("#correo").css("border-color", "red");
         } else if (contraseña1.trim() == "" || contraseña2.trim() == "" || contraseña1 != contraseña2) {
@@ -89,6 +90,52 @@ $(function () {
                 error: function (jqXHR, statusText, errorThrown) {
                     nuevoToast("Ha ocurrido un error con el calendario")
 
+                }
+            });
+        }
+
+
+    })
+
+    $("#btnIniciarSesion").on("click", function (event) {
+
+        event.preventDefault()
+
+        $("#inicioSesion input").css("border-color", "")
+        $("#alertaInicio").removeClass("d-none")
+
+        var correo = $("#correoInicio").prop("value")
+        var contraseña = $("#contraseñaInicio").prop("value")
+
+        var datos = {
+            correo: correo,
+            contraseña: contraseña,
+        }
+
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (correo.trim() == "" || !regex.test(correo)) {
+            $("#alertaInicio").text("El correo introducido no es válido")
+            $("#correoInicio").css("border-color", "red");
+        } else if (contraseña.trim() == "") {
+            $("#alertaInicio").text("La contraseña introducida no es válida")
+            $("#contraseñaInicio").css("border-color", "red");
+        } else {
+            $.ajax({ // veo para cada dia que actividades hay
+                method: "GET",
+                url: "/user/login",
+                data: datos,
+                success: function (datos, state, jqXHR) {
+                    if (datos == 0) {
+                        $("#alertaInicio").text("Correo o contraseña no válidos")
+                    }else if(datos == 1){
+                        window.location.href = "/"
+                    }else if(datoss = 2){
+                        window.location.href = "/admin"
+                    }
+                },
+                error: function (jqXHR, statusText, errorThrown) {
+                    $("#alertaInicio").text("Correo o contraseña no válidos")
                 }
             });
         }

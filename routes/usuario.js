@@ -5,35 +5,40 @@ const pool = require('./bd')
 
 //Cuando se mande un formulario de reserva 
 
-router.post("/login", async (req, res) => {
+router.get("/login", async (req, res) => {
     try {
         const DAOAp = require("../mysql/daoUsuarios")
         const midao = new DAOAp(pool)
-        var correo = req.body.correo
-        var contraseña = req.body.contraseña
+        var correo = req.query.correo
+        var contraseña = req.query.contraseña
 
+        console.log(correo + " A " + contraseña)
         midao.leerPorID(correo, async (err, datos) => {
-            if (err || datos == null) {
-                res.redirect(`/?error=${"No se ha podido iniciar sesion"}`) //Cargo una ventana de error y ha ocurrido un problema
+            if (err) {
+                res.json(0) //Cargo una ventana de error y ha ocurrido un problema
             }
             else {
-                const coincide = await bcrypt.compare(contraseña, datos.contraseña)
-                if (coincide) {
-                    req.session.usuario = {
-                        nombre: datos.nombre,
-                        correo: correo
-                    };
-                    if (datos.edad) {
-                        req.session.usuario.tipo = "paciente"
-                        req.session.usuario.edad = datos.edad
-                        res.redirect('/');
+                if (datos != null) {
+                    const coincide = await bcrypt.compare(contraseña, datos.contraseña)
+                    if (coincide) {
+                        req.session.usuario = {
+                            nombre: datos.nombre,
+                            correo: correo
+                        };
+                        if (datos.edad) {
+                            req.session.usuario.tipo = "paciente"
+                            req.session.usuario.edad = datos.edad
+                            res.json('1');
+                        } else {
+                            req.session.usuario.tipo = "terapeuta"
+                            req.session.usuario.clinica = datos.clinica
+                            res.json('2')
+                        }
                     } else {
-                        req.session.usuario.tipo = "terapeuta"
-                        req.session.usuario.clinica = datos.clinica
-                        res.redirect('/admin')
+                        res.json(0)
                     }
-                } else {
-                    res.redirect(`/?error=${"Credenciales no validas"}`)
+                }else{
+                    res.json(0)
                 }
             }
         });
@@ -100,7 +105,7 @@ router.post('/crearPaciente', (req, res) => {
         correo: req.body.correoPaciente,
         edad: req.body.edadPaciente,
         correoTer: req.session.usuario.correo, //Paso tambien el correo del terapeuta que esta creando el usuario
-        deterioro : req.body.deterioroPaciente
+        deterioro: req.body.deterioroPaciente
     }
 
     const DAOAp = require("../mysql/daoUsuarios")
@@ -138,7 +143,7 @@ router.post('/vincularPaciente', (req, res) => {
 
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
-  
+
 
     midao.vincularPaciente(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
         if (err) {

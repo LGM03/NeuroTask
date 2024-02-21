@@ -45,23 +45,23 @@
 
         <!-- cuerpo del diálogo -->
         <div class="modal-body alert alert-primary">
-
-          <form id="inicioSesion" method="post" action="/user/login">
+          <p class="alert alert-warning d-none" id="alertaInicio"></p>
+          <form id="inicioSesion">
             <div class="mb-3 row">
-              <label for="correo" class="col-sm-3 col-form-label">Correo:</label>
+              <label for="correoInicio" class="col-sm-3 col-form-label">Correo:</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control" name="correo" required>
+                <input type="email" class="form-control" name="correoInicio" id="correoInicio" required>
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="contraseña" class="col-sm-3 col-form-label">Contraseña:</label>
+              <label for="contraseñaInicio" class="col-sm-3 col-form-label">Contraseña:</label>
               <div class="col-sm-9">
-                <input type="password" class="form-control" name="contraseña" required>
+                <input type="password" class="form-control" name="contraseñaInicio" id="contraseñaInicio" required>
               </div>
             </div>
             <div class="mb-3 row">
               <div class="offset-sm-3 col-sm-9">
-                <button type="submit" class="btn btn-primary">Confirmar</button>
+                <button type="submit" class="btn btn-primary" id="btnIniciarSesion">Confirmar</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
               </div>
             </div>
