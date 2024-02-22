@@ -34,11 +34,11 @@ router.get("/login", async (req, res) => {
                             res.json('2')
                         }
                     } else {
-                        res.status(404)
+                        res.status(400)
                         res.json(0)
                     }
                 }else{
-                    res.status(404)
+                    res.status(400)
                     res.json(0)
                 }
             }
@@ -84,7 +84,7 @@ router.post('/crearCuenta', (req, res) => {
 
             midao.altaUsuario(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
                 if (err) {
-                    res.status(404)
+                    res.status(400)
                     res.json(0); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
                 }
                 else {
