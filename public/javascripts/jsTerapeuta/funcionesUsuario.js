@@ -143,6 +143,18 @@ $(function () {
 
     })
 
+    $('#InicioSesion').on('hidden.bs.modal', function () {
+        $("#alertaInicio").addClass("d-none")
+        $("#InicioSesion input").css("border-color", "");
+        $("#InicioSesion input").prop("value", "");
+    });
+
+    $('#InicioSesion').on('hidden.bs.modal', function () {
+        $("#alertaCrearCuenta").addClass("d-none")
+        $("#crearCuenta input").css("border-color", "")
+        $("#crearCuenta input").prop("value", "");
+    });
+
 })
 
 function nuevoToast(text) {

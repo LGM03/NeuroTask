@@ -594,6 +594,10 @@ $(function () {
 
         });
     }
+
+    
+
+
 })
 
 function crearCajaPaciente(element) {
