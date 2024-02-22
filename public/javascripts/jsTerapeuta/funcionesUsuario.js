@@ -88,8 +88,8 @@ $(function () {
                     }
                 },
                 error: function (jqXHR, statusText, errorThrown) {
-                    nuevoToast("Ha ocurrido un error con el calendario")
-
+                    $("#alertaCrearCuenta").text("El correo introducido no es válido")
+                    $("#correo").css("border-color", "red");
                 }
             });
         }

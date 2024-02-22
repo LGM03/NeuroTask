@@ -6,8 +6,11 @@ const pool = require('./bd')
 /* GET home page. */
 router.get('/', function (req, res, next) { //meter BD aqui
 
-  console.log(req.query.exito)
+  if(req.session.usuario  != undefined && req.session.usuario.tipo == "terapeuta"){
   res.render("admin", {exito : req.query.exito, error : req.query.error})
+  }else{
+    res.redirect("/")
+  }
 });
 
 

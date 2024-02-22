@@ -12,7 +12,6 @@ router.get("/login", async (req, res) => {
         var correo = req.query.correo
         var contraseña = req.query.contraseña
 
-        console.log(correo + " A " + contraseña)
         midao.leerPorID(correo, async (err, datos) => {
             if (err) {
                 res.json(0) //Cargo una ventana de error y ha ocurrido un problema
@@ -35,9 +34,11 @@ router.get("/login", async (req, res) => {
                             res.json('2')
                         }
                     } else {
+                        res.status(404)
                         res.json(0)
                     }
                 }else{
+                    res.status(404)
                     res.json(0)
                 }
             }
@@ -83,6 +84,7 @@ router.post('/crearCuenta', (req, res) => {
 
             midao.altaUsuario(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
                 if (err) {
+                    res.status(404)
                     res.json(0); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
                 }
                 else {
@@ -92,8 +94,6 @@ router.post('/crearCuenta', (req, res) => {
 
         });
     });
-
-
 });
 
 
