@@ -84,72 +84,86 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
     }
 
 
-    altaPaciente(datosUsuario, callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) {
-                callback(err, null);
-                return;
+    altaPaciente(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
+        console.log(datosUsuario)
+
+
+        const insertarUsuario = (datosUsuario) => {
+            return new Promise((resolve, reject) => {
+                this.pool.getConnection((err, connection) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        const sql = "INSERT INTO `usuario`(correo, nombre, apellido, contraseña, salt) VALUES (?,?,?,?,?);";
+                        connection.query(sql, [datosUsuario.correo, datosUsuario.nombre, datosUsuario.apellido, datosUsuario.contrasenaPaciente, datosUsuario.salt], function (err, resultado) {
+                            connection.release();
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(resultado);
+                            }
+                        });
+                    }
+                });
+            });
+        };
+
+        const insertarPaciente = (datosUsuario) => {
+            return new Promise((resolve, reject) => {
+                this.pool.getConnection((err, connection) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        var sql2 = "INSERT INTO `paciente` (correo,edad)  VALUES (?,?);";
+                        connection.query(sql2, [datosUsuario.correo, datosUsuario.edad], function (err, resultado2) {
+                            connection.release();
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(resultado2);
+                            }
+                        });
+                    }
+                });
+            });
+        };
+
+        const conexionPacienteTerapeuta = (datosUsuario) => {
+            return new Promise((resolve, reject) => {
+                this.pool.getConnection((err, connection) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        var sql2 = "INSERT INTO `pac_ter` (correoP,correoT)  VALUES (?,?);";
+                        connection.query(sql2, [datosUsuario.correo, datosUsuario.correoTer], function (err, resultado2) {
+                            connection.release();
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(resultado2);
+                            }
+                        });
+                    }
+                });
+            });
+        };
+        const executeQueries = async () => {
+            try {
+                await insertarUsuario(datosUsuario);
+
+                await insertarPaciente(datosUsuario);
+
+                await conexionPacienteTerapeuta(datosUsuario);
+
+                callback(null,"1")
+            } catch (err) {
+                callback(err, "0");
             }
-    
-            connection.beginTransaction(async (err) => {
-                if (err) {
-                    connection.release();
-                    callback(err, null);
-                    return;
-                }
-    
-                try {
-                    await insertarUsuario(connection, datosUsuario);
-                    await insertarPaciente(connection, datosUsuario);
-                    await conexionPacienteTerapeuta(connection, datosUsuario);
-    
-                    connection.commit((err) => {
-                        if (err) {
-                            return connection.rollback(() => {
-                                connection.release();
-                                callback(err, null);
-                            });
-                        }
-                        connection.release();
-                        callback(null, "1"); // Todas las operaciones se completaron correctamente
-                    });
-                } catch (err) {
-                    connection.rollback(() => {
-                        connection.release();
-                        callback(err, "0"); // Alguna operación falló
-                    });
-                }
-            });
-        });
+        }
+
+        executeQueries()
+
     }
-    
-    async  insertarUsuario(connection, datosUsuario) {
-        const sql = "INSERT INTO `usuario`(correo, nombre, apellido, contraseña, salt) VALUES (?,?,?,?,?);";
-        await executeQuery(connection, sql, [datosUsuario.correo, datosUsuario.nombre, datosUsuario.apellido, datosUsuario.contrasenaPaciente, datosUsuario.salt]);
-    }
-    
-    async  insertarPaciente(connection, datosUsuario) {
-        const sql = "INSERT INTO `paciente` (correo,edad,deterioro)  VALUES (?,?,?);";
-        await executeQuery(connection, sql, [datosUsuario.correo, datosUsuario.edad, datosUsuario.deterioro]);
-    }
-    
-    async  conexionPacienteTerapeuta(connection, datosUsuario) {
-        const sql = "INSERT INTO `pac_ter` (correoP,correoT)  VALUES (?,?);";
-        await executeQuery(connection, sql, [datosUsuario.correo, datosUsuario.correoTer]);
-    }
-    
-    async executeQuery(connection, sql, values) {
-        return new Promise((resolve, reject) => {
-            connection.query(sql, values, (err, result) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-    
 
 
     pacientesXTerapeuta(correoTer, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
