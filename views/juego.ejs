@@ -23,7 +23,6 @@
 
     <body>
 
-        <main>
             <div class="container mt-3 ventanaJuego" id="contJuego">
 
                 <div class=" ventanaJuego d-flex flex-column d-none rounded w-100 h-100" id="juegoLenguaje">
@@ -50,18 +49,42 @@
                     </div>
 
                 </div>
-                <div id="ventanaDificultad" class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-5 pb-5">
+                <div id="ventanaDificultad"
+                    class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-5 pb-5">
                     <h2><strong>SELECCIONE UNA DIFICULTAD</strong> </h2>
-                    <button class="btnDificultad mb-3" data-nivel="1"><img src="/images/btnFacil.png" alt="Dificultad fácil"></button>
-                    
-                    <button class="btnDificultad mb-3" data-nivel="2"><img src="/images/btnMedio.png" alt="Dificultad media"></button>
-                    
-                    <button class="btnDificultad mb-3" data-nivel="3"><img src="/images/btnDificil.png" alt="Dificultad dificil"></button>
-                
+                    <button class="btnDificultad mb-3" data-nivel="1"><img src="/images/btnFacil.png"
+                            alt="Dificultad fácil"></button>
+
+                    <button class="btnDificultad mb-3" data-nivel="2"><img src="/images/btnMedio.png"
+                            alt="Dificultad media"></button>
+
+                    <button class="btnDificultad mb-3" data-nivel="3"><img src="/images/btnDificil.png"
+                            alt="Dificultad dificil"></button>
+
                 </div>
+
+                <div id="ventanaSimonDice"
+                    class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
+                    <h2><strong>Repite el orden en el que se encienden las bombillas</strong></h2>
+                    <div class="row d-flex justify-content-around align-items-center">
+                        <img src="javascripts/assets/verde1.png" alt="bombilla Morada"
+                            id="bombillaMorada" class="bombilla sombra w-100">
+                        <img src="javascripts/assets/rojo1.png" alt="bombilla Roja"  id="bombillaRoja"
+                            class="bombilla sombra  w-100">
+                    </div>
+                    <div class="row d-flex justify-content-around align-items-center">
+                        <img src="javascripts/assets/azul1.png" alt="bombilla Azul"  id="bombillaAzul"
+                            class="bombilla sombra  w-100">
+                        <img src="javascripts/assets/amarillo1.png" alt="bombilla Amarilla"
+                            id="bombillaAmarilla" class="bombilla sombra  w-100">
+                    </div>
+
+                </div>
+
+
             </div>
 
-        </main>
+
 
         <section>
             <div class="container alert mt-3 infoJuego sombras rounded">

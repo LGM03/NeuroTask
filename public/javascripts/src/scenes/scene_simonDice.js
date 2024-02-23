@@ -8,7 +8,7 @@ export default class scene_simonDice extends Phaser.Scene {
         this.fechaInicio = new Date();
         this.rondas = 1;
         this.seleccionable = false
-        this.colores = [["moradoApagado", "moradoEncendido"], ["rojoApagado", "rojoEncendido"], ["azulApagado", "azulEncendido"], ["amarilloApagado", "amarilloEncendido"]]
+        this.colores = ["bombillaMorada", "bombillaRoja", "bombillaAzul", "bombillaAmarilla"]
         this.secuencia_objetivo = []
         this.seleccionadas = []
     }
@@ -19,60 +19,58 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     create() {
+
         const MS = 1000
         this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
-        this.fondo.setScale(0.5);
-
-        // Crear la interfaz de usuario
-        this.add.text(this.sys.canvas.width / 2, this.sys.canvas.height / 8, "Repite el orden en el que se encienden las bombillas", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5, 0.5)
-
-        this.crearInterfaz();
+        $('#ventanaSimonDice').removeClass('d-none')
+        const self = this
+        // Asignar un evento de clic al botón
 
         this.elaborarSecuencia();
 
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
-
-            if (this.seleccionable) {
-                this.seleccionadas.push(gameObject.value)
-                this.iluminarBombilla(gameObject.value);
+        $('#ventanaSimonDice').on("click", ".bombilla", async function (event) {
+            if (self.seleccionable) {
+                self.seleccionadas.push($(this).attr("id"))
+                $(this).removeClass("sombra")
+                await self.esperar(1000)
+                $(this).addClass("sombra")
                 //Si tienen la misma longitud y todos los elementos son iguales
-
-                console.log(this.seleccionadas + " " + this.secuencia_objetivo)
-
-                setTimeout(async () => {
-                    if (this.seleccionadas.length == this.secuencia_objetivo.length) {
-                        if (this.seleccionadas.every((element, index) => element == this.secuencia_objetivo[index])) {
-                            this.seleccionadas = []
-                            this.cubrirResultado(true) //true porque es acierto
-                            this.puntuacion++;
-                        } else {
-                            this.fallos++;
-                            this.cubrirResultado(false)
-                            this.rondas = 1
-                            this.secuencia_objetivo = []
-                            this.seleccionadas = []
-                        }
-                        this.seleccionable = false //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
-
-                        this.elaborarSecuencia();
+                await self.esperar(1000)
+                if (self.seleccionadas.length == self.secuencia_objetivo.length && self.secuencia_objetivo.length >= 1) {
+                    console.log(self.secuencia_objetivo + " ----  " + self.seleccionadas)
+                    self.seleccionable = false
+                    if (self.seleccionadas.every((element, index) => element == self.secuencia_objetivo[index])) {
+                        console.log("A")
+                        self.seleccionadas = []
+                        self.cubrirResultado(true) //true porque es acierto
+                        self.puntuacion++;
+                    } else {
+                        console.log("F")
+                        self.fallos++;
+                        self.cubrirResultado(false)
+                        self.rondas = 1
+                        self.secuencia_objetivo = []
+                        self.seleccionadas = []
                     }
-                }, 1250);
-
+                    //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
+                    self.elaborarSecuencia();
+                } else if (self.seleccionadas.length > self.secuencia_objetivo.length) {
+                    self.fallos++;
+                    self.cubrirResultado(false)
+                    self.rondas = 1
+                    self.secuencia_objetivo = []
+                    self.seleccionadas = []
+                    self.elaborarSecuencia();
+                }
 
             }
-
-        }, this);
+        })
     }
 
-
     cubrirResultado(esAcierto) {
+        $('#ventanaSimonDice').addClass('d-none')
         var color = 0xFF0000
         if (esAcierto) {
             var color = 0x00FF00
@@ -86,94 +84,52 @@ export default class scene_simonDice extends Phaser.Scene {
             duration: 1250,
             ease: 'Linear',
             onComplete: () => {
+                $('#ventanaSimonDice').removeClass('d-none')
                 cover.destroy();
             }
         });
     }
-
 
     elaborarSecuencia() {
         //Muestro la secuencia actual
 
         setTimeout(async () => {
 
+            $('#ventanaSimonDice').addClass('d-none')
             var mensajeMemoriza = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "memoriza")
             await this.esperar(1500)
             mensajeMemoriza.destroy()
+            $('#ventanaSimonDice').removeClass('d-none')
+            await this.esperar(500)
 
             for (var i = 0; i < this.secuencia_objetivo.length; i++) {
-                await this.esperar(1250) //Espero 2 segundos antes de mostrar la siguiente bombilla iluminada 
-                this.iluminarBombilla(this.secuencia_objetivo[i]);
+                console.log(this.secuencia_objetivo[i])
+                //Espero 2 segundos antes de mostrar la siguiente bombilla iluminada 
+                $("#" + this.secuencia_objetivo[i]).removeClass("sombra");
+                await this.esperar(1000)
+                $("#" + this.secuencia_objetivo[i]).addClass("sombra");
+                await this.esperar(1000)
             }
             //Agrego un nuevo elemento a la secuencia actual y lo muestro
-            
-            await this.esperar(1250) //Espero 2 segundos antes de mostrar la siguiente bombilla iluminada 
+
             for (var i = 0; i < this.nivel; i++) {
                 var nuevo = Math.floor(Math.random() * 4)
-                this.iluminarBombilla(nuevo);
-                await this.esperar(1250)
-                this.secuencia_objetivo.push(nuevo)
+                $("#" + this.colores[nuevo]).removeClass("sombra");
+                await this.esperar(1000)
+                $("#" + this.colores[nuevo]).addClass("sombra");
+                this.secuencia_objetivo.push(this.colores[nuevo])
+                await this.esperar(1000)
             }
 
-
+            $('#ventanaSimonDice').addClass('d-none')
             var mensajeRepite = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "repite")
             await this.esperar(1500)
             mensajeRepite.destroy()
+            $('#ventanaSimonDice').removeClass('d-none')
             this.seleccionable = true
             this.rondas++;
 
         }, 1250);
-    }
-
-    crearInterfaz() {
-
-        this.bombillaGrupo = this.add.group();
-        const bombillaMorada = this.add.image(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "moradoApagado", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5).setScale(0.5);
-        bombillaMorada.setInteractive();
-        bombillaMorada.value = 0;
-        this.bombillaGrupo.add(bombillaMorada)
-
-        const bombillaRoja = this.add.image(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "rojoApagado", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5).setScale(0.5);
-        bombillaRoja.setInteractive();
-        bombillaRoja.value = 1;
-        this.bombillaGrupo.add(bombillaRoja)
-
-        const bombillaAzul = this.add.image(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "azulApagado", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5).setScale(0.5);
-        bombillaAzul.setInteractive();
-        bombillaAzul.value = 2;
-        this.bombillaGrupo.add(bombillaAzul)
-
-        const bombillaAmarilla = this.add.image(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "amarilloApagado", {
-            fontSize: '24px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5).setScale(0.5);
-        bombillaAmarilla.setInteractive();
-        bombillaAmarilla.value = 3;
-        this.bombillaGrupo.add(bombillaAmarilla)
-
-    }
-
-    iluminarBombilla(numeroAleatorio) {
-
-        this.bombillaGrupo.getChildren()[numeroAleatorio].setTexture(this.colores[numeroAleatorio][1]) //La que toque la enciendo
-        setTimeout(async () => {// Apaga la bombilla después de la pausa
-            this.bombillaGrupo.getChildren()[numeroAleatorio].setTexture(this.colores[numeroAleatorio][0]);
-        }, 1000);
-
-
     }
 
     esperar(ms) {
@@ -181,6 +137,7 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     finalizarJuego() {
+        $('#ventanaSimonDice').addClass('d-none')
         const minutos = Math.floor(this.duracion / 60000);
         const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
 

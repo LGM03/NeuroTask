@@ -28,6 +28,9 @@
     background-position: center;
 }
 
+.bombilla{
+max-width: 30%;
+}
 .fondoBlanco {
     background-color: rgba(255, 255, 255, 0.5);
 }
@@ -68,3 +71,17 @@ canvas {
     /* Para cubrir todo el contenido del div */
     background-position: center;
 }
+
+#ventanaSimonDice{
+    position: absolute;
+    z-index: 2;
+    background-image: url('/images/fondoRosa.png');
+    /* Ruta de tu imagen */
+    background-size: cover;
+    /* Para cubrir todo el contenido del div */
+    background-position: center;
+}
+
+.sombra {
+    filter: brightness(0.30); 
+  }
