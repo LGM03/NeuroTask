@@ -40,6 +40,8 @@ router.get('/tareaPlan', function (req, res, next) {
         res.send(datos);
       }
     });
+  }else{
+    res.send({})
   }
 });
 
@@ -105,7 +107,6 @@ router.get('/progresoCategoria', function (req, res, next) { /*Se ve el rendimie
 
   }
 
-  console.log(data)
   midao.progresoCategoria(data, (err, datos) => {
     if (err) {
       res.send({});
@@ -148,7 +149,6 @@ router.post('/asignar', function (req, res, next) {
     nivel: req.body.nivel
   }
 
-  console.log(data)
 
   midao.asignarTarea(data, (err, datos) => {
     if (err) {

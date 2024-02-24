@@ -442,11 +442,8 @@ $(function () {
     })
 
     $(document).on("click", ".btnEliminarTarea", function (event) {
-        var divContenedor = $(this).closest('.cajaPaciente');
-        var usuario = divContenedor.data("correo")
         var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
         var divTarea = $(this).closest('tr.tareaJugador')
-        console.log(idTarea);
         var data = { id: idTarea };
         $.ajax({
             url: "/tareas/eliminar",
@@ -457,6 +454,7 @@ $(function () {
                 if (datos == 0) {
                     nuevoToast("No se pudo eliminar la tarea")
                 } else {
+                    nuevoToast("Se eliminó la tarea")
                     divTarea.slideUp(1000)
                 }
             },

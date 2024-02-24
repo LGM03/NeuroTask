@@ -1,10 +1,7 @@
+
+
 $(function () {
 
-    /*
-
-    SUSTITUIR POR UN BOTON JUGAR PLANIFICACION SI NO HAY PONER TOAST
-
-    let plan
     $.ajax({ // veo para cada dia que actividades hay
         method: "GET",
         url: "/tareas/tareaPlan",
@@ -16,17 +13,18 @@ $(function () {
             if (datos.length == 0) {
                 $("#textoElige").removeClass("d-none")
                 $("#btnJugarPlan").addClass("d-none")
-                plan = []
+
             } else if (datos.length > 0) {
-                plan = datos
+
                 $("#btnJugarPlan").removeClass("d-none")
+                $("#btnJugarPlan").data("plan", datos)
                 $("#textoElige").addClass("d-none")
             }
         },
         error: function (jqXHR, statusText, errorThrown) {
             nuevoToast("Ha ocurrido un error")
         }
-    });*/
+    });
 
     $("#btnCrearNuevaCuenta").on("click", function (event) {
         event.preventDefault()
@@ -128,9 +126,9 @@ $(function () {
                 success: function (datos, state, jqXHR) {
                     if (datos == 0) {
                         $("#alertaInicio").text("Correo o contraseña no válidos")
-                    }else if(datos == 1){
+                    } else if (datos == 1) {
                         window.location.href = "/"
-                    }else if(datoss = 2){
+                    } else if (datoss = 2) {
                         window.location.href = "/admin"
                     }
                 },

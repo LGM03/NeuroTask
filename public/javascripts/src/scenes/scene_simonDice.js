@@ -103,7 +103,6 @@ export default class scene_simonDice extends Phaser.Scene {
             await this.esperar(500)
 
             for (var i = 0; i < this.secuencia_objetivo.length; i++) {
-                console.log(this.secuencia_objetivo[i])
                 //Espero 2 segundos antes de mostrar la siguiente bombilla iluminada 
                 $("#" + this.secuencia_objetivo[i]).removeClass("sombra");
                 await this.esperar(1000)
