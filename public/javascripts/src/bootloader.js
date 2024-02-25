@@ -5,11 +5,18 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
 
     init(data){
         this.idJuego = data.idJuego
+        this.plan = data.plan
     }
 
     preload() {
+        console.log("bootloader")
+        console.log(this.plan)
         this.load.on("complete", () => {
-            this.scene.start("scene_dificultad", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego })
+            if(this.plan == null){
+                this.scene.start("scene_dificultad", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego, plan : this.plan })
+            }else{
+                this.scene.start("scene_play", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego, plan : this.plan })
+            }
         });
 
         //Iconos de ventana de inicio y fin
@@ -85,21 +92,9 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if(this.idJuego == "7"){
             this.descripcion = "Repite el orden en el que se encienden las bombillas"
             this.juego = "scene_simonDice"
-            
-            this.load.image("moradoEncendido", "javascripts/assets/morado1.png")
-            this.load.image("moradoApagado", "javascripts/assets/morado2.png")
-            
-            this.load.image("amarilloEncendido", "javascripts/assets/amarillo1.png")
-            this.load.image("amarilloApagado", "javascripts/assets/amarillo2.png")
-            
-            this.load.image("azulEncendido", "javascripts/assets/azul1.png")
-            this.load.image("azulApagado", "javascripts/assets/azul2.png")
-
-            this.load.image("rojoEncendido", "javascripts/assets/rojo1.png")
-            this.load.image("rojoApagado", "javascripts/assets/rojo2.png")
-
             this.load.image("memoriza","javascripts/assets/memoriza.png")
             this.load.image("repite","javascripts/assets/repite.png")
+
         }else if(this.idJuego=="8"){
             this.descripcion = "¡Ordena las cartas de MAYOR a MENOR!"
             this.juego = "scene_ordenDecreciente"

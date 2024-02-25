@@ -16,12 +16,17 @@ export default class scene_simonDice extends Phaser.Scene {
     init(data) {
         this.idJuego = data.idJuego
         this.nivel = data.nivel
+        this.plan = data.plan
+
+        if(this.plan != null){
+            this.nivel = this.plan.nivel
+        }
     }
 
     create() {
 
         const MS = 1000
-        this.duracion = 80  //en segundos
+        this.duracion = 10  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         $('#ventanaSimonDice').removeClass('d-none')
@@ -136,7 +141,9 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     finalizarJuego() {
-        $('#ventanaSimonDice').addClass('d-none')
+        $('canvas').css('z-index', '2');
+        $('#ventanaSimonDice').css('z-index', '1');
+        $('#ventanaSimonDice').addClass("d-none")
         const minutos = Math.floor(this.duracion / 60000);
         const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
 

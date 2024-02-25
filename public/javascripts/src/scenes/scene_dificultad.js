@@ -12,7 +12,8 @@ export default class scene_dificultad extends Phaser.Scene {
         this.info = {  //Recojo los parametros traidos de quien inicia la escena 
             descripcion: data.descripcion,
             juego: data.juego,
-            idJuego: data.idJuego
+            idJuego: data.idJuego,
+            plan : data.plan
         }
     }
 

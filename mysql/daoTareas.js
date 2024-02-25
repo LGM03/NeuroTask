@@ -10,7 +10,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, hecho, nombre, idTarea, nivel from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
+                const sql = "SELECT categoria, hecho, nombre, idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
                     " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true)) "
                     ;
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
@@ -24,7 +24,27 @@ class DAOTareas {
                 });
             }
         });
-    }
+    } 
+
+    tareaPendienteDia(datos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ?  and hecho = 0 and " +
+                    " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true))"
+                    ;
+                connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    } 
 
     historialUsuario(usuario, callback) {
         this.pool.getConnection(function (err, connection) {

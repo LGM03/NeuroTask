@@ -14,9 +14,49 @@ import scene_memorizaColores from "./scenes/scene_memorizaCoroles.js";
 import scene_dificultad from "./scenes/scene_dificultad.js";
 
 let juego
+let infoPlan
 
-export function arranque(idJuego) {
+export function iniciarJuego(idJuego) {
+    if (idJuego == -1) {
+        obtenerPlan()
+    } else {
+        arranque(idJuego)
+    }
+}
+
+export function obtenerPlan() {
+    alert("ASDf")
+    $.ajax({ // veo para cada dia que actividades hay
+        method: "GET",
+        url: "/tareas/tareaPrimera",
+        success: function (datos, state, jqXHR) {
+            console.log("ASFASDF")
+            console.log(datos)
+            if (datos.length == 0) {
+                alert("¡Felicidades! No hay planificación pendinte para hoy")
+                window.location.href = `/`
+            } else {
+                juego = datos[0].idJuego
+
+                arranque(datos[0].idJuego, {
+                    idTarea: datos[0].idTarea,
+                    nivel: datos[0].nivel
+                })
+            }
+        },
+        error: function (jqXHR, statusText, errorThrown) {
+            window.location.href = `/`
+        }
+    });
+}
+export function arranque(idJuego, planJuegos = null) {
+
+    alert("AAS")
     juego = idJuego
+    infoPlan = planJuegos
+    console.log("He llegado aqui")
+    console.log(planJuegos + " " + idJuego)
+
     const config = {
         type: Phaser.AUTO,
         width: contJuego.clientWidth,  // Usa el ancho del contenedor
@@ -74,7 +114,7 @@ export default class inicio extends Phaser.Scene { //escena que llama al bootloa
 
     preload() {
         console.log("inicio + " + juego)
-        this.scene.start("Bootloader", { idJuego: juego })
+        this.scene.start("Bootloader", { idJuego: juego, plan: infoPlan })
     }
 }
 

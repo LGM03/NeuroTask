@@ -34,8 +34,12 @@
           <%}else{%>
             <div id="cajaJugarPlan">
               <h1 id="textoElige" class="d-none">¡Elige un juego!</h1>
-              <button class="btn btn-primary m-2 p-2 botonNav d-none" id="btnJugarPlan">¡Jugar la planificación de
-                hoy!</button>
+              <a
+                href="../juego?id=-1">
+                <button class="btn btn-primary m-2 p-2 botonNav d-none" id="btnJugarPlan">¡Jugar
+                  la planificación de
+                  hoy!</button>
+              </a>
             </div>
             <%}%>
 
@@ -78,7 +82,7 @@
   <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone-with-data.min.js"></script>
   <script src="/javascripts/jsTerapeuta/funcionesUsuario.js"></script>
-
+  <script src="javascripts/phaser.min.js"></script>
 
 </body>
 

@@ -83,6 +83,43 @@ class DAOJuegos{
             }
         })
     }
+
+    guardarPartidaPlan(datosJuego,callback){  //Almaceno la durancion en s, usar momento.js para humanizar 
+        console.log(datosJuego)
+        console.log(datosJuego.plan)
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(err,null)
+            }else{
+                const sql = "insert into `partidas` (idJ,idP,fechaInicio,duracion,aciertos,fallos,nivel,idTarea) values(?,?,?,?,?,?,?,?)"
+                const fechaSQL = new Date(datosJuego.fechaInicio).toISOString().slice(0, 19).replace("T", " ");
+                connection.query(sql,[datosJuego.idJuego, datosJuego.usuario,fechaSQL, datosJuego.duracion, datosJuego.aciertos,datosJuego.fallos,datosJuego.nivel,datosJuego.plan.idTarea],function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(err,null)
+                    }else{
+                        callback(null, resultado)
+                    }
+                })
+            }
+        })
+
+        this.pool.getConnection(function(err,connection){
+            if(err){
+                callback(err,null)
+            }else{
+                const sql = "update `calendario` set hecho = true where idTarea = ? and seRepite = false" //Solo marco como hechas las tareas no repetitivas
+                connection.query(sql,[datosJuego.plan.idTarea],function(err,resultado){
+                    connection.release();
+                    if(err){
+                        callback(err,null)
+                    }else{
+                        callback(null, resultado)
+                    }
+                })
+            }
+        })
+    }
 }
 
 

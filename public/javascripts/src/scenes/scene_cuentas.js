@@ -15,14 +15,19 @@ export default class scene_cuentas extends Phaser.Scene {
     
     init(data){
         this.idJuego = data.idJuego,
-        this.nivel = data.nivel
+        this.nivel = data.nivel,
+        this.plan = data.plan
+
+        if(this.plan != null){
+            this.nivel = this.plan.nivel
+        }
     }
 
 
     create() {
 
         const MS = 1000
-        this.duracion = 80  //en segundos
+        this.duracion = 2  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
 
 
@@ -173,6 +178,7 @@ export default class scene_cuentas extends Phaser.Scene {
         const minutos = Math.floor(this.duracion / 60000);
         const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
 
+        console.log(this.plan)
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
@@ -181,7 +187,8 @@ export default class scene_cuentas extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos : this.duracion,
-                nivel : this.nivel
+                nivel : this.nivel,
+                plan : this.plan
             });
     }
 

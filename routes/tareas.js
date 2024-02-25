@@ -22,7 +22,7 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
   });
 });
 
-router.get('/tareaPlan', function (req, res, next) {
+router.get('/tareaPlan', function (req, res, next) { //obtiene todas las tareas de un dia (realizadas y no realizadas)
 
   if (req.session.usuario != undefined) {
     const DAOAp = require("../mysql/daoTareas")
@@ -43,7 +43,29 @@ router.get('/tareaPlan', function (req, res, next) {
   }else{
     res.send({})
   }
-});
+});  
+
+
+router.get('/tareaPrimera', function (req, res, next) { //obtiene las tareas a realizar ese dia (no realizadas)
+
+    const DAOAp = require("../mysql/daoTareas")
+    const midao = new DAOAp(pool)
+
+    var data = {
+      usuario: req.session.usuario.correo,
+      dia: new Date().toISOString().slice(0, 10)
+    }
+    midao.tareaPendienteDia(data, (err, datos) => {
+      if (err) {
+        res.send({});
+      }
+      else {
+        res.send(datos);
+      }
+    });
+
+});  
+
 
 router.get('/partidasUsuario', function (req, res, next) {
 

@@ -16,6 +16,11 @@ export default class scene_ordenCreciente extends Phaser.Scene {
     init(data) {
         this.idJuego = data.idJuego
         this.nivel = data.nivel
+        this.plan = data.plan
+
+        if(this.plan != null){
+            this.nivel = this.plan.nivel
+        }
     }
 
     create() {
