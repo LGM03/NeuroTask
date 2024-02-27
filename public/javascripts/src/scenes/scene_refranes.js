@@ -125,7 +125,8 @@ export default class scene_refranes extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos: this.duracion,
-                nivel : this.nivel
+                nivel : this.nivel,
+                plan: this.plan
             });
     }
 

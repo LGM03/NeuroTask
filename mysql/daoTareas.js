@@ -10,7 +10,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, hecho, nombre, idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
+                const sql = "SELECT categoria, (select count(*) from planificacionesjugadas where planificacionesjugadas.idTarea = calendario.idTarea) as hecho, nombre, idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? and " +
                     " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true)) "
                     ;
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
@@ -31,7 +31,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ?  and hecho = 0 and " +
+                const sql = "SELECT idTarea, nivel, juegos.id as idJuego from calendario inner join juegos on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ?  and  not exists (select * from planificacionesjugadas where planificacionesjugadas.idTarea = calendario.idTarea) and " +
                     " ( fecha = ? or (seRepite = true and fecha = 0000-00-00) or (DAYOFWEEK(fecha) = DAYOFWEEK(?) and seRepite = true))"
                     ;
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
@@ -64,12 +64,12 @@ class DAOTareas {
         });
     }
 
-    planificacionesJugadas(datos, callback) {
+    planificacionesJugadas(datos, callback) { //TODO
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT hecho, COUNT(*) AS contador FROM calendario inner join juegos on idJ = juegos.id  where idP = ? and month(fecha) = ?  and  id_categoria = ? GROUP BY hecho";
+                const sql = "SELECT COUNT(*) as hecho, COUNT(*) AS contador FROM calendario inner join juegos on idJ = juegos.id  where idP = ? and month(fecha) = ?  and  id_categoria = ? ";
                 connection.query(sql, [datos.usuario, datos.fecha,datos.categoria], function (err, resultado) {
                     connection.release();
                     if (err) {

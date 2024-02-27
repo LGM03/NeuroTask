@@ -68,11 +68,12 @@ export default class scene_fin extends Phaser.Scene {
         this.icContinuar.on("pointerdown", () => { //Sale del juego, envia los datos al servidor  //Tiene que haber otra forma de hacer esto
             alert(this.info)
             console.log(this.info.plan)
+            console.log(this.info.plan.idTarea)
             alert(this.info)
             if (this.info.plan == null) {
                 window.location.href = `/juego/finJuego?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}&nivel=${this.info.nivel}`;
             }else{
-                window.location.href = `/juego/finPlan?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}&nivel=${this.info.nivel}&plan=${this.info.plan}`;
+                window.location.href = `/juego/finPlan?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}&nivel=${this.info.nivel}&idTarea=${this.info.plan.idTarea}`;
 
             }
         })

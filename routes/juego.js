@@ -84,6 +84,7 @@ router.get('/finJuego', function (req, res, next) {
 
 router.get('/finPlan', function (req, res, next) {
 
+  console.log("fin del plan")
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
@@ -95,10 +96,10 @@ router.get('/finPlan', function (req, res, next) {
       duracion: req.query.duracion,
       usuario: req.session.usuario.correo,
       nivel: req.query.nivel,
-      plan : req.query.plan
+      idTarea : req.query.idTarea
     }
 
-    console.log(datosPartida)
+    console.log(datosPartida.idTarea)
 
     midao.guardarPartidaPlan(datosPartida, (err, datos) => {
       if (err) {

@@ -129,7 +129,8 @@ export default class scene_ordenCreciente extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos :minutos*60+segundos,
-                nivel : this.nivel
+                nivel : this.nivel,
+                plan: this.plan
             });
     }
 

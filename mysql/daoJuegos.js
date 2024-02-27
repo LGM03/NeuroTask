@@ -1,5 +1,5 @@
 
-class DAOJuegos{
+class DAOJuegos {
 
     constructor(pool) {
         this.pool = pool
@@ -23,16 +23,16 @@ class DAOJuegos{
                 });
             }
         });
-    }   
- 
-    leerPorID(id,callback) {
+    }
+
+    leerPorID(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "SELECT * from juegos where id = ?";
-                connection.query(sql,[id], function (err, resultado) {
+                connection.query(sql, [id], function (err, resultado) {
                     connection.release();
                     if (err) {
                         console.log(`Error en la consulta a la base de datos: ${err.message}`);
@@ -43,7 +43,7 @@ class DAOJuegos{
                 });
             }
         });
-    }   
+    }
 
     leerCategorias(callback) {
         this.pool.getConnection(function (err, connection) {
@@ -52,7 +52,7 @@ class DAOJuegos{
                 callback(err, null);
             } else {
                 const sql = "SELECT * FROM categorias;";
-                connection.query(sql,null, function (err, resultado) {
+                connection.query(sql, null, function (err, resultado) {
                     connection.release();
                     if (err) {
                         console.log(`Error en la consulta a la base de datos: ${err.message}`);
@@ -63,20 +63,20 @@ class DAOJuegos{
                 });
             }
         });
-    }   
-    
-    guardarPartida(datosJuego,callback){  //Almaceno la durancion en s, usar momento.js para humanizar 
-        this.pool.getConnection(function(err,connection){
-            if(err){
-                callback(err,null)
-            }else{
+    }
+
+    guardarPartida(datosJuego, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null)
+            } else {
                 const sql = "insert into `partidas` (idJ,idP,fechaInicio,duracion,aciertos,fallos,nivel) values(?,?,?,?,?,?,?)"
                 const fechaSQL = new Date(datosJuego.fechaInicio).toISOString().slice(0, 19).replace("T", " ");
-                connection.query(sql,[datosJuego.idJuego, datosJuego.usuario,fechaSQL, datosJuego.duracion, datosJuego.aciertos,datosJuego.fallos,datosJuego.nivel],function(err,resultado){
+                connection.query(sql, [datosJuego.idJuego, datosJuego.usuario, fechaSQL, datosJuego.duracion, datosJuego.aciertos, datosJuego.fallos, datosJuego.nivel], function (err, resultado) {
                     connection.release();
-                    if(err){
-                        callback(err,null)
-                    }else{
+                    if (err) {
+                        callback(err, null)
+                    } else {
                         callback(null, resultado)
                     }
                 })
@@ -84,37 +84,30 @@ class DAOJuegos{
         })
     }
 
-    guardarPartidaPlan(datosJuego,callback){  //Almaceno la durancion en s, usar momento.js para humanizar 
+    guardarPartidaPlan(datosJuego, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
+        console.log("guardar PARTIDA")
         console.log(datosJuego)
-        console.log(datosJuego.plan)
-        this.pool.getConnection(function(err,connection){
-            if(err){
-                callback(err,null)
-            }else{
+        console.log(datosJuego.idTarea)
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null)
+            } else {
                 const sql = "insert into `partidas` (idJ,idP,fechaInicio,duracion,aciertos,fallos,nivel,idTarea) values(?,?,?,?,?,?,?,?)"
                 const fechaSQL = new Date(datosJuego.fechaInicio).toISOString().slice(0, 19).replace("T", " ");
-                connection.query(sql,[datosJuego.idJuego, datosJuego.usuario,fechaSQL, datosJuego.duracion, datosJuego.aciertos,datosJuego.fallos,datosJuego.nivel,datosJuego.plan.idTarea],function(err,resultado){
-                    connection.release();
-                    if(err){
-                        callback(err,null)
-                    }else{
-                        callback(null, resultado)
-                    }
-                })
-            }
-        })
-
-        this.pool.getConnection(function(err,connection){
-            if(err){
-                callback(err,null)
-            }else{
-                const sql = "update `calendario` set hecho = true where idTarea = ? and seRepite = false" //Solo marco como hechas las tareas no repetitivas
-                connection.query(sql,[datosJuego.plan.idTarea],function(err,resultado){
-                    connection.release();
-                    if(err){
-                        callback(err,null)
-                    }else{
-                        callback(null, resultado)
+                connection.query(sql, [datosJuego.idJuego, datosJuego.usuario, fechaSQL, datosJuego.duracion, datosJuego.aciertos, datosJuego.fallos, datosJuego.nivel, datosJuego.idTarea], function (err, resultado) {
+                    if (err) {
+                        connection.release();
+                        callback(err, null)
+                    } else {
+                        const sql = "insert into `planificacionesjugadas` (idtarea) values (?)" //la fecha se incluye de forma automatica como current timestamp en bd
+                        connection.query(sql, [datosJuego.idTarea], function (err, resultado) {
+                            connection.release();
+                            if (err) {
+                                callback(err, null)
+                            } else {
+                                callback(null, 1)
+                            }
+                        })
                     }
                 })
             }
