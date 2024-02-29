@@ -64,18 +64,22 @@ class DAOTareas {
         });
     }
 
-    planificacionesJugadas(datos, callback) { //TODO
+    planificacionesJugadas(datos, callback) { 
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT COUNT(*) as hecho, COUNT(*) AS contador FROM calendario inner join juegos on idJ = juegos.id  where idP = ? and month(fecha) = ?  and  id_categoria = ? ";
+
+                const sql = "SELECT COUNT(planificacionesjugadas.idTarea) AS hecho, COUNT(calendario.idTarea) - COUNT(planificacionesjugadas.idTarea) AS contador FROM "+
+                "calendario LEFT JOIN planificacionesjugadas ON calendario.idTarea = planificacionesjugadas.idTarea  inner join juegos on idJ = juegos.id  where idP = ? and month(calendario.fecha) = ?  and  id_categoria = ? ";
                 connection.query(sql, [datos.usuario, datos.fecha,datos.categoria], function (err, resultado) {
                     connection.release();
+                    console.log(resultado[0])
                     if (err) {
+                        console.log(err)
                         callback(err, null);
                     } else {
-                        callback(null, resultado);
+                        callback(null, resultado[0]);
                     }
                 });
             }

@@ -337,7 +337,7 @@ $(function () {
                         data: {
                             labels: ['Cumplida', 'Pendiente'],
                             datasets: [{
-                                data: [datos[0].contador, datos[1].contador],
+                                data: [datos.hecho, datos.contador],
                                 backgroundColor: [
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(255, 99, 132, 0.2)',
