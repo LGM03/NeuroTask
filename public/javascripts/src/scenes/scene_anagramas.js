@@ -5,9 +5,25 @@ export default class scene_refranes extends Phaser.Scene {
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
-        this.casos = [["ROMA", "AMOR","MORA","RAMO"], ["LLENABA", "BALLENA"], ["QUIEREN", "ENRIQUE"],
-        ["CUADERNO", "EDUCARON"], ["ECUADOR", "ACUERDO"], ["BOTINES", "BISONTE"], ["AMIGA", "MAGIA"], ["DIVA", "VIDA"],["FRASE","FRESA"]]
-    
+        this.palabrasFacil = [
+            "Gato", "Casa", "Sol", "Perro", "Flor",
+            "Mesa", "Río", "Tren", "Sol", "Pan",
+            "Luna", "Rata", "Sopa", "Vela", "Loro"
+        ];
+        this.palabrasMedio = [
+            "Jardín", "Feliz", "Árbol", "Coche", "Cebra",
+            "Casa", "Llaves", "Maleta", "Perros", "Galleta",
+            "Avión", "Nariz", "Nubes", "Lápiz", "Goma"
+        ];
+
+        this.palabrasDificil = [
+            "Elefante", "Universo", "Mariposa", "Elevar", "Cocodrilo",
+            "Platillo", "Hospital", "Biblioteca", "Revolución", "Estación",
+            "Caminante", "Aventurero", "Descubrimiento", "Conocimiento", "Misterioso"
+        ];
+
+        this.casos = []
+
     }
 
     init(data) {
@@ -15,8 +31,20 @@ export default class scene_refranes extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
+        }
+
+        switch (this.nivel) {
+            case 1:
+                this.casos = this.palabrasFacil.concat();
+                break;
+            case 2:
+                this.casos = this.palabrasMedio.concat();
+                break;
+            case 3:
+                this.casos = this.palabrasDificil.concat();
+                break;
         }
     }
 
@@ -28,15 +56,15 @@ export default class scene_refranes extends Phaser.Scene {
         const self = this
         $("#tituloJuego").text("Descubre una palabra con todas estas letras")
         $(document).on("click", ".botonPalabra", function (event) {
-            self.fraseFormada+=$(this).text()
+            self.fraseFormada += $(this).text()
             $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
             $(this).remove()
         })
 
         $("#btnAceptar").on("click", function (event) {
-            console.log("dada ="+ self.fraseFormada + " solcuon ="+ self.solucion)
+            console.log("dada =" + self.fraseFormada + " solcuon =" + self.refran)
             if (self.fraseFormada.length != 0 &&
-                self.solucion.includes(self.fraseFormada)) {
+                self.refran.includes(self.fraseFormada)) {
                 self.puntuacion++
                 self.cubrirResultado(true)
             } else {
@@ -53,7 +81,7 @@ export default class scene_refranes extends Phaser.Scene {
             $("#fraseFormada").text("")
             self.fraseFormada = ""
             self.arrayDePalabras.forEach((element => {
-                var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
+                var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + element + '</button>'
                 $('#contenedorBotones').append(botonPalabra)
             }))
 
@@ -86,15 +114,14 @@ export default class scene_refranes extends Phaser.Scene {
     crearInterfaz() {
         // Sección de la operación
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
-     
-        this.solucion = this.casos[elegido]
-        this.refran = this.solucion[0] //Elijo el refran aleatoriamente
-        console.log("elegido = "+ this.refran + " "+ this.solucion)
+
+        this.refran = this.casos[elegido]
+       
         //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos
         if (this.casos.length != 1) {
             this.casos.splice(elegido, 1)
         }
-       
+
         this.arrayDePalabras = this.refran.split(''); //Desordeno la frase
         this.arrayDePalabras.sort(function () {
             return 0.5 - Math.random();
@@ -104,10 +131,10 @@ export default class scene_refranes extends Phaser.Scene {
         this.fraseFormada = ""
         $('#juegoLenguaje').removeClass('d-none')
         this.arrayDePalabras.forEach((element => {
-            var botonPalabra = '<div class = "col" > <button class="btn botonPalabra rounded p-2 m-1 w-100 bg-white">' + element + '</button></div>'
+            var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + element + '</button>'
             $('#contenedorBotones').append(botonPalabra)
         }))
-      
+
     }
 
 
@@ -127,7 +154,7 @@ export default class scene_refranes extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos: this.duracion,
-                nivel :this.nivel,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }

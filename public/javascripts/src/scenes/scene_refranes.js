@@ -46,14 +46,12 @@ export default class scene_refranes extends Phaser.Scene {
             this.nivel = this.plan.nivel
         }
 
-        console.log(this.nivel)
         switch (this.nivel) {
             case 1:
                 this.casos = this.refranesFaciles.concat();
                 break;
             case 2:
                 this.casos = this.refranesMedios.concat();
-                console.log(this.casos)
                 break;
             case 3:
                 this.casos = this.refranesDificiles.concat();
