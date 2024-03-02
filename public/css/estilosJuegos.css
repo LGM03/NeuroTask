@@ -94,23 +94,29 @@ canvas {
 }
 
 .carta img {
-    width: 63%;
+    width: 60%;
 }
 
-@media (min-width: 1220px) {
+@media (min-width: 980px) { /*Para pantallas mas grandes de 1000*/
 
-    /* Cambia el tamaño en pantallas más grandes que 576px */
     .carta img {
-        width: 50%;
+        width: 40%;
         /* Porcentaje del ancho del contenedor */
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 500px) { /*Para pantallas mas pequelas de 420*/
 
-    /* Cambia el tamaño en pantallas más grandes que 576px */
     .carta img {
         width: 90%;
+        /* Porcentaje del ancho del contenedor */
+    }
+}
+
+@media (max-width: 350px) { /*Para pantallas mas pequelas de 420*/
+
+    .carta img {
+        width: 100%;
         /* Porcentaje del ancho del contenedor */
     }
 }
