@@ -118,3 +118,35 @@ canvas {
 .sombra {
     filter: brightness(0.30);
 }
+
+.cubrirImagen {
+    position: relative;
+}
+
+.carta {
+    position: relative;
+}
+
+.cubrirImagen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.7);
+    /* Color verde semitransparente */
+    /* Mezcla el color de fondo con la imagen */
+}
+
+.numero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    /* Tamaño del número */
+    color: rgb(255, 255, 255);
+    /* Color del número */
+    font-weight: bold;
+}
