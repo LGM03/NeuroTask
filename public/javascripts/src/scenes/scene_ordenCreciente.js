@@ -8,8 +8,7 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         this.valores = ["cartaSol", "cartaMelon", "cartaCalavera", "cartaJarra", "cartaPez", "cartaBota", "cartaBarril", "cartaCampana", "cartaCorazon", "cartaBotella", "cartaSandia", "cartaParaguas"];
         this.cartas = { "cartaSol": 17, "cartaMelon": 18, "cartaCalavera": 19, "cartaJarra": 20, "cartaPez": 21, "cartaBota": 22, "cartaBarril": 41, "cartaCampana": 42, "cartaCorazon": 43, "cartaBotella": 44, "cartaSandia": 45, "cartaParaguas": 46 }
         this.puntuacion = 0;
-        this.ordenValido = [17, 18, 19, 20, 21,22, 41, 42, 43, 44, 45, 46]
-
+        this.ordenValido = [17, 18, 19, 20, 21, 22, 41, 42, 43, 44, 45, 46]
         this.fallos = 0;
     }
 
@@ -25,6 +24,17 @@ export default class scene_ordenCreciente extends Phaser.Scene {
 
     create() {
         var self = this
+
+        switch (this.nivel) {
+            case 1:  //dificultad facil juega solo con 6 cartas
+                this.valores = this.valores.slice(0,6)
+                break;
+            case 2://dificultad media juega solo con 8 cartas
+                this.valores = this.valores.slice(0,8)
+                break;
+            //dificultad dificil juega con todas
+        }
+        
         $("#ventanaOrden").removeClass("d-none")
         $("#textoOrden").text("Ordena de MENOR a MAYOR")
 
@@ -32,8 +42,8 @@ export default class scene_ordenCreciente extends Phaser.Scene {
 
         // Crear cartas en un bucle
         for (var i = 0; i < this.valores.length; i++) {
-            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-4 d-flex justify-content-around align-items-center' id='" + this.valores[i] + "' data-valor='" + this.cartas[this.valores[i]] + "'><img src='/javascripts/assets/" + this.valores[i] + ".png' alt='" + this.valores[i] + "' class='img-fluid'><span class='numero d-none'>"+ this.cartas[this.valores[i]]+"</span></div>");
-           
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-4 d-flex justify-content-around align-items-center' id='" + this.valores[i] + "' data-valor='" + this.cartas[this.valores[i]] + "'><img src='/javascripts/assets/" + this.valores[i] + ".png' alt='" + this.valores[i] + "' class='img-fluid'><span class='numero d-none'>" + this.cartas[this.valores[i]] + "</span></div>");
+
             // Agregamos el nuevo div al contenedor
             $("#contenedorCartas").append(nuevaCarta);
         }
