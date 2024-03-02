@@ -93,11 +93,27 @@ canvas {
     background-position: center;
 }
 
+#ventanaInicio {
+    position: absolute;
+    z-index: 2;
+    background-image: url('/images/fondoRosa.png');
+    /* Ruta de tu imagen */
+    background-size: cover;
+    /* Para cubrir todo el contenido del div */
+    background-position: center;
+}
+
+
 .carta img {
     width: 60%;
 }
 
-@media (min-width: 980px) { /*Para pantallas mas grandes de 1000*/
+#introduccion{
+    font-size: 1.2em; /
+}
+
+@media (min-width: 980px) {
+    /*Para pantallas mas grandes de 1000*/
 
     .carta img {
         width: 40%;
@@ -105,7 +121,8 @@ canvas {
     }
 }
 
-@media (max-width: 500px) { /*Para pantallas mas pequelas de 420*/
+@media (max-width: 500px) {
+    /*Para pantallas mas pequelas de 420*/
 
     .carta img {
         width: 90%;
@@ -113,7 +130,8 @@ canvas {
     }
 }
 
-@media (max-width: 350px) { /*Para pantallas mas pequelas de 420*/
+@media (max-width: 350px) {
+    /*Para pantallas mas pequelas de 420*/
 
     .carta img {
         width: 100%;

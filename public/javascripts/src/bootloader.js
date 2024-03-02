@@ -20,7 +20,6 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         });
 
         //Iconos de ventana de inicio y fin
-        this.load.image("inicio", "javascripts/assets/botonJugar.png")
         this.load.image("UnaEstrella", "javascripts/assets/estrellita1.png")
         this.load.image("DosEstrella", "javascripts/assets/estrellita2.png")
         this.load.image("TresEstrella", "javascripts/assets/estrellita3.png")
@@ -28,7 +27,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         this.load.image("fondoRosa", "javascripts/assets/fondoRosa.png")
 
         //Iconos propios del juego
-        if (this.idJuego == "1") { //idJuego 1
+        if (this.idJuego == "1") { 
             this.descripcion = "Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta."
             this.juego = "scene_pong"
             this.load.image("ball", "javascripts/assets/astronauta.jpg")
@@ -68,18 +67,6 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if(this.idJuego=="4"){
             this.descripcion = "¡Ordena las cartas de MENOR a MAYOR!"
             this.juego = "scene_ordenCreciente"
-            this.load.image("sol", "javascripts/assets/cartaSol.png")
-            this.load.image("melon", "javascripts/assets/cartaMelon.png")
-            this.load.image("calavera", "javascripts/assets/cartaCalavera.png")
-            this.load.image("jarra", "javascripts/assets/cartaJarra.png")
-            this.load.image("pez", "javascripts/assets/cartaPez.png")
-            this.load.image("bota", "javascripts/assets/cartaBota.png")
-            this.load.image("barril", "javascripts/assets/cartaBarril.png")
-            this.load.image("campana", "javascripts/assets/cartaCampana.png")
-            this.load.image("corazon", "javascripts/assets/cartaCorazon.png")
-            this.load.image("botella", "javascripts/assets/cartaBotella.png")
-            this.load.image("sandia", "javascripts/assets/cartaSandia.png")
-            this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
 
         }else if(this.idJuego == "5"){
             this.descripcion = "¡Ordena las letras y descubre la palabra!"
@@ -98,18 +85,6 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if(this.idJuego=="8"){
             this.descripcion = "¡Ordena las cartas de MAYOR a MENOR!"
             this.juego = "scene_ordenDecreciente"
-            this.load.image("sol", "javascripts/assets/cartaSol.png")
-            this.load.image("melon", "javascripts/assets/cartaMelon.png")
-            this.load.image("calavera", "javascripts/assets/cartaCalavera.png")
-            this.load.image("jarra", "javascripts/assets/cartaJarra.png")
-            this.load.image("pez", "javascripts/assets/cartaPez.png")
-            this.load.image("bota", "javascripts/assets/cartaBota.png")
-            this.load.image("barril", "javascripts/assets/cartaBarril.png")
-            this.load.image("campana", "javascripts/assets/cartaCampana.png")
-            this.load.image("corazon", "javascripts/assets/cartaCorazon.png")
-            this.load.image("botella", "javascripts/assets/cartaBotella.png")
-            this.load.image("sandia", "javascripts/assets/cartaSandia.png")
-            this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
         }else if(this.idJuego == "9"){
             this.descripcion = "¡Memoriza las figuras que aparecen!"
             this.juego = "scene_memorizaFiguras"
