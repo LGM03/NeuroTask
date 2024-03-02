@@ -5,10 +5,23 @@ export default class scene_ordenDecreciente extends Phaser.Scene {
         super({ key: "scene_ordenDecreciente" });
         this.fechaInicio = new Date();
         this.seleccionadas = [];
-        this.valores = ["sol", "melon", "calavera", "jarra","pez", "bota","barril","campana","corazon","botella","sandia","paraguas"];
-        this.cartas = {"sol": 17,"melon": 18, "calavera":19, "jarra":20,"pez":21, "bota":22,"barril":41,"campana":42,"corazon":43,"botella":44,"sandia":45,"paraguas":46 }
+        this.valores = ["cartaParaguas", "cartaSandia", "cartaBotella", "cartaCorazon", "cartaCampana", "cartaBarril", "cartaBota", "cartaPez", "cartaJarra", "cartaCalavera", "cartaMelon", "cartaSol"];
+        this.cartas = {
+            "cartaParaguas": 46,
+            "cartaSandia": 45,
+            "cartaBotella": 44,
+            "cartaCorazon": 43,
+            "cartaBarril": 41,
+            "cartaCampana": 42,
+            "cartaBota": 22,
+            "cartaPez": 21,
+            "cartaJarra": 20,
+            "cartaCalavera": 19,
+            "cartaMelon": 18,
+            "cartaSol": 17
+        }
         this.puntuacion = 0;
-        this.ordenValido = [46,45,44,43,42,41,22,21,20,19,18,17]
+        this.ordenValido = [46, 45, 44, 43, 42, 41, 22, 21, 20, 19, 18, 17]
         this.fallos = 0;
     }
 
@@ -17,98 +30,65 @@ export default class scene_ordenDecreciente extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
     }
 
     create() {
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa") //imagen de fondo
-        this.fondo.setScale(0.5)
-        Phaser.Utils.Array.Shuffle(this.valores);   
+        var self = this
 
-        var grupo = this.add.group();
-        var startX = this.game.config.width / 7;
-        var startY = 30; 
+        switch (this.nivel) {
+            case 1:  //dificultad facil juega solo con 6 cartas
+                this.valores = this.valores.slice(0, 6)
+                break;
+            case 2://dificultad media juega solo con 8 cartas
+                this.valores = this.valores.slice(0, 8)
+                break;
+            //dificultad dificil juega con todas
+        }
+
+        $("#ventanaOrden").removeClass("d-none")
+        $("#textoOrden").text("Ordena de MAYOR a MENOR")
+
+        Phaser.Utils.Array.Shuffle(this.valores);
 
         // Crear cartas en un bucle
         for (var i = 0; i < this.valores.length; i++) {
-            if (i > 5) {
-                startY = this.game.config.height / 2 + 30
-                var carta = this.crearCarta(i, 70 + (i - 6) * (startX + 20), startY, this.valores[i]);
-            } else {
-                var carta = this.crearCarta(i, 70 + i * (startX + 20), startY, this.valores[i]);
-            }
-            grupo.add(carta);
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-4 d-flex justify-content-around align-items-center' id='" + this.valores[i] + "' data-valor='" + this.cartas[this.valores[i]] + "'><img src='/javascripts/assets/" + this.valores[i] + ".png' alt='" + this.valores[i] + "' class='img-fluid'><span class='numero d-none'>" + this.cartas[this.valores[i]] + "</span></div>");
+
+            // Agregamos el nuevo div al contenedor
+            $("#contenedorCartas").append(nuevaCarta);
         }
 
-        // Detectar clics en las cartas
-        this.input.on('gameobjectdown', (pointer, gameObject) => {
-            console.log('Carta clickeada ' + gameObject.value)
-            console.log(this.ordenValido[this.puntuacion])
-            if(gameObject.value === this.ordenValido[this.puntuacion]){
-                this.cubrirCartaCorrecta(gameObject) 
-                this.puntuacion++;
-            }else{
-                this.cubrirCartaErronea(gameObject)
-                this.fallos++;
+        $(".carta").on("click", function (event) {
 
+            var valor = $(this).data(valor)
+            console.log(valor)
+            console.log(self.ordenValido[self.puntuacion])
+            if (valor.valor == self.ordenValido[self.puntuacion]) { //Si el valor de la carta que pulso sigue el orden
+                $(this).children('span').removeClass('d-none')
+                $(this).children('img').addClass('sombra');
+                self.puntuacion++
+
+            } else {
+                self.fallos++;
+                var $this = $(this);
+                $(this).addClass('cubrirImagen')
+                setTimeout(function () {
+                    $this.removeClass('cubrirImagen');
+                }, 1000);
             }
-        });
-    }
+        })
 
-    crearCarta(index, x, y, value) {
-        var card = this.add.image(x, y, value);
-        card.setScale(0.3);
-        card.setOrigin(0, 0)
-        card.setInteractive();
-        card.index = index;
-        card.value = this.cartas[value];
-        return card;
-    }
-
-
-    cubrirCartaCorrecta(carta) {
-        const scaleX = carta.scaleX;
-        const scaleY = carta.scaleY;
-    
-        const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0x00FF00, 0.5);
-        cover.setOrigin(0, 0);
-        
-        this.tweens.add({
-            targets: cover,
-            alpha: 0,
-            duration: 2000,
-            ease: 'Linear',
-            onComplete: () => {
-                cover.destroy();
-            }
-        });
-    }
-
-    cubrirCartaErronea(carta) {
-        const scaleX = carta.scaleX;
-        const scaleY = carta.scaleY;
-    
-        const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0xFF0000, 0.5);
-        cover.setOrigin(0, 0);
-        
-        this.tweens.add({
-            targets: cover,
-            alpha: 0,
-            duration: 2000,
-            ease: 'Linear',
-            onComplete: () => {
-                cover.destroy();
-            }
-        });
     }
 
 
     update(time, delta) {
-        console.log(this.puntuacion + " "+ this.valores.length)
+        console.log(this.puntuacion + " " + this.valores.length)
 
-        if (this.puntuacion === this.valores.length - 1) { //Cuando ya he encontrado todas Salida
+        if (this.puntuacion === this.valores.length) { //Cuando ya he encontrado todas Salida
+            console.log("este es el final")
             this.finalizarJuego()
         }
     }
@@ -119,16 +99,20 @@ export default class scene_ordenDecreciente extends Phaser.Scene {
         var tiempoTranscurrido = fechaFin - this.fechaInicio
         const minutos = Math.floor(tiempoTranscurrido / 60000);
         const segundos = ((tiempoTranscurrido % 60000) / 1000).toFixed(0);
+
+        $('canvas').css('z-index', '2');
+        $('#ventanaOrden').css('z-index', '1');
+        $('#ventanaOrden').addClass('d-none')
         // Por ejemplo, puedes cambiar a otra escena
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
-                fallos : this.fallos,
+                fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : minutos*60+segundos,
-                nivel : this.nivel,
+                segundos: minutos * 60 + segundos,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }
@@ -136,28 +120,3 @@ export default class scene_ordenDecreciente extends Phaser.Scene {
 
 
 }
-
-
-/*OPERACIONES VARIAS CON ESCENAS:
-    this.scene.bringToTop(z ) -> Mueve la escena z delante del todo
-    this.scene.sendToBack(z) -> Mueve la escena z atrás del todo
-    this.scene.moveUp(z) -> Mueve la escena z una posicion hacia delante
-    this.scene.moveDown(z) ->Mueve la escena z una posicion hacia atras
-    this.scene.moveAbove(z,w) -> Mueve la escena w encima de una escena  z indicada
-    this.scene.moveBelow(z,w) -> Mueve la escena  w detras de una escena z indicada 
-*/
-
-
-/*estilos del tecxto 
-        color : 'HEX'
-        backgroundColor : 'HEX'
-        fontSize : px
-        padding:{
-            top:
-            bottom:
-            left:
-            right:
-        }
-        
-        
-        */ 
