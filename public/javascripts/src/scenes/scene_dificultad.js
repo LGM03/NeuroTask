@@ -24,7 +24,7 @@ export default class scene_dificultad extends Phaser.Scene {
         const self  = this
         // Asignar un evento de clic al botón
         $('#ventanaDificultad').on("click",".btnDificultad",function(event){
-            console.log("A")
+
             $('#ventanaDificultad').addClass('d-none')
             console.log(self.info)
             self.info.nivel = $(this).data("nivel")

@@ -25,8 +25,6 @@ export default class scene_play extends Phaser.Scene {
 
         $("#btnInicio").on("click", function (event) {
             event.preventDefault()
-            $('canvas').css('z-index', '2');
-            $('#ventanaInicio').css('z-index', '1');
             $('#ventanaInicio').addClass("d-none");
             self.scene.start(self.info.juego, { idJuego: self.info.idJuego, nivel: self.info.nivel, plan: self.info.plan });
         })
