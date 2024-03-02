@@ -29,15 +29,15 @@
         <h1 id="textoElige">¡Elige un juego!</h1>
         <%}else if(usuario.tipo=="terapeuta" ){%>
           <form action="/admin" method="GET">
-            <button class="btn  m-2 p-2 botonNav" src="/admin" type="submit"><strong>Administrar</strong></button>
+            <button class="btn  m-2 p-2 bg-light" src="/admin" type="submit"><strong>Administrar</strong></button>
           </form>
           <%}else{%>
             <div id="cajaJugarPlan">
               <h1 id="textoElige" class="d-none">¡Elige un juego!</h1>
               <a
                 href="../juego?id=-1">
-                <button class="btn btn-primary m-2 p-2 botonNav d-none" id="btnJugarPlan">¡Jugar
-                  la planificación de
+                <button class="btn btn-primary m-2 p-2 bg-light d-none" id="btnJugarPlan">¡Jugar
+                  la planificación de 
                   hoy!</button>
               </a>
             </div>

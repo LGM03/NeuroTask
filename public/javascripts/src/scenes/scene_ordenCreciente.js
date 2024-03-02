@@ -5,11 +5,11 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         super({ key: "scene_ordenCreciente" });
         this.fechaInicio = new Date();
         this.seleccionadas = [];
-        this.valores = ["sol", "melon", "calavera", "jarra","pez", "bota","barril","campana","corazon","botella","sandia","paraguas"];
-        this.cartas = {"sol": 17,"melon": 18, "calavera":19, "jarra":20,"pez":21, "bota":22,"barril":41,"campana":42,"corazon":43,"botella":44,"sandia":45,"paraguas":46 }
+        this.valores = ["cartaSol", "cartaMelon", "cartaCalavera", "cartaJarra", "cartaPez", "cartaBota", "cartaBarril", "cartaCampana", "cartaCorazon", "cartaBotella", "cartaSandia", "cartaParaguas"];
+        this.cartas = { "cartaSol": 17, "cartaMelon": 18, "cartaCalavera": 19, "cartaJarra": 20, "cartaPez": 21, "cartaBota": 22, "cartaBarril": 41, "cartaCampana": 42, "cartaCorazon": 43, "cartaBotella": 44, "cartaSandia": 45, "cartaParaguas": 46 }
         this.puntuacion = 0;
-        this.ordenValido = [17,18,19,20,21,41,42,43,44,45,46]
-       
+        this.ordenValido = [17, 18, 19, 20, 21, 41, 42, 43, 44, 45, 46]
+
         this.fallos = 0;
     }
 
@@ -18,39 +18,32 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
     }
 
     create() {
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa") //imagen de fondo
-        this.fondo.setScale(0.5)
-        Phaser.Utils.Array.Shuffle(this.valores);   
+        $("#ventanaOrden").removeClass("d-none")
+        $("#textoOrden").text("Ordena de MENOR a MAYOR")
 
-        var grupo = this.add.group();
-        var startX = this.game.config.width / 7;
-        var startY = 30; 
+        Phaser.Utils.Array.Shuffle(this.valores);
 
         // Crear cartas en un bucle
         for (var i = 0; i < this.valores.length; i++) {
-            if (i > 5) {
-                startY = this.game.config.height / 2 + 30
-                var carta = this.crearCarta(i, 70 + (i - 6) * (startX + 20), startY, this.valores[i]);
-            } else {
-                var carta = this.crearCarta(i, 70 + i * (startX + 20), startY, this.valores[i]);
-            }
-            grupo.add(carta);
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-4 d-flex justify-content-around align-items-center ' id = "+ this.valores[i]+ " data-valor = "+ this.cartas[this.valores[i]]+" ><img src='/javascripts/assets/" +this.valores[i]  + ".png' alt='"+this.valores[i]+"' class = 'img-fluid'></div>");
+            // Agregamos el nuevo div al contenedor
+            $("#contenedorCartas").append(nuevaCarta);
         }
 
         // Detectar clics en las cartas
         this.input.on('gameobjectdown', (pointer, gameObject) => {
             console.log('Carta clickeada ' + gameObject.value)
             console.log(this.ordenValido[this.puntuacion])
-            if(gameObject.value === this.ordenValido[this.puntuacion]){
-                this.cubrirCartaCorrecta(gameObject) 
+            if (gameObject.value === this.ordenValido[this.puntuacion]) {
+                this.cubrirCartaCorrecta(gameObject)
                 this.puntuacion++;
-            }else{
+            } else {
                 this.cubrirCartaErronea(gameObject)
                 this.fallos++;
 
@@ -72,10 +65,10 @@ export default class scene_ordenCreciente extends Phaser.Scene {
     cubrirCartaCorrecta(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
-    
+
         const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0x00FF00, 0.5);
         cover.setOrigin(0, 0);
-        
+
         this.tweens.add({
             targets: cover,
             alpha: 0,
@@ -90,10 +83,10 @@ export default class scene_ordenCreciente extends Phaser.Scene {
     cubrirCartaErronea(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
-    
+
         const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0xFF0000, 0.5);
         cover.setOrigin(0, 0);
-        
+
         this.tweens.add({
             targets: cover,
             alpha: 0,
@@ -107,7 +100,7 @@ export default class scene_ordenCreciente extends Phaser.Scene {
 
 
     update(time, delta) {
-        console.log(this.puntuacion + " "+ this.valores.length)
+        console.log(this.puntuacion + " " + this.valores.length)
 
         if (this.puntuacion === this.valores.length - 1) { //Cuando ya he encontrado todas Salida
             this.finalizarJuego()
@@ -124,12 +117,12 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
-                fallos : this.fallos,
+                fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos :minutos*60+segundos,
-                nivel : this.nivel,
+                segundos: minutos * 60 + segundos,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }

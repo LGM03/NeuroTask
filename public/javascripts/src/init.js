@@ -25,7 +25,7 @@ export function iniciarJuego(idJuego) {
 }
 
 export function obtenerPlan() {
-    alert("ASDf")
+
     $.ajax({ // veo para cada dia que actividades hay
         method: "GET",
         url: "/tareas/tareaPrimera",
@@ -51,7 +51,6 @@ export function obtenerPlan() {
 }
 export function arranque(idJuego, planJuegos = null) {
 
-    alert("AAS")
     juego = idJuego
     infoPlan = planJuegos
     console.log("He llegado aqui")

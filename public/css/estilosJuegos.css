@@ -28,9 +28,10 @@
     background-position: center;
 }
 
-.bombilla{
-max-width: 30%;
+.bombilla {
+    max-width: 30%;
 }
+
 .fondoBlanco {
     background-color: rgba(255, 255, 255, 0.5);
 }
@@ -62,7 +63,7 @@ canvas {
     max-width: 60%;
 }
 
-#ventanaDificultad{
+#ventanaDificultad {
     position: absolute;
     z-index: 2;
     background-image: url('/images/fondoRosa.png');
@@ -72,7 +73,7 @@ canvas {
     background-position: center;
 }
 
-#ventanaSimonDice{
+#ventanaSimonDice {
     position: absolute;
     z-index: 2;
     background-image: url('/images/fondoRosa.png');
@@ -80,8 +81,40 @@ canvas {
     background-size: cover;
     /* Para cubrir todo el contenido del div */
     background-position: center;
+}
+
+#ventanaOrden {
+    position: absolute;
+    z-index: 2;
+    background-image: url('/images/fondoRosa.png');
+    /* Ruta de tu imagen */
+    background-size: cover;
+    /* Para cubrir todo el contenido del div */
+    background-position: center;
+}
+
+.carta img {
+    width: 63%;
+}
+
+@media (min-width: 1220px) {
+
+    /* Cambia el tamaño en pantallas más grandes que 576px */
+    .carta img {
+        width: 50%;
+        /* Porcentaje del ancho del contenedor */
+    }
+}
+
+@media (max-width: 420px) {
+
+    /* Cambia el tamaño en pantallas más grandes que 576px */
+    .carta img {
+        width: 90%;
+        /* Porcentaje del ancho del contenedor */
+    }
 }
 
 .sombra {
-    filter: brightness(0.30); 
-  }
+    filter: brightness(0.30);
+}
