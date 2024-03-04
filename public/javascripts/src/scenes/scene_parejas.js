@@ -5,7 +5,7 @@ export default class scene_parejas extends Phaser.Scene {
         super({ key: "scene_parejas" });
         this.fechaInicio = new Date();
         this.seleccionadas = [];
-        this.valores = ["sol", "sol", "melon", "melon", "calavera", "calavera", "jarra", "jarra", "pez", "pez", "bota", "bota"];
+        this.valores = ["cartaSol", "cartaSol", "cartaMelon", "cartaMelon", "cartaCalavera", "cartaCalavera", "cartaJarra", "cartaJarra", "cartaPez", "cartaPez", "cartaBota", "cartaBota"];
         this.puntuacion = 0
         this.seleccionables = true; // Variable de estado
         this.fallos = 0;
@@ -16,82 +16,91 @@ export default class scene_parejas extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
     }
 
-    create() {
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa") //imagen de fondo
-        this.fondo.setScale(0.5)
-        Phaser.Utils.Array.Shuffle(this.valores); //Los mezclo     
 
-        var grupo = this.add.group();
-        var startX = this.game.config.width / 7; // 10% del ancho de la pantalla
-        var startY = 30; // 20% del alto de la pantalla
+    create() {
+        var self = this
+
+        switch (this.nivel) {
+            case 1:  //dificultad facil juega solo con 6 cartas
+                this.valores = this.valores.slice(0, 6)
+                break;
+            case 2://dificultad media juega solo con 8 cartas
+                this.valores = this.valores.slice(0, 8)
+                break;
+        }
+
+        $("#ventanaOrden").removeClass("d-none")
+        $("#textoOrden").text("Encuentra las parejas")
+
+        Phaser.Utils.Array.Shuffle(this.valores);
 
         // Crear cartas en un bucle
         for (var i = 0; i < this.valores.length; i++) {
-            if (i > 5) {
-                startY = this.game.config.height / 2 + 30
-                var carta = this.crearCarta(i, 70 + (i - 6) * (startX + 20), startY, this.valores[i]);
-            } else {
-                var carta = this.crearCarta(i, 70 + i * (startX + 20), startY, this.valores[i]);
-            }
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-3 d-flex justify-content-around align-items-center' id = '" + i + "' data-valor='" + this.valores[i] + "' data-seleccionable='true'><img src='/javascripts/assets/carta.png' alt='" + this.valores[i] + "' class='img-fluid'></div>");
 
-            grupo.add(carta);
+            // Agregamos el nuevo div al contenedor
+            $("#contenedorCartas").append(nuevaCarta);
         }
-    }
 
-    crearCarta(index, x, y, value) {
-        var card = this.add.image(x, y, "card");
-        card.setScale(0.7);
-        card.setOrigin(0, 0)
-        card.setInteractive();
-        card.index = index;
-        card.value = value;
+        $(".carta").on("click", function (event) {
 
-        // Agrega el evento 'pointerdown' solo una vez durante la creación de la carta
-        card.on('pointerdown', (pointer, gameObject) => {
-            if (this.seleccionables) {
-                const displayWidth = card.displayWidth;
-                const displayHeight = card.displayHeight;
-                card.setTexture(this.valores[card.index])
-                card.setDisplaySize(displayWidth, displayHeight);
+            var valor = $(this).data(valor)
+            console.log(self.seleccionables +" "+$(this).data("seleccionable"))
+            if (self.seleccionables && $(this).data("seleccionable") && self.seleccionadas.length < 2) { //Si se puede pulsar y la carta esta disponible
+                self.seleccionadas.push($(this).attr("id")); //Me guardo el id de la carta pulsada
+                console.log(self.seleccionadas)
+                $(this).data("seleccionable", false) //La carta deja de estar disponible para pulsar
 
-                this.seleccionadas.push(card);  // Cambia gameObject por card
+                $(this).children('img').attr('src', '/javascripts/assets/' + $(this).data("valor") + '.png') //cambio su imagen
 
-                // Si hay dos cartas seleccionadas, verificar si coinciden
-
-                if (this.seleccionadas.length === 2) {
-                    this.seleccionables=false;
-                    this.time.delayedCall(600, () => {
-                        if (this.seleccionadas[0].value === this.seleccionadas[1].value) {
-                            this.cubrirCartaCorrecta(this.seleccionadas[0])
-                            this.cubrirCartaCorrecta(this.seleccionadas[1])
-                            this.puntuacion += 1;
+                if (self.seleccionadas.length === 2) {
+                    setTimeout(function () {
+                        self.seleccionables = false;
+                        console.log($("#" + self.seleccionadas[0]).data("valor") + "  " + $("#" + self.seleccionadas[1]).data("valor"))
+                        if ($("#" + self.seleccionadas[0]).data("valor") == $("#" + self.seleccionadas[1]).data("valor")) {
+                            $(this).addClass('cubrirImagenCorrecta')
+                            var $this = $(this)
+                            setTimeout(function () {
+                                $this.removeClass('cubrirImagenCorrecta');
+                            }, 1000);
+                            self.puntuacion += 1;
                         } else {
-                            this.fallos ++ ;
-                            this.cubrirCartaErronea(this.seleccionadas[0])
-                            this.cubrirCartaErronea(this.seleccionadas[1])
-                            this.seleccionadas[0].setTexture("card")// Oculta el texto de la primera carta
-                            this.seleccionadas[0].setDisplaySize(displayWidth, displayHeight);
-                            this.seleccionadas[1].setTexture("card")
-                            this.seleccionadas[1].setDisplaySize(displayWidth, displayHeight);
+                            self.fallos++;
+                            var $carta1 =  $("#" + self.seleccionadas[0])
+                            $("#" + self.seleccionadas[0]).addClass('cubrirImagen')
+                            setTimeout(function () {
+                                $carta1.removeClass('cubrirImagen');
+                            }, 1000);
+
+                            var $carta2 =  $("#" + self.seleccionadas[1])
+                            $("#" + self.seleccionadas[1]).addClass('cubrirImagen')
+                            setTimeout(function () {
+                                $carta2.removeClass('cubrirImagen');
+                            }, 1000);
+
+                            $("#" + self.seleccionadas[0]).children('img').attr('src', '/javascripts/assets/carta.png') //cambio su imagen
+                            $("#" + self.seleccionadas[1]).children('img').attr('src', '/javascripts/assets/carta.png') //cambio su imagen
+                            $("#" + self.seleccionadas[0]).data("seleccionable", true)
+                            $("#" + self.seleccionadas[1]).data("seleccionable", true)
                         }
-                        this.seleccionadas = [] //Vacio la lista
-                        this.seleccionables = true
-                    });
+                        self.seleccionadas = [] //Vacio la lista
+                        self.seleccionables = true
+                    }, 1250);
                 }
             }
-        });
 
-        return card;
+        })
+
     }
 
     update(time, delta) {
 
-        console.log(this.puntuacion + " "+ this.fallos)
+        console.log(this.puntuacion + " " + this.fallos)
         if (this.puntuacion === this.valores.length / 2) { //Cuando ya he encontrado todas Salida
             this.finalizarJuego()
         }
@@ -99,6 +108,9 @@ export default class scene_parejas extends Phaser.Scene {
 
 
     finalizarJuego() {
+        $('canvas').css('z-index', '2');
+        $('#ventanaOrden').css('z-index', '1');
+        $('#ventanaOrden').addClass('d-none')
         var fechaFin = new Date();
         var tiempoTranscurrido = fechaFin - this.fechaInicio
         const minutos = Math.floor(tiempoTranscurrido / 60000);
@@ -107,12 +119,12 @@ export default class scene_parejas extends Phaser.Scene {
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
-                fallos : this.fallos,
+                fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos :minutos*60+segundos,
-                nivel : this.nivel,
+                segundos: minutos * 60 + segundos,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }
@@ -120,10 +132,10 @@ export default class scene_parejas extends Phaser.Scene {
     cubrirCartaCorrecta(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
-    
+
         const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0x00FF00, 0.5);
         cover.setOrigin(0, 0);
-        
+
         this.tweens.add({
             targets: cover,
             alpha: 0,
@@ -138,10 +150,10 @@ export default class scene_parejas extends Phaser.Scene {
     cubrirCartaErronea(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
-    
+
         const cover = this.add.rectangle(carta.x, carta.y, carta.width * scaleX, carta.height * scaleY, 0xFF0000, 0.5);
         cover.setOrigin(0, 0);
-        
+
         this.tweens.add({
             targets: cover,
             alpha: 0,
