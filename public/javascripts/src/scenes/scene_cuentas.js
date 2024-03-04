@@ -10,24 +10,43 @@ export default class scene_cuentas extends Phaser.Scene {
         this.fallos = 0;
         this.fechaInicio = new Date()
         this.teclas = ["uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "cero"]
+        this.operadores = ['+', '-'];
+
     }
 
-    
-    init(data){
-        this.idJuego = data.idJuego,
-        this.nivel = data.nivel,
-        this.plan = data.plan
 
-        if(this.plan != null){
+    init(data) {
+        this.idJuego = data.idJuego,
+            this.nivel = data.nivel,
+            this.plan = data.plan
+
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
+
+        switch (this.nivel) {
+            case 1:  
+                this.maxSuma = 10
+                this.maxResta = 10
+                break;
+            case 2:
+                this.maxSuma = 30
+                this.maxResta = 20
+                break;
+            case 3:
+                this.operadores = ['+', '-', 'X'];
+                this.maxSuma = 50
+                this.maxResta = 60
+                break;
+        }
+
     }
 
 
     create() {
 
         const MS = 1000
-        this.duracion = 2  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
 
 
@@ -92,8 +111,8 @@ export default class scene_cuentas extends Phaser.Scene {
         }).setOrigin(0.5)
 
         for (let i = 0; i < numeros.length; i++) {
-    
-            const numero = this.add.image(xPos * this.sys.game.config.width / 12, yPos *this.sys.game.config.height / 12 , this.teclas[i]).setOrigin(0.5).setScale(0.5);
+
+            const numero = this.add.image(xPos * this.sys.game.config.width / 12, yPos * this.sys.game.config.height / 12, this.teclas[i]).setOrigin(0.5).setScale(0.5);
             numero.setInteractive();
             numero.tipo = 'numero';
             numero.value = numeros[i];
@@ -106,7 +125,7 @@ export default class scene_cuentas extends Phaser.Scene {
             }
         }
 
-        this.enviar = this.add.image((xPos-2) * this.sys.game.config.width / 12, (yPos -4) *this.sys.game.config.height / 12, "aceptar", {
+        this.enviar = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 4) * this.sys.game.config.height / 12, "aceptar", {
             fontSize: '24px',
             color: '#fff',
             fontFamily: 'Arial'
@@ -114,7 +133,7 @@ export default class scene_cuentas extends Phaser.Scene {
         this.enviar.setInteractive();
         this.enviar.tipo = "solucionar"
 
-        this.corregir = this.add.image((xPos-2)* this.sys.game.config.width / 12, (yPos -2) *this.sys.game.config.height / 12, "corregir", {
+        this.corregir = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 2) * this.sys.game.config.height / 12, "corregir", {
             fontSize: '24px',
             color: '#fff',
             fontFamily: 'Arial'
@@ -126,17 +145,16 @@ export default class scene_cuentas extends Phaser.Scene {
 
     generarOperacion() {
 
-        const operadores = ['+', '-', 'X'];
         const operador = Phaser.Math.RND.pick(operadores);
         this.respuesta.setText("");
         switch (operador) {
             case '+':
-                var num1 = Phaser.Math.Between(1, 100);
-                var num2 = Phaser.Math.Between(1, 20);
+                var num1 = Phaser.Math.Between(1, this.maxSuma);
+                var num2 = Phaser.Math.Between(1, this.maxSuma);
                 this.solucion = num1 + num2;
                 break;
             case '-':
-                var num1 = Phaser.Math.Between(10, 60);
+                var num1 = Phaser.Math.Between(1, this.maxResta);
                 var num2 = Phaser.Math.Between(1, num1);
                 this.solucion = num1 - num2;
                 break;
@@ -149,11 +167,6 @@ export default class scene_cuentas extends Phaser.Scene {
 
         const fontSize = Math.min(this.sys.game.scale.width * 0.05, this.sys.scale.height * 0.05);
         const textStyle = { font: `${fontSize}px Arial`, fill: '#ffffff' };
-
-        console.log(num1)
-        console.log(num2)
-
-        console.log(operador)
 
         // Crea el texto en el centro de la pantalla
         this.operador1.setText(num1, textStyle).setOrigin(0.5);
@@ -169,7 +182,7 @@ export default class scene_cuentas extends Phaser.Scene {
             this.fallos++;
             this.cubrirResultado(false)
         }
-        
+
         this.respuesta.setText("")
         this.generarOperacion();
     }
@@ -186,9 +199,9 @@ export default class scene_cuentas extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos : this.duracion,
-                nivel : this.nivel,
-                plan : this.plan
+                segundos: this.duracion,
+                nivel: this.nivel,
+                plan: this.plan
             });
     }
 

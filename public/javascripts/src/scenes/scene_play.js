@@ -8,7 +8,6 @@ export default class scene_play extends Phaser.Scene {
     }
 
     init(data) {
-
         this.info = {  //Recojo los parametros traidos de quien inicia la escena 
             descripcion: data.descripcion,
             juego: data.juego,
