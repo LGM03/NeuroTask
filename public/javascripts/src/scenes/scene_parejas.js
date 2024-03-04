@@ -63,10 +63,16 @@ export default class scene_parejas extends Phaser.Scene {
                         self.seleccionables = false;
                         console.log($("#" + self.seleccionadas[0]).data("valor") + "  " + $("#" + self.seleccionadas[1]).data("valor"))
                         if ($("#" + self.seleccionadas[0]).data("valor") == $("#" + self.seleccionadas[1]).data("valor")) {
-                            $(this).addClass('cubrirImagenCorrecta')
-                            var $this = $(this)
+                            var $carta1 =  $("#" + self.seleccionadas[0])
+                            $("#" + self.seleccionadas[0]).addClass('cubrirImagenCorrecta')
                             setTimeout(function () {
-                                $this.removeClass('cubrirImagenCorrecta');
+                                $carta1.removeClass('cubrirImagenCorrecta');
+                            }, 1000);
+
+                            var $carta2 =  $("#" + self.seleccionadas[1])
+                            $("#" + self.seleccionadas[1]).addClass('cubrirImagenCorrecta')
+                            setTimeout(function () {
+                                $carta2.removeClass('cubrirImagenCorrecta');
                             }, 1000);
                             self.puntuacion += 1;
                         } else {
