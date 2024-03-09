@@ -117,7 +117,7 @@ canvas {
     /*Para pantallas mas grandes de 1000*/
 
     .carta img {
-        width: 40%;
+        width: 45%;
         /* Porcentaje del ancho del contenedor */
     }
 }

@@ -29,6 +29,7 @@ export default class scene_pong extends Phaser.Scene {
         this.puntosI = 0;
 
         let center_width = this.sys.game.config.width / 2;
+        console.log( this.sys.game.config.width)
         let center_height = this.sys.game.config.height / 2;
         let width = this.sys.game.config.width;
         let height = this.sys.game.config.height;
@@ -51,16 +52,16 @@ export default class scene_pong extends Phaser.Scene {
 
         this.izquierda2 = new Palas(this, width / 4, height / 6, "izquierda") //ok
 
-        this.izquierda2.setScale(canvasHeight * 0.2 / this.izquierda2.height);
+        this.izquierda2.setScale(0.3);
 
         this.izquierda3 = new Palas(this, width / 2, height - height / 6, "izquierda") //ok
 
-        this.izquierda3.setScale(canvasHeight * 0.2 / this.izquierda3.height);
+        this.izquierda3.setScale(0.3);
 
 
         this.derecha = new Palas(this, center_width * 2 - 30, center_height, "derecha")
 
-        this.derecha.setScale(canvasHeight * 0.25 / this.derecha.height);
+        this.derecha.setScale(0.3);
 
         this.ball = this.physics.add.image(center_width, center_height, "ball")
         this.ball.setVelocityX(350);

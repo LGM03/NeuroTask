@@ -5,6 +5,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
+        
         this.palabrasFacil = [
             "Gato", "Casa", "Sol", "Perro", "Flor",
             "Mesa", "Río", "Tren", "Sol", "Pan",

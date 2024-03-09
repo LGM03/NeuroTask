@@ -145,7 +145,7 @@ export default class scene_cuentas extends Phaser.Scene {
 
     generarOperacion() {
 
-        const operador = Phaser.Math.RND.pick(operadores);
+        const operador = Phaser.Math.RND.pick(this.operadores);
         this.respuesta.setText("");
         switch (operador) {
             case '+':

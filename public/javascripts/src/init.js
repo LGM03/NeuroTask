@@ -33,7 +33,7 @@ export function obtenerPlan() {
             console.log("ASFASDF")
             console.log(datos)
             if (datos.length == 0) {
-                alert("¡Felicidades! No hay planificación pendinte para hoy")
+                alert("¡Felicidades! No hay planificación pendiente para hoy")
                 window.location.href = `/`
             } else {
                 juego = datos[0].idJuego
@@ -58,8 +58,8 @@ export function arranque(idJuego, planJuegos = null) {
 
     const config = {
         type: Phaser.AUTO,
-        width: contJuego.clientWidth,  // Usa el ancho del contenedor
-        height: contJuego.clientHeight,  // Usa la altura del contenedor
+        width: 1312,  // Usa el ancho del contenedor
+        height: 900,  // Usa la altura del contenedor
         parent: "contJuego",
         physics: {
             default: "arcade"
@@ -74,7 +74,7 @@ export function arranque(idJuego, planJuegos = null) {
             },
             max: {
                 width: 1312,
-                height: 752
+                height: 900
             },
             zoom: 1
         }
