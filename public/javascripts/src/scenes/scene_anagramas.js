@@ -5,23 +5,45 @@ export default class scene_refranes extends Phaser.Scene {
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
-        
-        this.palabrasFacil = [
-            "Gato", "Casa", "Sol", "Perro", "Flor",
-            "Mesa", "Río", "Tren", "Sol", "Pan",
-            "Luna", "Rata", "Sopa", "Vela", "Loro"
-        ];
-        this.palabrasMedio = [
-            "Jardín", "Feliz", "Árbol", "Coche", "Cebra",
-            "Casa", "Llaves", "Maleta", "Perros", "Galleta",
-            "Avión", "Nariz", "Nubes", "Lápiz", "Goma"
-        ];
 
-        this.palabrasDificil = [
-            "Elefante", "Universo", "Mariposa", "Elevar", "Cocodrilo",
-            "Platillo", "Hospital", "Biblioteca", "Revolución", "Estación",
-            "Caminante", "Aventurero", "Descubrimiento", "Conocimiento", "Misterioso"
-        ];
+        this.ejercicios = [
+            {
+                "Países": [
+                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Argentina", "Canadá"],
+                    ["Alemania", "Japón", "Australia", "Rusia", "India", "Sudáfrica", "Corea", "Egipto"],
+                    ["Suiza", "Dinamarca", "Noruega", "Finlandia", "Singapur", "Portugal", "Malasia", "Indonesia"]
+                ]
+            },
+            {
+                "Trabajos": [
+                    ["Médico", "Profesor", "Bombero", "Abogado", "Carpintero", "Piloto", "Cocinero", "Enfermero"],
+                    ["Ingeniero", "Arquitecto", "Periodista", "Diseñador", "Electricista", "Psicólogo", "Mecánico", "Fontanero"],
+                    ["Biólogo", "Astrónomo", "Geólogo", "Economista", "Fotógrafo", "Filósofo", "Antropólogo", "Etnólogo"]
+                ]
+            },
+            {
+                "Animales": [
+                    ["Gato", "Perro", "Pato", "Pez", "Oso", "Ratón", "Loro", "Conejo"],
+                    ["Tigre", "León", "Elefante", "Cebra", "Jirafa", "Hámster", "Gorila", "Canguro"],
+                    ["Ornitorrinco", "Hipopótamo", "Pangolín", "Quetzal", "Cangrejo", "Narval", "Suricata", "Tapir"]
+                ]
+            },
+            {
+                "Frutas": [
+                    ["Manzana", "Pera", "Uva", "Kiwi", "Mango", "Plátano", "Fresa", "Piña"],
+                    ["Frambuesa", "Sandía", "Melocotón", "Granada", "Ciruela", "Naranja", "Limón", "Mandarina"],
+                    ["Níspero", "Carambola", "Rambután", "Mangostán", "Maracuyá", "Pitahaya", "Lichi", "Guayaba"]
+                ]
+            },
+            {
+                "Colores": [
+                    ["Rojo", "Azul", "Verde", "Amarillo", "Blanco", "Negro", "Morado", "Gris"],
+                    ["Naranja", "Violeta", "Marrón", "Rosa", "Turquesa", "Dorado", "Plateado", "Beige"],
+                    ["Índigo", "Esmeralda", "Ámbar", "Cian", "Lavanda", "Carmesí", "Rubí", "Topacio"]
+                ]
+            }
+        ]
+
 
         this.casos = []
 
@@ -36,17 +58,11 @@ export default class scene_refranes extends Phaser.Scene {
             this.nivel = this.plan.nivel
         }
 
-        switch (this.nivel) {
-            case 1:
-                this.casos = this.palabrasFacil.concat();
-                break;
-            case 2:
-                this.casos = this.palabrasMedio.concat();
-                break;
-            case 3:
-                this.casos = this.palabrasDificil.concat();
-                break;
-        }
+        const categoriaAleatoria = this.ejercicios[Math.floor(Math.random() *  this.ejercicios.length)];
+        $("#tematica").text(Object.keys(categoriaAleatoria)[0])
+        this.casos = categoriaAleatoria[Object.keys(categoriaAleatoria)[0]][this.nivel-1].concat();
+        console.log(this.casos)
+       
     }
 
     create() {
@@ -117,7 +133,7 @@ export default class scene_refranes extends Phaser.Scene {
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
 
         this.refran = this.casos[elegido]
-       
+
         //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos
         if (this.casos.length != 1) {
             this.casos.splice(elegido, 1)
