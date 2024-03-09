@@ -53,7 +53,7 @@ export default class scene_fin extends Phaser.Scene {
         this.tAciertos.setOrigin(0, 0.5);
         this.tAciertos.setScale(1.2);
 
-        this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 4 + 35, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
+        this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 3 - 10, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
         this.tTiempo.setOrigin(0, 0.5);
         this.tTiempo.setScale(1.2);
 
@@ -61,7 +61,7 @@ export default class scene_fin extends Phaser.Scene {
         //Este boton servirá para llevar al siguiente juego o a la ventana de inicios
         this.icContinuar = this.add.image(this.sys.game.config.width / 2, this.icPuntuacion.y + this.icPuntuacion.displayHeight / 2 - 10, "botonContinuar")
         this.icContinuar.setInteractive();
-        this.icContinuar.setScale(canvasHeight / (this.icPuntuacion.height * 2.5));
+        this.icContinuar.setScale(0.7);
 
         this.icContinuar.setInteractive();
 

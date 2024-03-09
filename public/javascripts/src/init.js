@@ -59,7 +59,7 @@ export function arranque(idJuego, planJuegos = null) {
     const config = {
         type: Phaser.AUTO,
         width: 1312,  // Usa el ancho del contenedor
-        height: 900,  // Usa la altura del contenedor
+        height: 752,  // Usa la altura del contenedor
         parent: "contJuego",
         physics: {
             default: "arcade"
@@ -74,7 +74,7 @@ export function arranque(idJuego, planJuegos = null) {
             },
             max: {
                 width: 1312,
-                height: 900
+                height: 752
             },
             zoom: 1
         }

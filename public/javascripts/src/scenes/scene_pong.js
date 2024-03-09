@@ -61,7 +61,7 @@ export default class scene_pong extends Phaser.Scene {
 
         this.derecha = new Palas(this, center_width * 2 - 30, center_height, "derecha")
 
-        this.derecha.setScale(0.3);
+        this.derecha.setScale(0.8);
 
         this.ball = this.physics.add.image(center_width, center_height, "ball")
         this.ball.setVelocityX(350);

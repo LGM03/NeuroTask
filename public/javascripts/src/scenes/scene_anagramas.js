@@ -9,37 +9,23 @@ export default class scene_refranes extends Phaser.Scene {
         this.ejercicios = [
             {
                 "Países": [
-                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Argentina", "Canadá"],
-                    ["Alemania", "Japón", "Australia", "Rusia", "India", "Sudáfrica", "Corea", "Egipto"],
-                    ["Suiza", "Dinamarca", "Noruega", "Finlandia", "Singapur", "Portugal", "Malasia", "Indonesia"]
-                ]
-            },
-            {
-                "Trabajos": [
-                    ["Médico", "Profesor", "Bombero", "Abogado", "Carpintero", "Piloto", "Cocinero", "Enfermero"],
-                    ["Ingeniero", "Arquitecto", "Periodista", "Diseñador", "Electricista", "Psicólogo", "Mecánico", "Fontanero"],
-                    ["Biólogo", "Astrónomo", "Geólogo", "Economista", "Fotógrafo", "Filósofo", "Antropólogo", "Etnólogo"]
+                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Canadá"],
+                    ["Japón", "Austria", "Rusia", "India", "Corea", "Egipto","Suecia"],
+                    ["Suiza","Noruega", "Estonia", "Singapur", "Portugal", "Malasia", "Letonia"]
                 ]
             },
             {
                 "Animales": [
                     ["Gato", "Perro", "Pato", "Pez", "Oso", "Ratón", "Loro", "Conejo"],
-                    ["Tigre", "León", "Elefante", "Cebra", "Jirafa", "Hámster", "Gorila", "Canguro"],
-                    ["Ornitorrinco", "Hipopótamo", "Pangolín", "Quetzal", "Cangrejo", "Narval", "Suricata", "Tapir"]
-                ]
-            },
-            {
-                "Frutas": [
-                    ["Manzana", "Pera", "Uva", "Kiwi", "Mango", "Plátano", "Fresa", "Piña"],
-                    ["Frambuesa", "Sandía", "Melocotón", "Granada", "Ciruela", "Naranja", "Limón", "Mandarina"],
-                    ["Níspero", "Carambola", "Rambután", "Mangostán", "Maracuyá", "Pitahaya", "Lichi", "Guayaba"]
+                    ["Tigre", "León", "Cebra", "Jirafa", "Hámster", "Gorila", "Canguro"],
+                    ["Pájaro", "Delfín", "Salmón","Elefante", "Cangrejo","Sardina"]
                 ]
             },
             {
                 "Colores": [
                     ["Rojo", "Azul", "Verde", "Amarillo", "Blanco", "Negro", "Morado", "Gris"],
-                    ["Naranja", "Violeta", "Marrón", "Rosa", "Turquesa", "Dorado", "Plateado", "Beige"],
-                    ["Índigo", "Esmeralda", "Ámbar", "Cian", "Lavanda", "Carmesí", "Rubí", "Topacio"]
+                    ["Naranja", "Violeta", "Marrón", "Rosa", "Turquesa", "Dorado", "Plateado"],
+                    ["Índigo", "Ámbar", "Cian", "Lavanda", "Carmesí", "Rubí", "Beige"]
                 ]
             }
         ]
@@ -67,7 +53,7 @@ export default class scene_refranes extends Phaser.Scene {
 
     create() {
         const MS = 1000
-        this.duracion = 80  //en segundos
+        this.duracion = 2  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
         this.crearInterfaz();
         const self = this

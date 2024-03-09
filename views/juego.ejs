@@ -24,7 +24,7 @@
 
     <body>
 
-        <div class="container mt-3 ventanaJuego" id="contJuego">
+        <div class="container mt-3 ventanaJuego d-flex justify-content-around align-items-center" id="contJuego">
 
             <div class=" ventanaJuego d-flex flex-column d-none rounded w-100 h-100" id="juegoLenguaje">
                 <div class="text-center mt-4">
@@ -39,7 +39,9 @@
                 <div class="row d-flex justify-content-around align-items-center rounded w-10" id="contenedorSolucion">
                     <div class="col-3 col-lg-2"><img class=" w-100" src="/javascripts/assets/corregir.png"
                             alt="Corregir" id="btnCorregir"> </div>
-                    <div class="col-3 col-lg-2"><h3 id = "tematica"></h3> </div>
+                    <div class="col-3 col-lg-2">
+                        <h3 id="tematica"></h3>
+                    </div>
                     <div class="col-3 col-lg-2"><img class=" w-100" src="/javascripts/assets/aceptar.png" alt="Aceptar"
                             id="btnAceptar"></div>
                 </div>
@@ -68,13 +70,13 @@
                 class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-5 pb-5">
                 <h2><strong>SELECCIONE UNA DIFICULTAD</strong> </h2>
                 <button class="btnDificultad mb-3" data-nivel="1"><img src="/images/btnFacil.png"
-                        alt="Dificultad fácil"></button>
+                        alt="Dificultad fácil" class = "w-50"></button>
 
                 <button class="btnDificultad mb-3" data-nivel="2"><img src="/images/btnMedio.png"
-                        alt="Dificultad media"></button>
+                        alt="Dificultad media" class = "w-50"></button>
 
                 <button class="btnDificultad mb-3" data-nivel="3"><img src="/images/btnDificil.png"
-                        alt="Dificultad dificil"></button>
+                        alt="Dificultad dificil" class = "w-50"></button>
 
             </div>
 
@@ -106,6 +108,11 @@
                     id="contenedorCartas">
                 </div>
 
+            </div>
+
+            <div id="ventanaMensaje"
+                class="ventanaJuego container d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
+                <img src="/javascripts/assets/siguiente.png" alt="">
 
             </div>
         </div>
