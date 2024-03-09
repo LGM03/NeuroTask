@@ -113,7 +113,7 @@ $(function () {
 
                         const formattedDate = `${("0" + date.getUTCDate()).slice(-2)}-${("0" + (date.getUTCMonth() + 1)).slice(-2)}-${date.getUTCFullYear()} ${("0" + date.getUTCHours()).slice(-2)}:${("0" + date.getUTCMinutes()).slice(-2)}`;
 
-                        var fila = '<tr><td>'+ dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>'  + dato.nivel + '</td><td>' + formattedDate + '</td></tr>';
+                        var fila = '<tr><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>' + dato.nivel + '</td><td>' + formattedDate + '</td></tr>';
 
                         $("#bodyTablaHistorial").append(fila);
                     });
@@ -374,8 +374,8 @@ $(function () {
 
                     //Creo el canva
                     const canvas = document.createElement('canvas');
-                    canvas.width = 300 
-                    canvas.height = 300 
+                    canvas.width = 300
+                    canvas.height = 300
                     var titulo = $('<p><strong>Progreso Mensual</strong></p>');
 
                     //Meto el canva en el div
@@ -477,7 +477,7 @@ $(function () {
             var data = {
                 usuario: usuario.trim(),
                 juego: juego,
-                nivel : nivel
+                nivel: nivel
             }
             switch (freq) { //Se usa valor entero en lugar de bool para facilitar el insert en la base de datos
                 case "0"://Si el juego se juega puntualmente ese dia  Inserto fecha y repetir a false
@@ -524,6 +524,14 @@ $(function () {
                 center: 'title', //centramos el titulo
             },
             dayRender: function (date, cell) {
+                var today = new Date();
+                var cellDate = new Date(date);
+
+                if (cellDate.toDateString() === today.toDateString()) {
+                    cell.css('border', '3px solid rgba(0, 0, 255)');
+                    cell.css('background', "rgba(255, 255, 255)")
+                }
+
                 var data = { //Paso a la consulta el usuario y dia en cuestion
                     usuario: usuario,
                     dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
@@ -534,11 +542,10 @@ $(function () {
                     url: "/tareas/tareaUsuarioDia",
                     data: data,
                     success: function (datos, state, jqXHR) {
-                        console.log(datos)
                         if (datos.length != 0) {
                             cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
                         } else {
-                            cell.css("background-color", "");
+                            cell.css("background-color", "rgba(255, 255, 255)");
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
@@ -570,7 +577,7 @@ $(function () {
                         if (datos.length != 0) {
                             datos.forEach(function (dato) {
                                 if (dato.hecho == 0) {
-                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>'  + dato.nivel + '</td><td>' + "No" + '</td></tr>';
+                                    var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td> <button class = "btn btn-danger btnEliminarTarea">X Eliminar</button> </td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.nivel + '</td><td>' + "No" + '</td></tr>';
                                 } else {
                                     var fila = '<tr class = "tareaJugador" data-idtarea="' + dato.idTarea + '"><td></td><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.nivel + '</td><td> Si' + '</td></tr>';
                                 }
@@ -593,7 +600,7 @@ $(function () {
         });
     }
 
-    
+
 
 
 })

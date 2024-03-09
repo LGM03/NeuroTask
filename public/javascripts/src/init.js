@@ -30,15 +30,14 @@ export function obtenerPlan() {
         method: "GET",
         url: "/tareas/tareaPrimera",
         success: function (datos, state, jqXHR) {
-            console.log("ASFASDF")
-            console.log(datos)
             if (datos.length == 0) {
                 $("#ventanaMensaje").removeClass('d-none')
-                $("#imgMensaje").attr("scr","/images/felicitaciones.png")
+                $("#imgMensaje").attr("src","/images/felicitacion.png")
                 $("#imgMensaje").attr("alt","Felicidades, has terminado tu planificación")
+                alert("c")
 
                 setTimeout(async () => {
-                    window.location.href = `/`
+                   // window.location.href = `/`
                 }, 3000);
                
             } else {
