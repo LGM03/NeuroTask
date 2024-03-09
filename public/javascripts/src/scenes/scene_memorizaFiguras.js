@@ -7,20 +7,29 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         this.fallos = 0;
         this.fechaInicio = new Date();
         this.seleccionable = false
-        this.cartas = ["corona", "maceta", "paraguas", "tambor", "pera", "melon", "sandia", "mano"]
+        this.cartas = ["cartaCorona", "cartaMaceta", "cartaParaguas", "cartaTambor", "cartaPera", "cartaMelon", "cartaSandia", "cartaMano", "cartaCazo", "cartaBotella", "cartaCorazon", "cartaCampana"]
+
         this.secuencia_objetivo = []
         this.seleccionadas = []
-        
     }
-
 
     init(data) {
         this.idJuego = data.idJuego
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
+        }
+
+        switch (this.nivel) {
+            case 1:  //dificultad facil juega solo con 6 cartas
+                this.cartas = this.cartas.slice(0, 6)
+                break;
+            case 2://dificultad media juega solo con 8 cartas
+                this.cartas = this.cartas.slice(0, 8)
+                break;
+            //dificultad dificil juega con todas
         }
     }
 
@@ -30,53 +39,47 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
-        this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
-        this.fondo.setScale(0.5);
-
-        this.info = this.add.text(4 * this.sys.canvas.width / 8, 1 * this.sys.canvas.height / 8, "Memoriza estas cartas", {
-            fontSize: '42px',
-            color: '#000',
-            fontFamily: 'Arial',
-            fontStyle: 'bold'
-        }).setOrigin(0.5, 0.5)
-        this.cobertura=this.add.group()
-
         this.mostrarTres();
 
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
-            if (this.seleccionable) {
-                this.seleccionadas.push(gameObject.value)
+        var self = this
 
-                const scaleX = gameObject.scaleX;
-                const scaleY = gameObject.scaleY;
-            
-                this.cobertura.add(this.add.rectangle(gameObject.x, gameObject.y, gameObject.width * scaleX, gameObject.height * scaleY, 0x504C4F, 0.75).setOrigin(0.5, 0.5));
-                
-                if (this.seleccionadas.length == this.secuencia_objetivo.length) {
-                
-                    if (this.seleccionadas.every(element =>this.secuencia_objetivo.includes(element))) {
-                        this.seleccionadas = []
-                        this.secuencia_objetivo = []
-                        this.cubrirResultado(true) //true porque es acierto
-                        this.puntuacion++;
+        $(document).on("click", ".carta", function (event) {
+            console.log("pulsado")
+            if (self.seleccionable && $(this).data("seleccionable", true)) {
+                console.log("dentro")
+                self.seleccionadas.push($(this).data("valor"))//Me guardo el id de la carta selccionada
+                $(this).children('img').addClass('sombra');
+                $(this).data("seleccionable", false)
+                console.log(self.seleccionadas)
+                console.log(self.secuencia_objetivo)
+                if (self.seleccionadas.length == self.secuencia_objetivo.length) {
+
+                    if (self.seleccionadas.every(element => self.secuencia_objetivo.includes(element))) {
+                        self.seleccionadas = []
+                        self.secuencia_objetivo = []
+                        self.cubrirResultado(true) //true porque es acierto
+                        self.puntuacion++;
                     } else {
-                        this.fallos++;
-                        this.cubrirResultado(false)
-                        this.secuencia_objetivo = []
-                        this.seleccionadas = []
+                        self.fallos++;
+                        self.cubrirResultado(false)
+                        self.secuencia_objetivo = []
+                        self.seleccionadas = []
                     }
-                    
-                    this.cobertura.clear(true,true)
-                    this.cartasGrupo.clear(true,true)
-                    this.mostrarTres();
+
+                    setTimeout(async () => {
+                        self.mostrarTres();
+                    }, 1500);
                 }
             }
-
-        }, this);
+        })
     }
 
 
     cubrirResultado(esAcierto) {
+
+        $('canvas').css('z-index', '2');
+        $('#ventanaOrden').css('z-index', '1');
+
         var color = 0xFF0000
         if (esAcierto) {
             var color = 0x00FF00
@@ -90,6 +93,8 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
             duration: 1500,
             ease: 'Linear',
             onComplete: () => {
+                $('canvas').css('z-index', '1');
+                $('#ventanaOrden').css('z-index', '2');
                 cover.destroy();
             }
         });
@@ -99,8 +104,17 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
     mostrarTres() {
         this.seleccionable = false //ya no se podra seleccionar 
         this.cartasGrupo = this.add.group();
+        $("#ventanaMensaje").removeClass('d-none')
+        $("#ventanaOrden").addClass('d-none')
+        $("#imgMensaje").attr("scr", "/javascripts/assets/siguiente.png")
+        $("#imgMensaje").attr("alt", "Siguiente Ronda")
+        $("#contenedorCartas").empty()
+        setTimeout(async () => {
+            $("#ventanaMensaje").addClass('d-none')
+            $("#ventanaOrden").removeClass('d-none')
+        }, 1500);
 
-        this.info.setText("Memoriza estas cartas")
+        $("#textoOrden").text("Memoriza estas cartas")
 
         this.secuencia_objetivo.push(Math.floor(Math.random() * (this.cartas.length)))
         this.secuencia_objetivo.push(Math.floor(Math.random() * (this.cartas.length)))
@@ -112,75 +126,41 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         while (this.secuencia_objetivo[0] == this.secuencia_objetivo[2] || this.secuencia_objetivo[1] == this.secuencia_objetivo[2]) {
             this.secuencia_objetivo[2] = Math.floor(Math.random() * (this.cartas.length))
         }
-        this.objetivoGrupo = this.add.group()
-        for (var i = 0; i < this.secuencia_objetivo.length; i++) {
-            const carta = this.add.image(((i * 2) + 1) * this.sys.canvas.width / 6, 4 * this.sys.canvas.height / 8,  this.cartas[this.secuencia_objetivo[i]]).setOrigin(0.5).setScale(0.35);
-            carta.setInteractive();
-            carta.value = 0;
-            this.objetivoGrupo.add(carta)
+
+        this.secuencia_objetivo = this.secuencia_objetivo.slice(0, this.nivel)
+        for (var i = 0; i < this.nivel; i++) {
+            var nuevaCarta = $("<div class='carta col-lg-4 col-md-4 col-4 d-flex justify-content-around align-items-center' id='" + this.secuencia_objetivo[i] + "' data-valor='" + this.cartas[this.secuencia_objetivo[i]] + "'><img src='/javascripts/assets/" + this.cartas[this.secuencia_objetivo[i]] + ".png' alt='" + this.cartas[this.secuencia_objetivo[i]] + "' class='img-fluid'></div>");
+            $("#contenedorCartas").append(nuevaCarta);
         }
 
         setTimeout(async () => {
             this.mostrarTodas();
-        }, 3000);
+        }, 6000);
 
     }
 
     mostrarTodas() {
         this.seleccionable = true
-        this.objetivoGrupo.clear(true,true) //elimino todas la cartas objetivo
-        this.cartasGrupo = this.add.group();
-
-        this.info.setText("¿Qué cartas han aparecido?")
-        const corona = this.add.image(1 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "corona").setOrigin(0.5).setScale(0.25);
-        corona.setInteractive();
-        corona.value = 0;
-        this.cartasGrupo.add(corona)
-
-        const maceta = this.add.image(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "maceta").setOrigin(0.5).setScale(0.25);
-        maceta.setInteractive();
-        maceta.value = 1;
-        this.cartasGrupo.add(maceta)
-
-        const paraguas = this.add.image(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "paraguas").setOrigin(0.5).setScale(0.25);
-        paraguas.setInteractive();
-        paraguas.value = 2;
-        this.cartasGrupo.add(paraguas)
-
-        const tambor = this.add.image(7 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, "tambor").setOrigin(0.5).setScale(0.25);
-        tambor.setInteractive();
-        tambor.value = 3;
-        this.cartasGrupo.add(tambor)
-
-        const pera = this.add.image(1 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "pera").setOrigin(0.5).setScale(0.25);
-        pera.setInteractive();
-        pera.value = 4;
-        this.cartasGrupo.add(pera)
-
-        const melon = this.add.image(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "melon").setOrigin(0.5).setScale(0.25);
-        melon.setInteractive();
-        melon.value = 5;
-        this.cartasGrupo.add(melon)
-
-        const sandia = this.add.image(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "sandia").setOrigin(0.5).setScale(0.25);
-        sandia.setInteractive();
-        sandia.value = 6;
-        this.cartasGrupo.add(sandia)
-
-        const mano = this.add.image(7 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, "mano").setOrigin(0.5).setScale(0.25);
-        mano.setInteractive();
-        mano.value = 7;
-        this.cartasGrupo.add(mano)
+        $("#contenedorCartas").empty()
+        $("#textoOrden").text("¿Qué cartas han aparecido?")
+        for (var i = 0; i < this.cartas.length; i++) {
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-3 d-flex justify-content-around align-items-center' id='" + this.cartas[i] + "' data-valor='" + i + "' data-seleccionable = 'true'><img src='/javascripts/assets/" + this.cartas[i] + ".png' alt='" + this.cartas[i] + "' class='img-fluid'></div>");
+            // Agregamos el nuevo div al contenedor
+            $("#contenedorCartas").append(nuevaCarta);
+        }
 
     }
 
- 
+
 
     esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     finalizarJuego() {
+        $('canvas').css('z-index', '2');
+        $('#ventanaOrden').css('z-index', '1');
+        $('#ventanaOrden').addClass('d-none')
         const minutos = Math.floor(this.duracion / 60000);
         const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
 
@@ -192,7 +172,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos: this.duracion,
-                nivel : this.nivel,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }

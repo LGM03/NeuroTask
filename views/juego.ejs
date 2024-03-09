@@ -26,7 +26,7 @@
 
         <div class="container mt-3 ventanaJuego d-flex justify-content-around align-items-center" id="contJuego">
 
-            <div class=" ventanaJuego d-flex flex-column d-none rounded w-100 h-100" id="juegoLenguaje">
+            <div class="divJuego ventanaJuego d-flex flex-column d-none rounded w-100 h-100" id="juegoLenguaje">
                 <div class="text-center mt-4">
                     <h1 id="tituloJuego"></h1>
                 </div>
@@ -54,7 +54,7 @@
             </div>
 
             <div id="ventanaInicio"
-                class="ventanaJuego rounded w-100 h-100 d-flex flex-column align-items-center justify-content-around  d-none">
+                class="divJuego ventanaJuego rounded w-100 h-100 d-flex flex-column align-items-center justify-content-around  d-none">
                 <div id="cajaIntro"
                     class="w-75 h-75 p-4 fondoBlanco rounded d-flex flex-column align-items-center justify-content-around ">
                     <h2 class="text-center mt-5"><strong id="introduccion"></strong> </h2>
@@ -67,7 +67,7 @@
             </div>
 
             <div id="ventanaDificultad"
-                class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-5 pb-5">
+                class="divJuego ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-5 pb-5">
                 <h2><strong>SELECCIONE UNA DIFICULTAD</strong> </h2>
                 <button class="btnDificultad mb-3" data-nivel="1"><img src="/images/btnFacil.png"
                         alt="Dificultad fácil" class = "w-50"></button>
@@ -81,7 +81,7 @@
             </div>
 
             <div id="ventanaSimonDice"
-                class="ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
+                class="divJuego ventanaJuego d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
                 <h2 class="text-center"><strong>Repite el orden en el que se encienden las bombillas</strong></h2>
                 <div class="row d-flex justify-content-around align-items-center">
                     <img src="/javascripts/assets/verde1.png" alt="bombilla Morada" id="bombillaMorada"
@@ -99,7 +99,7 @@
             </div>
 
             <div id="ventanaOrden"
-                class="ventanaJuego container d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
+                class="divJuego ventanaJuego container d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
 
                 <h2 class="text-center" id="textoOrden"><strong></strong></h2>
 
@@ -111,8 +111,8 @@
             </div>
 
             <div id="ventanaMensaje"
-                class="ventanaJuego container d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
-                <img src="/javascripts/assets/siguiente.png" alt="">
+                class="divJuego ventanaJuego container d-flex flex-column align-items-center justify-content-around rounded w-100 h-100 d-none pt-2 pb-2">
+                <img id = "imgMensaje" src="/javascripts/assets/siguiente.png" alt="">
 
             </div>
         </div>

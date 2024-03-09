@@ -55,7 +55,7 @@ export default class scene_ordenDecreciente extends Phaser.Scene {
 
         // Crear cartas en un bucle
         for (var i = 0; i < this.valores.length; i++) {
-            var nuevaCarta = $("<div class='carta col-lg-3 col-md-4 col-4 d-flex justify-content-around align-items-center' id='" + this.valores[i] + "' data-valor='" + this.cartas[this.valores[i]] + "'><img src='/javascripts/assets/" + this.valores[i] + ".png' alt='" + this.valores[i] + "' class='img-fluid'><span class='numero d-none'>" + this.cartas[this.valores[i]] + "</span></div>");
+            var nuevaCarta = $("<div class='carta col-lg-3 col-md-3 col-3 d-flex justify-content-around align-items-center' id='" + this.valores[i] + "' data-valor='" + this.cartas[this.valores[i]] + "'><img src='/javascripts/assets/" + this.valores[i] + ".png' alt='" + this.valores[i] + "' class='img-fluid'><span class='numero d-none'>" + this.cartas[this.valores[i]] + "</span></div>");
 
             // Agregamos el nuevo div al contenedor
             $("#contenedorCartas").append(nuevaCarta);

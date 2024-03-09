@@ -33,8 +33,14 @@ export function obtenerPlan() {
             console.log("ASFASDF")
             console.log(datos)
             if (datos.length == 0) {
-                alert("¡Felicidades! No hay planificación pendiente para hoy")
-                window.location.href = `/`
+                $("#ventanaMensaje").removeClass('d-none')
+                $("#imgMensaje").attr("scr","/images/felicitaciones.png")
+                $("#imgMensaje").attr("alt","Felicidades, has terminado tu planificación")
+
+                setTimeout(async () => {
+                    window.location.href = `/`
+                }, 3000);
+               
             } else {
                 juego = datos[0].idJuego
 

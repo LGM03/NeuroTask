@@ -18,16 +18,6 @@
     background-position: center;
 }
 
-#juegoLenguaje {
-    position: absolute;
-    z-index: 2;
-    background-image: url('/images/fondoRosa.png');
-    /* Ruta de tu imagen */
-    background-size: cover;
-    /* Para cubrir todo el contenido del div */
-    background-position: center;
-}
-
 .bombilla {
     max-width: 30%;
 }
@@ -64,7 +54,7 @@ canvas {
     max-width: 60%;
 }
 
-#ventanaDificultad {
+.divJuego{
     position: absolute;
     z-index: 2;
     background-image: url('/images/fondoRosa.png');
@@ -73,40 +63,9 @@ canvas {
     /* Para cubrir todo el contenido del div */
     background-position: center;
 }
-
-#ventanaSimonDice {
-    position: absolute;
-    z-index: 2;
-    background-image: url('/images/fondoRosa.png');
-    /* Ruta de tu imagen */
-    background-size: cover;
-    /* Para cubrir todo el contenido del div */
-    background-position: center;
-}
-
-#ventanaOrden {
-    position: absolute;
-    z-index: 2;
-    background-image: url('/images/fondoRosa.png');
-    /* Ruta de tu imagen */
-    background-size: cover;
-    /* Para cubrir todo el contenido del div */
-    background-position: center;
-}
-
-#ventanaInicio {
-    position: absolute;
-    z-index: 2;
-    background-image: url('/images/fondoRosa.png');
-    /* Ruta de tu imagen */
-    background-size: cover;
-    /* Para cubrir todo el contenido del div */
-    background-position: center;
-}
-
 
 .carta img {
-    width: 60%;
+    width: 65%;
 }
 
 #introduccion{
@@ -117,12 +76,12 @@ canvas {
     /*Para pantallas mas grandes de 1000*/
 
     .carta img {
-        width: 45%;
+        width: 43%;
         /* Porcentaje del ancho del contenedor */
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
     /*Para pantallas mas pequelas de 420*/
 
     .carta img {
