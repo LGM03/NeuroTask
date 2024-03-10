@@ -29,7 +29,7 @@ export default class scene_pong extends Phaser.Scene {
         this.puntosI = 0;
 
         let center_width = this.sys.game.config.width / 2;
-        console.log( this.sys.game.config.width)
+
         let center_height = this.sys.game.config.height / 2;
         let width = this.sys.game.config.width;
         let height = this.sys.game.config.height;

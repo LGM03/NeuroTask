@@ -33,7 +33,7 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
             this.load.image("ball", "javascripts/assets/astronauta.jpg")
             this.load.image("izquierda", "javascripts/assets/asteroide.png")
             this.load.image("derecha", "javascripts/assets/cohete.png")
-            this.load.image("separador", "javascripts/assets/espacio.png")
+            this.load.image("separador", "javascripts/assets/espacio3.jpg")
             this.load.image("meta", "javascripts/assets/meta.png")
 
         }else if (this.idJuego =="2"){
@@ -56,13 +56,6 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if (this.idJuego =="3"){
             this.descripcion = "¡Recuerda las imagenes y empareja!"
             this.juego = "scene_parejas"
-            this.load.image("card", "javascripts/assets/carta.png")
-            this.load.image("sol", "javascripts/assets/cartaSol.png")
-            this.load.image("melon", "javascripts/assets/cartaMelon.png")
-            this.load.image("calavera", "javascripts/assets/cartaCalavera.png")
-            this.load.image("jarra", "javascripts/assets/cartaJarra.png")
-            this.load.image("pez", "javascripts/assets/cartaPez.png")
-            this.load.image("bota", "javascripts/assets/cartaBota.png")
 
         }else if(this.idJuego=="4"){
             this.descripcion = "¡Ordena las cartas de MENOR a MAYOR!"
@@ -88,17 +81,12 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         }else if(this.idJuego == "9"){
             this.descripcion = "¡Memoriza las figuras que aparecen!"
             this.juego = "scene_memorizaFiguras"
-            this.load.image("melon", "javascripts/assets/cartaMelon.png")
-            this.load.image("sandia", "javascripts/assets/cartaSandia.png")
-            this.load.image("paraguas", "javascripts/assets/cartaParaguas.png")
-            this.load.image("pera", "javascripts/assets/cartaPera.png")
-            this.load.image("mano", "javascripts/assets/cartaMano.png")
-            this.load.image("corona", "javascripts/assets/cartaCorona.png")
-            this.load.image("maceta", "javascripts/assets/cartaMaceta.png")
-            this.load.image("tambor", "javascripts/assets/cartaTambor.png")
+
         }else if(this.idJuego == "10"){
             this.descripcion = "¡Memoriza los colores que aparecen!"
             this.juego = "scene_memorizaColores"
+            this.load.image("memoriza","javascripts/assets/siguiente.png")
+
         }
 
     }

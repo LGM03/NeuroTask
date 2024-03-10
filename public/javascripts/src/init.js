@@ -58,13 +58,11 @@ export function arranque(idJuego, planJuegos = null) {
 
     juego = idJuego
     infoPlan = planJuegos
-    console.log("He llegado aqui")
-    console.log(planJuegos + " " + idJuego)
 
     const config = {
         type: Phaser.AUTO,
-        width: 1312,  // Usa el ancho del contenedor
-        height: 752,  // Usa la altura del contenedor
+        width: 1950,  // Usa el ancho del contenedor
+        height: 900,  // Usa la altura del contenedor
         parent: "contJuego",
         physics: {
             default: "arcade"
@@ -78,8 +76,8 @@ export function arranque(idJuego, planJuegos = null) {
                 height: 188
             },
             max: {
-                width: 1312,
-                height: 752
+                width: 1950,
+                height: 900
             },
             zoom: 1
         }

@@ -21,6 +21,16 @@ export default class scene_memorizaColores extends Phaser.Scene {
         if(this.plan != null){
             this.nivel = this.plan.nivel
         }
+
+        switch (this.nivel) {
+            case 1:  //dificultad facil juega solo con 4 cartas
+                this.colores = this.colores.slice(0, 4)
+                break;
+            case 2://dificultad media juega solo con 6 cartas
+                this.colores = this.colores.slice(0, 6)
+                break;
+            //dificultad dificil juega con todas
+        }
     }
 
     create() {
@@ -94,9 +104,13 @@ export default class scene_memorizaColores extends Phaser.Scene {
     }
 
 
-    mostrarTres() {
+    async mostrarTres() {
         this.seleccionable = false //ya no se podra seleccionar 
         this.coloresGrupo = this.add.group();
+
+        var mensajeMemoriza = this.add.image(this.sys.canvas.width/2, this.sys.canvas.height/2,"memoriza")
+        await this.esperar(1500) 
+        mensajeMemoriza.destroy()
 
         this.info.setText("Memoriza estos colores")
 
@@ -111,8 +125,9 @@ export default class scene_memorizaColores extends Phaser.Scene {
             this.secuencia_objetivo[2] = Math.floor(Math.random() * (this.colores.length))
         }
         this.objetivoGrupo = this.add.group()
+        this.secuencia_objetivo = this.secuencia_objetivo.slice(0, this.nivel)
         for (var i = 0; i < this.secuencia_objetivo.length; i++) {
-            const carta = this.add.rectangle(((i * 2) + 1) * this.sys.canvas.width / 6, 4 * this.sys.canvas.height / 8, 150, 200, this.colores[this.secuencia_objetivo[i]]).setOrigin(0.5)
+            const carta = this.add.rectangle(((i * 2) + 1) * this.sys.canvas.width / 6, 4 * this.sys.canvas.height / 8, 200, 250, this.colores[this.secuencia_objetivo[i]]).setOrigin(0.5).setStrokeStyle(4, 0x888888);
             carta.setInteractive();
             carta.value = 0;
             this.objetivoGrupo.add(carta)
@@ -131,43 +146,43 @@ export default class scene_memorizaColores extends Phaser.Scene {
 
         this.info.setText("¿Qué colores han aparecido?")
 
-        const rojo = this.add.rectangle(1 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,  150, 200, 0xFF0000).setOrigin(0.5);
+        const rojo = this.add.rectangle(1 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,  200, 250, 0xFF0000).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         rojo.setInteractive();
         rojo.value = 0;
         this.coloresGrupo.add(rojo)
 
-        const azul = this.add.rectangle(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 150, 200, 0x0000FF).setOrigin(0.5);
+        const azul = this.add.rectangle(3 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 200, 250, 0x0000FF).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         azul.setInteractive();
         azul.value = 1;
         this.coloresGrupo.add(azul)
 
-        const verde = this.add.rectangle(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 150, 200, 0x00FF00).setOrigin(0.5);
+        const verde = this.add.rectangle(5 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8, 200, 250, 0x00FF00).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         verde.setInteractive();
         verde.value = 2;
         this.coloresGrupo.add(verde)
 
-        const naranja = this.add.rectangle(7 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,150, 200, 0xFF8000).setOrigin(0.5);
+        const naranja = this.add.rectangle(7 * this.sys.canvas.width / 8, 6 * this.sys.canvas.height / 8,200, 250, 0xFF8000).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         naranja.setInteractive();
         naranja.value = 3;
         this.coloresGrupo.add(naranja)
 
-        const amarillo = this.add.rectangle(1 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,150, 200, 0xFFFF00).setOrigin(0.5);
+        const amarillo = this.add.rectangle(1 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,200, 250, 0xFFFF00).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         amarillo.setInteractive();
         amarillo.value = 4;
         this.coloresGrupo.add(amarillo)
 
 
-        const marron = this.add.rectangle(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 150, 200, 0x582900).setOrigin(0.5);
+        const marron = this.add.rectangle(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 200, 250, 0x582900).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         marron.setInteractive();
         marron.value = 5;
         this.coloresGrupo.add(marron)
 
-        const morado = this.add.rectangle(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 150, 200, 0X9C1CF0).setOrigin(0.5);
+        const morado = this.add.rectangle(5 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 200, 250, 0X9C1CF0).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         morado.setInteractive();
         morado.value = 6;
         this.coloresGrupo.add(morado)
 
-        const blanco = this.add.rectangle(7 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,150, 200, 0x000000).setOrigin(0.5);
+        const blanco = this.add.rectangle(7 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8,200, 250, 0x000000).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         blanco.setInteractive();
         blanco.value = 7;
         this.coloresGrupo.add(blanco)
