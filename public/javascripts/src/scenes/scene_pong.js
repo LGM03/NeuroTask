@@ -11,7 +11,7 @@ export default class scene_pong extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
     }
@@ -54,10 +54,6 @@ export default class scene_pong extends Phaser.Scene {
 
         this.izquierda2.setScale(0.3);
 
-        this.izquierda3 = new Palas(this, width / 2, height - height / 6, "izquierda") //ok
-
-        this.izquierda3.setScale(0.3);
-
 
         this.derecha = new Palas(this, center_width * 2 - 30, center_height, "derecha")
 
@@ -74,21 +70,19 @@ export default class scene_pong extends Phaser.Scene {
         this.physics.world.setBoundsCollision(false, false, true, true)//chocques con izq,derecha,arriba,abajo
         this.ball.setCollideWorldBounds(true);
 
-        //Fisicas
+        if (this.nivel > 1) {
+            this.izquierda3 = new Palas(this, width / 2, height - height / 6, "izquierda") //ok
+            this.izquierda3.setScale(0.3);
+            this.physics.add.collider(this.ball, this.izquierda3, this.chocaPala, null, this)
+        }
+
 
         this.physics.add.collider(this.ball, this.izquierda2, this.chocaPala, null, this)
-        this.physics.add.collider(this.ball, this.izquierda3, this.chocaPala, null, this)
         this.physics.add.collider(this.ball, this.derecha, this.chocaPala, null, this)
 
-        //Controles
-        //Pala derecha
+
         this.cursor = this.input.keyboard.createCursorKeys(); //crea en el atributo las flechitas
 
-        /*
-        //Pala izq
-        this.cursor_W= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-        this.cursor_S= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-*/
 
     }
 
@@ -106,17 +100,21 @@ export default class scene_pong extends Phaser.Scene {
             this.ball.setVelocityX(350)
 
         }
+        // En el método create() o donde configures tus sprites y entradas del usuario
+        this.input.on('pointerdown', function (pointer) {
+            if (pointer.y < this.sys.canvas.height / 2) {
+                console.log("arriba")
+                this.derecha.body.setVelocityY(-300); // Inicia el movimiento hacia arriba
+            } else {
+                console.log("abajo")
+                this.derecha.body.setVelocityY(300); // Inicia el movimiento hacia abajo
+            }
+        }, this);
 
-        //Control de las palas
-
-        //Pala derecha
-        if (this.cursor.down.isDown) { //si la flecha hacia abajo esta presionada 
-            this.derecha.body.setVelocityY(300)
-        } else if (this.cursor.up.isDown) {
-            this.derecha.body.setVelocityY(-300)
-        } else {
-            this.derecha.body.setVelocityY(0)
-        }
+        this.input.on('pointerup', function (pointer) {
+            console.log("Up")
+            this.derecha.body.setVelocityY(0); // Detiene el movimiento
+        }, this);
 
     }
 
@@ -137,7 +135,7 @@ export default class scene_pong extends Phaser.Scene {
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
                 segundos: this.duracion,
-                nivel : this.nivel,
+                nivel: this.nivel,
                 plan: this.plan
             });
     }
