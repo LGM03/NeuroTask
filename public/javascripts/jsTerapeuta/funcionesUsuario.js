@@ -2,6 +2,7 @@
 
 $(function () {
 
+    /*
     $.ajax({ // veo para cada dia que actividades hay
         method: "GET",
         url: "/tareas/tareaPlan",
@@ -25,7 +26,7 @@ $(function () {
             nuevoToast("Ha ocurrido un error")
         }
     });
-
+*/
     $("#btnCrearNuevaCuenta").on("click", function (event) {
         event.preventDefault()
         $("#crearCuenta input").css("border-color", "")

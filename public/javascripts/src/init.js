@@ -37,7 +37,7 @@ export function obtenerPlan() {
                 alert("c")
 
                 setTimeout(async () => {
-                   // window.location.href = `/`
+                    window.location.href = `/`
                 }, 3000);
                
             } else {

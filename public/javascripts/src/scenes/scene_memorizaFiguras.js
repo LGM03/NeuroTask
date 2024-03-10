@@ -106,7 +106,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         this.cartasGrupo = this.add.group();
         $("#ventanaMensaje").removeClass('d-none')
         $("#ventanaOrden").addClass('d-none')
-        $("#imgMensaje").attr("scr", "/javascripts/assets/siguiente.png")
+        $("#imgMensaje").attr("src", "/javascripts/assets/siguiente.png")
         $("#imgMensaje").attr("alt", "Siguiente Ronda")
         $("#contenedorCartas").empty()
         setTimeout(async () => {
