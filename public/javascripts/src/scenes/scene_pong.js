@@ -57,7 +57,6 @@ export default class scene_pong extends Phaser.Scene {
             crearTweenParaElemento.call(this, this.izquierda3,this.sys.game.config.height / 6);
         }
         this.physics.add.collider(this.ball, this.derecha, this.chocaPala, null, this)
-
     }
     
 
