@@ -34,7 +34,6 @@ router.get('/', function (req, res, next) {
 
 router.get('/leerCategorias', function (req, res, next) {
 
-  console.log("A")
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)
 
@@ -64,8 +63,7 @@ router.get('/finJuego', function (req, res, next) {
       usuario: req.session.usuario.correo,
       nivel: req.query.nivel
     }
-    console.log("El id del juego para el servidor es : " + datosPartida.idJuego)
-
+   
     midao.guardarPartida(datosPartida, (err, datos) => {
       if (err) {
         console.log(err);
@@ -84,7 +82,6 @@ router.get('/finJuego', function (req, res, next) {
 
 router.get('/finPlan', function (req, res, next) {
 
-  console.log("fin del plan")
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
@@ -99,7 +96,6 @@ router.get('/finPlan', function (req, res, next) {
       idTarea : req.query.idTarea
     }
 
-    console.log(datosPartida.idTarea)
 
     midao.guardarPartidaPlan(datosPartida, (err, datos) => {
       if (err) {

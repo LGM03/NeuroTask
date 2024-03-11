@@ -26,9 +26,7 @@ export default class scene_dificultad extends Phaser.Scene {
         $('#ventanaDificultad').on("click",".btnDificultad",function(event){
 
             $('#ventanaDificultad').addClass('d-none')
-            console.log(self.info)
             self.info.nivel = $(this).data("nivel")
-            console.log(self.info)
             self.scene.start("scene_play", self.info);
         })
     }

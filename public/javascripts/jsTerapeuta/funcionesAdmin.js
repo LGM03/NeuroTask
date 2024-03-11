@@ -104,11 +104,10 @@ $(function () {
             data: { usuario: usuario },
             success: function (datos, state, jqXHR) {
 
-                console.log(datos)
                 if (datos.length != 0) {
 
                     datos.forEach(function (dato, indice) {
-                        console.log(dato)
+                  
                         const date = new Date(dato.fechaInicio);
 
                         const formattedDate = `${("0" + date.getUTCDate()).slice(-2)}-${("0" + (date.getUTCMonth() + 1)).slice(-2)}-${date.getUTCFullYear()} ${("0" + date.getUTCHours()).slice(-2)}:${("0" + date.getUTCMinutes()).slice(-2)}`;
@@ -361,7 +360,7 @@ $(function () {
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
-                    console.log(datos)
+                
                     $("#cajaGraficoProgreso .alertaEstadisticas").remove()
 
                     //Creo el canva

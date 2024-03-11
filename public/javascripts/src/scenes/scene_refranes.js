@@ -68,7 +68,6 @@ export default class scene_refranes extends Phaser.Scene {
         $("#tituloJuego").text("Ordena las palabras y descubre el refrán")
 
         $(document).on("click", ".botonPalabra", function (event) {
-            console.log($(this).text())
             self.fraseFormada.push($(this).text())
             $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
             $(this).remove()
@@ -126,8 +125,7 @@ export default class scene_refranes extends Phaser.Scene {
 
     crearInterfaz() {
         // Sección de la operación
-        console.log(this.casos)
-        console.log(this.refran)
+
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
         this.refran = this.casos[elegido] //Elijo el refran aleatoriamente
         //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos

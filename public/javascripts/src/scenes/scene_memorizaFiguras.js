@@ -44,14 +44,10 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         var self = this
 
         $(document).on("click", ".carta", function (event) {
-            console.log("pulsado")
             if (self.seleccionable && $(this).data("seleccionable", true)) {
-                console.log("dentro")
                 self.seleccionadas.push($(this).data("valor"))//Me guardo el id de la carta selccionada
                 $(this).children('img').addClass('sombra');
                 $(this).data("seleccionable", false)
-                console.log(self.seleccionadas)
-                console.log(self.secuencia_objetivo)
                 if (self.seleccionadas.length == self.secuencia_objetivo.length) {
 
                     if (self.seleccionadas.every(element => self.secuencia_objetivo.includes(element))) {

@@ -28,8 +28,6 @@ router.post('/publicar', function (req, res, next) {
       terapeuta: req.session.usuario.correo
     }
 
-    console.log(data)
-
     
     midao.publicar(data, (err, datos) => {
       if (err) {

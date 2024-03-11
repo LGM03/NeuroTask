@@ -16,7 +16,6 @@ class DAOTareas {
                 connection.query(sql, [datos.usuario, datos.dia, datos.dia], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
                         callback(err, null);
                     } else {
                         callback(null, resultado);
@@ -74,9 +73,7 @@ class DAOTareas {
                 "calendario LEFT JOIN planificacionesjugadas ON calendario.idTarea = planificacionesjugadas.idTarea  inner join juegos on idJ = juegos.id  where idP = ? and month(calendario.fecha) = ?  and  id_categoria = ? ";
                 connection.query(sql, [datos.usuario, datos.fecha,datos.categoria], function (err, resultado) {
                     connection.release();
-                    console.log(resultado[0])
                     if (err) {
-                        console.log(err)
                         callback(err, null);
                     } else {
                         callback(null, resultado[0]);
@@ -131,10 +128,8 @@ class DAOTareas {
                connection.query(sql, [datos.categoria, datos.fecha, datos.usuario,  datos.usuario,datos.categoria, datos.fecha], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
                         callback(err, null);
                     } else {
-                        console.log(resultado)
                         callback(null, resultado);
                     }
                 });
@@ -147,7 +142,6 @@ class DAOTareas {
     borrarTarea(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "delete from calendario where idTarea = ? ";
@@ -165,18 +159,14 @@ class DAOTareas {
 
 
     asignarTarea(data, callback) {
-
-        console.log(data)
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "insert into calendario (idT,idP,idJ,seRepite,nivel,fecha) values (?,?,?,?,?,?)";
                 connection.query(sql, [data.terapeuta, data.usuario, data.juego, data.seRepite,data.nivel,data.fecha], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
                         callback(err, null);
                     } else {
                         callback(null, resultado);

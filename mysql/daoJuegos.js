@@ -8,14 +8,12 @@ class DAOJuegos {
     leerTodos(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "SELECT * from juegos inner join categorias on categorias.id_cat = juegos.id_categoria";
                 connection.query(sql, null, function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(`Error en la consulta a la base de datos: ${err.message}`);
                         callback(err, null);
                     } else {
                         callback(null, resultado);
@@ -28,14 +26,12 @@ class DAOJuegos {
     leerPorID(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "SELECT * from juegos where id = ?";
                 connection.query(sql, [id], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(`Error en la consulta a la base de datos: ${err.message}`);
                         callback(err, null);
                     } else {
                         callback(null, resultado[0]);
@@ -48,14 +44,12 @@ class DAOJuegos {
     leerCategorias(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
-                console.log(`Error al obtener la conexión: ${err.message}`);
                 callback(err, null);
             } else {
                 const sql = "SELECT * FROM categorias;";
                 connection.query(sql, null, function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(`Error en la consulta a la base de datos: ${err.message}`);
                         callback(err, null);
                     } else {
                         callback(null, resultado);
@@ -85,9 +79,6 @@ class DAOJuegos {
     }
 
     guardarPartidaPlan(datosJuego, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
-        console.log("guardar PARTIDA")
-        console.log(datosJuego)
-        console.log(datosJuego.idTarea)
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null)

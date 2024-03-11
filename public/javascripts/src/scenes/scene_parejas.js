@@ -50,10 +50,8 @@ export default class scene_parejas extends Phaser.Scene {
         $(".carta").on("click", function (event) {
 
             var valor = $(this).data(valor)
-            console.log(self.seleccionables +" "+$(this).data("seleccionable"))
             if (self.seleccionables && $(this).data("seleccionable") && self.seleccionadas.length < 2) { //Si se puede pulsar y la carta esta disponible
                 self.seleccionadas.push($(this).attr("id")); //Me guardo el id de la carta pulsada
-                console.log(self.seleccionadas)
                 $(this).data("seleccionable", false) //La carta deja de estar disponible para pulsar
 
                 $(this).children('img').attr('src', '/javascripts/assets/' + $(this).data("valor") + '.png') //cambio su imagen
@@ -61,7 +59,6 @@ export default class scene_parejas extends Phaser.Scene {
                 if (self.seleccionadas.length === 2) {
                     setTimeout(function () {
                         self.seleccionables = false;
-                        console.log($("#" + self.seleccionadas[0]).data("valor") + "  " + $("#" + self.seleccionadas[1]).data("valor"))
                         if ($("#" + self.seleccionadas[0]).data("valor") == $("#" + self.seleccionadas[1]).data("valor")) {
                             var $carta1 =  $("#" + self.seleccionadas[0])
                             $("#" + self.seleccionadas[0]).addClass('cubrirImagenCorrecta')
@@ -106,7 +103,6 @@ export default class scene_parejas extends Phaser.Scene {
 
     update(time, delta) {
 
-        console.log(this.puntuacion + " " + this.fallos)
         if (this.puntuacion === this.valores.length / 2) { //Cuando ya he encontrado todas Salida
             this.finalizarJuego()
         }

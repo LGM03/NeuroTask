@@ -89,7 +89,7 @@ router.get('/planificacionesJugadas', function (req, res, next) {
 
   var data =
     { usuario: req.query.usuario, categoria: req.query.categoria, fecha: req.query.fecha }
-  console.log(data)
+ 
   midao.planificacionesJugadas(data, (err, datos) => {
     if (err) {
       res.send({});
@@ -158,7 +158,7 @@ router.delete('/eliminar', function (req, res, next) {
 });
 
 router.post('/asignar', function (req, res, next) {
-  console.log("ABD")
+
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
 

@@ -34,7 +34,6 @@ export function obtenerPlan() {
                 $("#ventanaMensaje").removeClass('d-none')
                 $("#imgMensaje").attr("src","/images/felicitacion.png")
                 $("#imgMensaje").attr("alt","Felicidades, has terminado tu planificación")
-                alert("c")
 
                 setTimeout(async () => {
                     window.location.href = `/`
@@ -115,7 +114,6 @@ export default class inicio extends Phaser.Scene { //escena que llama al bootloa
     }
 
     preload() {
-        console.log("inicio + " + juego)
         this.scene.start("Bootloader", { idJuego: juego, plan: infoPlan })
     }
 }

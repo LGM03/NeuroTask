@@ -10,7 +10,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
             if (err) {
                 callback(err, null);
             } else {
-                console.log(correo + " AASD")
                 const sqlTerapeuta = "SELECT * FROM usuario INNER JOIN terapeuta ON usuario.correo = terapeuta.correo WHERE usuario.correo = ?";
                 const sqlPaciente = "SELECT * FROM usuario INNER JOIN paciente ON usuario.correo = paciente.correo WHERE usuario.correo = ?";
 
@@ -85,8 +84,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
 
 
     altaPaciente(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
-        console.log(datosUsuario)
-
 
         const insertarUsuario = (datosUsuario) => {
             return new Promise((resolve, reject) => {
@@ -176,7 +173,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
                 connection.query(sql, [correoTer], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
                         callback(err, {}); //Si ocurre algun error retornamos el error
                     } else {
                         callback(null, resultado)

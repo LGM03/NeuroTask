@@ -71,7 +71,6 @@ router.post('/crearCuenta', (req, res) => {
         clinica: req.body.clinica
     }
 
-    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
     const saltRounds = 10; // Número de rondas para el proceso de hashing (mayor es más seguro, pero más lento)
@@ -108,7 +107,6 @@ router.post('/crearPaciente', (req, res) => {
         deterioro: req.body.deterioroPaciente
     }
 
-    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
     const saltRounds = 10; // Número de rondas para el proceso de hashing (mayor es más seguro, pero más lento)

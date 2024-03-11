@@ -9,8 +9,6 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
     }
 
     preload() {
-        console.log("bootloader")
-        console.log(this.plan)
         this.load.on("complete", () => {
             if(this.plan == null){
                 this.scene.start("scene_dificultad", { descripcion: this.descripcion, juego: this.juego, idJuego: this.idJuego, plan : this.plan })

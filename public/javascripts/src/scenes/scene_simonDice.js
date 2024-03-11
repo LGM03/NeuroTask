@@ -44,15 +44,13 @@ export default class scene_simonDice extends Phaser.Scene {
                 //Si tienen la misma longitud y todos los elementos son iguales
                 await self.esperar(1000)
                 if (self.seleccionadas.length == self.secuencia_objetivo.length && self.secuencia_objetivo.length >= 1) {
-                    console.log(self.secuencia_objetivo + " ----  " + self.seleccionadas)
                     self.seleccionable = false
                     if (self.seleccionadas.every((element, index) => element == self.secuencia_objetivo[index])) {
-                        console.log("A")
+                    
                         self.seleccionadas = []
                         self.cubrirResultado(true) //true porque es acierto
                         self.puntuacion++;
                     } else {
-                        console.log("F")
                         self.fallos++;
                         self.cubrirResultado(false)
                         self.rondas = 1

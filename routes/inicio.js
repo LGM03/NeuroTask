@@ -11,7 +11,6 @@ router.post('/', (req, res) => {
 
     //Compruebo que se han introducido todos los datos necesarios 
     if (!esValido(datosInicio)) {
-        console.log("fallo en validar")
         res.redirect(`/?error=${'Datos de usuario no validos'}`);
         return;
     }
@@ -21,12 +20,10 @@ router.post('/', (req, res) => {
 
     midao.leerUsuario(datosInicio, (err, datos) => {
         if (err) {
-            console.log(err);  //Si hay un error tengo que poner un mensaje de alerta 
-            console.log("FALLO")
+    
             res.redirect(`/?error=${"El usuario no existe"}`); 
         }
         else {
-            console.log("EXITO")
             res.redirect(`/admin`);
         }
     });

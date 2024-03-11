@@ -47,7 +47,7 @@ export default class scene_refranes extends Phaser.Scene {
         const categoriaAleatoria = this.ejercicios[Math.floor(Math.random() *  this.ejercicios.length)];
         $("#tematica").text(Object.keys(categoriaAleatoria)[0])
         this.casos = categoriaAleatoria[Object.keys(categoriaAleatoria)[0]][this.nivel-1].concat();
-        console.log(this.casos)
+       
        
     }
 
@@ -65,7 +65,6 @@ export default class scene_refranes extends Phaser.Scene {
         })
 
         $("#btnAceptar").on("click", function (event) {
-            console.log("dada =" + self.fraseFormada + " solcuon =" + self.refran)
             if (self.fraseFormada.length != 0 &&
                 self.refran.includes(self.fraseFormada)) {
                 self.puntuacion++

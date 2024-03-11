@@ -11,7 +11,6 @@ router.get('/', function (req, res, next) {
       console.log(err);
     }
     else {
-      console.log(req.session.usuario)
       res.render('index', { juegos : datos, usuario : req.session.usuario});  //Cargo la ventana principal con la información de todos los juegos
     }
   });

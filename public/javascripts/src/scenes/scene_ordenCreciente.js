@@ -51,8 +51,6 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         $(".carta").on("click", function (event) {
 
             var valor = $(this).data(valor)
-            console.log(valor)
-            console.log(self.ordenValido[self.puntuacion])
             if (valor.valor == self.ordenValido[self.puntuacion]) { //Si el valor de la carta que pulso sigue el orden
                 $(this).children('span').removeClass('d-none')
                 $(this).children('img').addClass('sombra');
@@ -72,10 +70,7 @@ export default class scene_ordenCreciente extends Phaser.Scene {
 
 
     update(time, delta) {
-        console.log(this.puntuacion + " " + this.valores.length)
-
         if (this.puntuacion === this.valores.length) { //Cuando ya he encontrado todas Salida
-            console.log("este es el final")
             this.finalizarJuego()
         }
     }
