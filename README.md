@@ -1,4 +1,16 @@
-<h1 align="center">NeuroTask </h1>
+
+<h1 align="center">
+
+![Logo NeuroTask](https://github.com/LGM03/NeuroTask/assets/99087911/0f2345c6-4809-4d6f-ae3b-fd0b140bb48d)
+
+  
+  </h1>
+  
+<h1 align="center">
+
+NeuroTask
+  
+  </h1>
 <p align='center'>:construction: Proyecto en construcción :construction:</p>
 <p style="text-align: justify;">Como Trabajo de Fin de Grado de Ingeniería de Software, se desarrolla una aplicación web para la prevención del deterioro cognitivo. 
 La aplicación cuenta con actividades para trabajar diversos aspectos como la atención o la memoria a corto plazo entre otros. Además cuenta con la posibilidad de realizar un seguimiento por parte de un terapeuta, mediante la asignación de tareas y el analisis de los resultados obtenidos.</p>
@@ -29,7 +41,7 @@ module.exports = pool<br>
 
 <h3 align="center">:file_folder: Acceso al código </h3>
 <p style="text-align: justify;">
-Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : `npm install` <em>(Para instalar los paquetes incluidos en el archivo .json)</em> y <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
+Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> y <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
 
 </p>
 <p style="text-align: justify;">
