@@ -254,7 +254,6 @@ $(function () {
 
                     const labels = datos.map(item => item.categoria);
                     const aciertos = datos.map(item => item.aciertos);
-                    const fallos = datos.map(item => item.fallos);
 
                     const myChart = new Chart(ctx, {
                         type: 'bar',
@@ -262,17 +261,10 @@ $(function () {
                             labels: labels,
                             datasets: [
                                 {
-                                    label: 'Aciertos',
+                                    label: 'Tasa de Aciertos (Aciertos/Intentos)',
                                     data: aciertos,
                                     backgroundColor: 'rgba(75, 192, 192, 0.4)',
                                     borderColor: 'rgba(75, 192, 192, 1)',
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: 'Fallos',
-                                    data: fallos,
-                                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
-                                    borderColor: 'rgba(255, 99, 132, 1)',
                                     borderWidth: 1
                                 }
                             ]
@@ -312,7 +304,7 @@ $(function () {
             url: "/tareas/planificacionesJugadas",
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
-                if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
+                if (datos.contador +datos.hecho == 0) {  //Si no hay ninguna reserva aviso al usuario
                     nuevoToast("No hay estadísticas disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert"> No hay estadísticas sobre planificación </div>');
                     $("#cajaGraficoHechos").append(alerta)
@@ -386,8 +378,8 @@ $(function () {
                     const ctx = canvas.getContext('2d');
 
                     const labels = datos.map(item => 'Semana ' + item.semana);
-                    var dataAciertos = datos.map(item => item['sum(aciertos)']);
-                    var dataFallos = datos.map(item => item['sum(fallos)']);
+                    var dataAciertos = datos.map(item => item['tasaAciertos']);
+                    var dataMedia = datos.map(item => item['tasaMediaAciertos']);
 
                     const myChart = new Chart(ctx, {
                         type: 'bar',
@@ -395,15 +387,15 @@ $(function () {
                             labels: labels,
                             datasets: [
                                 {
-                                    label: 'Aciertos',
+                                    label: 'Tasa Aciertos',
                                     data: dataAciertos,
                                     backgroundColor: 'rgba(75, 192, 192, 0.4)',
                                     borderColor: 'rgba(75, 192, 192, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: 'Fallos',
-                                    data: dataFallos,
+                                    label: 'Tasa Media Aciertos',
+                                    data: dataMedia,
                                     backgroundColor: 'rgba(255, 99, 132, 0.4)',
                                     borderColor: 'rgba(255, 99, 132, 1)',
                                     borderWidth: 1
@@ -599,10 +591,6 @@ $(function () {
 
         });
     }
-
-
-
-
 })
 
 function crearCajaPaciente(element) {

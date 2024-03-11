@@ -91,7 +91,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, aciertos, fallos FROM partidas inner join juegos on idJ = juegos.id  inner join categorias on id_categoria =id_cat where idP = ? GROUP BY id_categoria";
+                const sql = "SELECT categoria, sum(aciertos) / (sum(aciertos) + sum(fallos)) AS aciertos FROM partidas inner join juegos on idJ = juegos.id  inner join categorias on id_categoria =id_cat where idP = ? GROUP BY id_categoria";
                 connection.query(sql, [datos.usuario], function (err, resultado) {
                     connection.release();
                     if (err) {
@@ -105,13 +105,30 @@ class DAOTareas {
     }
 
     progresoCategoria(datos, callback) {
-        console.log("ADAS")
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT WEEK(fechaInicio, 3) AS semana, sum(aciertos), sum(fallos) FROM partidas inner join juegos on idJ = juegos.id  inner join categorias on id_categoria =id_cat where idP = ? and id_categoria = ? and month(fechaInicio) = ? GROUP BY WEEK(fechaInicio, 3)";
-                connection.query(sql, [datos.usuario, datos.categoria, datos.fecha], function (err, resultado) {
+                const sql = "SELECT WEEK(fechaInicio, 3) AS semana," +
+                "SUM(aciertos) / (SUM(aciertos) + SUM(fallos)) AS tasaAciertos," +
+                "avg_tasa.tasaMediaAciertos FROM partidas " +
+                "INNER JOIN juegos ON idJ = juegos.id " +
+                "INNER JOIN categorias ON id_categoria = id_cat " +
+                "LEFT JOIN (" +
+                    "SELECT WEEK(fechaInicio, 3) AS semana, " +
+                    "AVG(aciertos / (aciertos + fallos)) AS tasaMediaAciertos " +
+                    "FROM partidas " +
+                    "INNER JOIN juegos ON idJ = juegos.id " +
+                    "INNER JOIN categorias ON id_categoria = id_cat " +
+                    "INNER JOIN paciente ON paciente.correo = partidas.idP " +
+                    "WHERE id_categoria = ? AND MONTH(fechaInicio) = ? " +
+                    "AND deterioro = (SELECT deterioro FROM paciente WHERE correo = ?)" +
+                    "GROUP BY WEEK(fechaInicio, 3)" +
+                ") AS avg_tasa ON WEEK(partidas.fechaInicio, 3) = avg_tasa.semana " +
+                "WHERE idP = ? AND id_categoria = ? AND MONTH(fechaInicio) = ? " +
+                "GROUP BY WEEK(fechaInicio, 3);"
+                
+               connection.query(sql, [datos.categoria, datos.fecha, datos.usuario,  datos.usuario,datos.categoria, datos.fecha], function (err, resultado) {
                     connection.release();
                     if (err) {
                         console.log(err)
