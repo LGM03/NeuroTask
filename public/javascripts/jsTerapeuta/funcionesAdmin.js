@@ -187,7 +187,7 @@ $(function () {
                 success: function (datos, state, jqXHR) {
                     if (datos != 0) {
                         $("#alertaComentarios").addClass("d-none")
-
+                        $("#comentarioNuevo").val("")
                         nuevaCajaComentario(datos)
                     } else {
                         nuevoToast("Ha ocurrido un error con el comentario")
@@ -279,7 +279,7 @@ $(function () {
                     });
 
                 } else {
-                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                    nuevoToast("No hay rendimiento general disponible para mostrar")
                     var alerta = $('<div class="alert alert-secondary mt-3" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
                     $("#cajaRendimientoGeneral").append(alerta)
                 }
@@ -304,8 +304,8 @@ $(function () {
             url: "/tareas/planificacionesJugadas",
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
-                if (datos.contador +datos.hecho == 0) {  //Si no hay ninguna reserva aviso al usuario
-                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                if (datos.contador + datos.hecho == 0) {  //Si no hay ninguna reserva aviso al usuario
+                    nuevoToast("No hay estadísticas sobre planificación disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert"> No hay estadísticas sobre planificación </div>');
                     $("#cajaGraficoHechos").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
@@ -357,7 +357,7 @@ $(function () {
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
                 if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
-                    nuevoToast("No hay estadísticas disponibles para mostrar")
+                    nuevoToast("No hay estadísticas sobre esta categoría disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
@@ -437,23 +437,25 @@ $(function () {
         var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
         var divTarea = $(this).closest('tr.tareaJugador')
         var data = { id: idTarea };
-        $.ajax({
-            url: "/tareas/eliminar",
-            method: "DELETE",
-            data: data,
-            success: function (datos, state, jqXHR) {
+        if (confirm("Esta tarea y sus repeticiones se eliminarán ¿Estás seguro?")) {
+            $.ajax({
+                url: "/tareas/eliminar",
+                method: "DELETE",
+                data: data,
+                success: function (datos, state, jqXHR) {
 
-                if (datos == 0) {
+                    if (datos == 0) {
+                        nuevoToast("No se pudo eliminar la tarea")
+                    } else {
+                        nuevoToast("Se eliminó la tarea")
+                        divTarea.slideUp(1000)
+                    }
+                },
+                error: function (jqXHR, statusText, errorThrown) {
                     nuevoToast("No se pudo eliminar la tarea")
-                } else {
-                    nuevoToast("Se eliminó la tarea")
-                    divTarea.slideUp(1000)
                 }
-            },
-            error: function (jqXHR, statusText, errorThrown) {
-                nuevoToast("No se pudo eliminar la tarea")
-            }
-        })
+            })
+        }
     })
 
     $("#asignarTarea").on("click", function (event) {
@@ -520,8 +522,9 @@ $(function () {
                 var cellDate = new Date(date);
 
                 if (cellDate.toDateString() === today.toDateString()) {
-                    cell.css('border', '3px solid rgba(0, 0, 255)');
-                    cell.css('background', "rgba(255, 255, 255)")
+                    cell.addClass("calendarioHoy")
+                    cell.css("background", "none")
+                    
                 }
 
                 var data = { //Paso a la consulta el usuario y dia en cuestion
@@ -535,9 +538,9 @@ $(function () {
                     data: data,
                     success: function (datos, state, jqXHR) {
                         if (datos.length != 0) {
-                            cell.css("background-color", "rgba(189, 236, 182)");  //amarillo para dias con momentos libres                           
+                            cell.css("background-color", "#FFE3FE");  //amarillo para dias con momentos libres                           
                         } else {
-                            cell.css("background-color", "rgba(255, 255, 255)");
+                            cell.addClass("sinfondo")
                         }
                     },
                     error: function (jqXHR, statusText, errorThrown) {
@@ -552,7 +555,6 @@ $(function () {
                     usuario: usuario,
                     dia: date.format('YYYY-MM-DD')  // Utiliza date.format para obtener la fecha en el formato deseado
                 };
-
                 $("#diaModal").text("Tarea para el " + date.format('DD-MM-YYYY'))
                 $("#diaModal").data("fecha", date.format('YYYY-MM-DD'))
                 $("#diaModal").data("usuario", usuario)
@@ -609,6 +611,10 @@ function crearCajaPaciente(element) {
     const tipo = $('<p class="mb-0 correoPaciente"> ' + element.correoP + '</p>')
     tipoContainer.append(tipo)
 
+    const deterioroContainer = $('<div class = "text-start"></div>');
+    const deterioro = $('<p class="mb-0 correoPaciente"> <em>Deterioro: ' + element.deterioro + '</em></p>')
+    deterioroContainer.append(deterioro)
+
     const cajaBotones = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
 
     var botonHistorial = $('<button class="alert alert-success p-1 w-100 btnVerHistorial"> Ver Historiales </button>')
@@ -627,6 +633,7 @@ function crearCajaPaciente(element) {
 
     cajaInfo.append(infoContainer);
     cajaInfo.append(tipoContainer);
+    cajaInfo.append(deterioroContainer);
 
     caja.append(cajaInfo, cajaBotones, cajaBotones2)
     caja.data("correo", element.correoP)

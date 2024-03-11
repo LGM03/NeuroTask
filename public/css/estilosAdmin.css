@@ -35,4 +35,18 @@ canvas {
 
 
 
+.calendarioHoy:before {
+    content: '\00a0';
+    border: 2px solid #60d4ef;
+    height: 100%;
+    width: calc(100% - 6px);
+    display: block;
+    position: relative;
+    border-radius: 10px;
+    background-color: none !important;
+  }
+
+  .sinfondo{
+    background-color: none !important;
+  }
 /**/

@@ -171,7 +171,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
             if (err) {
                 callback(err, null);  //Si ocurre algun error retornamos el error
             } else {
-                const sql = "select nombre, apellido, edad ,pac_ter.correoP from pac_ter inner join usuario on pac_ter.correoP= usuario.correo " +
+                const sql = "select nombre, apellido, edad ,pac_ter.correoP,deterioro from pac_ter inner join usuario on pac_ter.correoP= usuario.correo " +
                     "inner join paciente on paciente.correo = pac_ter.correoP where pac_ter.correoT = ?";
                 connection.query(sql, [correoTer], function (err, resultado) {
                     connection.release();
