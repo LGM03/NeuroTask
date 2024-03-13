@@ -109,9 +109,9 @@ $(function () {
                     datos.forEach(function (dato, indice) {
                   
                         const date = new Date(dato.fechaInicio);
-
-                        const formattedDate = `${("0" + date.getUTCDate()).slice(-2)}-${("0" + (date.getUTCMonth() + 1)).slice(-2)}-${date.getUTCFullYear()} ${("0" + date.getUTCHours()).slice(-2)}:${("0" + date.getUTCMinutes()).slice(-2)}`;
-
+                        console.log(dato)
+                        console.log(date)
+                        const formattedDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
                         var fila = '<tr><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>' + dato.nivel + '</td><td>' + formattedDate + '</td></tr>';
 
                         $("#bodyTablaHistorial").append(fila);
@@ -130,7 +130,6 @@ $(function () {
 
     })   
 
-   
 
     
 })
