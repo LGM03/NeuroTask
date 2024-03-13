@@ -107,6 +107,7 @@ router.post('/crearPaciente', (req, res) => {
         deterioro: req.body.deterioroPaciente
     }
 
+    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
     const saltRounds = 10; // Número de rondas para el proceso de hashing (mayor es más seguro, pero más lento)
@@ -119,10 +120,11 @@ router.post('/crearPaciente', (req, res) => {
 
             midao.altaPaciente(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
                 if (err) {
-                    res.redirect(`/admin?error=${"Ya existe una cuenta con esos datos"}`); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
+                    res.status(400)
+                    res.json(0); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
                 }
                 else {
-                    res.redirect(`/admin?exito=${'Cuenta creada con éxito'}`); //Si todo ha ido bien redirijo a /destino con el mensaje de exito
+                    res.json(datos)
                 }
             });
 
@@ -136,20 +138,22 @@ router.post('/crearPaciente', (req, res) => {
 router.post('/vincularPaciente', (req, res) => {
 
     datosUsuario = { //Recojo la información que viene del forms
-        correo: req.body.correoVincular,
+        correo: req.body.correoPaciente,
         correoTer: req.session.usuario.correo //Paso tambien el correo del terapeuta que esta creando el usuario
     }
 
+    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
 
 
     midao.vincularPaciente(datosUsuario, (err, datos) => { //Guardamos en la base de datos la información de la reserva
         if (err) {
-            res.redirect(`/admin?error=${"No se pudo vincular al paciente"}`); //Si ha ocurrido un error, recargo la ventana con mensaje de fallo
+            res.status(400) 
+            res.json(0)
         }
         else {
-            res.redirect(`/admin?exito=${'Paciente vinculado con éxito'}`); //Si todo ha ido bien redirijo a /destino con el mensaje de exito
+            res.json(1)
         }
     });
 

@@ -106,8 +106,8 @@ $(function () {
 
                 if (datos.length != 0) {
 
-                    datos.forEach(function (dato, indice) {
-                  
+                    datos.forEach(function (dato) {
+
                         const date = new Date(dato.fechaInicio);
                         console.log(dato)
                         console.log(date)
@@ -128,10 +128,45 @@ $(function () {
         });
 
 
-    })   
+    })
 
 
-    
+    $("#modalVincular").on("click", function (event) {
+        event.preventDefault()
+        $("#alertaVincular").addClass("d-none")
+        $("#vincularPaciente input").css("border-color", "")
+        var correoPaciente = $("#correoVincular").prop("value")
+        $.ajax({
+            method: "POST",
+            url: "/user/vincularPaciente",
+            data: { correoPaciente: correoPaciente },
+            success: function (datos, state, jqXHR) {
+
+                if (datos == 1) {
+
+                    $("#vincularPaciente").modal("hide")
+                    nuevoToast("Paciente vinculado con éxito")
+
+                } else {
+                    $("#alertaVincular").removeClass("d-none")
+                    $("#alertaVincular").text("El correo introducido no es válido")
+                    $("#correoVincular").css("border-color", "red");
+                    nuevoToast("No se pudo vincular al paciente")
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                $("#alertaVincular").removeClass("d-none")
+                $("#alertaVincular").text("El correo introducido no es válido")
+                $("#correoVincular").css("border-color", "red");
+                nuevoToast("No se pudo vincular al paciente")
+
+            }
+        });
+
+    })
+
+
 })
 
 function crearCajaPaciente(element) {

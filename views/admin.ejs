@@ -26,400 +26,382 @@
   </header>
 
   <section class="container justify-content-center mt-2">
-    <!-- Contenedor encargado de almacenar la seccion donde apareceran los destinos disponibles -->
 
-    <%if(exito !=null){ %>
-      <p class="alert alert-success">
-        <%=exito%>
-      </p>
-      <%} %>
+    <div class="row  ">
+      <div class="col-sm-12 col-md-3 alert bg-white sombraBotonAdmin d-flex flex-column">
+        <button class="alert alert-primary botonesAdmin" id="listarPacientes"><strong> Listado de
+            Pacientes</strong>
 
-        <%if(error !=null){ %>
-          <p class="alert alert-danger">
-            <%=error%>
-          </p>
-          <%} %>
+        </button>
+        <button class="alert alert-primary botonesAdmin" id="listarJuegos"> <strong> Listado de Juegos</strong>
 
-            <div class="row  ">
-              <div class="col-sm-12 col-md-3 alert bg-white sombraBotonAdmin d-flex flex-column">
-                <button class="alert alert-primary botonesAdmin" id="listarPacientes"><strong> Listado de
-                    Pacientes</strong>
+        </button>
 
-                </button>
-                <button class="alert alert-primary botonesAdmin" id="listarJuegos"> <strong> Listado de Juegos</strong>
+        <button class="alert alert-primary botonesAdmin" id="btnCrearPaciente" data-bs-toggle="modal"
+          data-bs-target="#crearPaciente"> <strong> Crear Nuevo Paciente</strong>
 
-                </button>
+        </button>
 
-                <button class="alert alert-primary botonesAdmin" id="btnCrearPaciente" data-bs-toggle="modal"
-                  data-bs-target="#crearPaciente"> <strong> Crear Nuevo Paciente</strong>
+        <button class="alert alert-primary botonesAdmin" id="btnVincularPaciente" data-bs-toggle="modal"
+          data-bs-target="#vincularPaciente"> <strong> Vincular
+            Paciente</strong>
 
-                </button>
+        </button>
 
-                <button class="alert alert-primary botonesAdmin" id="btnVincularPaciente" data-bs-toggle="modal"
-                  data-bs-target="#vincularPaciente"> <strong> Vincular
-                    Paciente</strong>
+        <div class="modal fade" id="crearPaciente" data-bs-backdrop="static">
+          <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
 
-                </button>
-
-                <div class="modal fade" id="crearPaciente" data-bs-backdrop="static">
-                  <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-
-                      <!-- cabecera del diálogo -->
-                      <div class="modal-header">
-                        <h4 class="modal-title">Crear Cuenta</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-
-                      <!-- cuerpo del diálogo -->
-                      <div class="modal-body alert alert-primary">
-
-                        <form id="formCrearPaciente" method="post" action="/user/crearPaciente">
-
-                          <div class="mb-2 row">
-                            <label for="correoPaciente" class="col-sm-2 col-form-label">Correo:</label>
-                            <div class="col-sm-10">
-                              <input type="email" class="form-control" id="correoPaciente" name="correoPaciente"
-                                required>
-                            </div>
-                          </div>
-
-                          <div class="mb-3 row">
-                            <label for="nombrePaciente" class="col-sm-2 col-form-label">Nombre:</label>
-                            <div class="col-sm-4">
-                              <input type="text" class="form-control" id="nombrePaciente" name="nombrePaciente"
-                                required>
-                            </div>
-                            <label for="apellidoPaciente" class="col-sm-2 col-form-label">Apellido:</label>
-                            <div class="col-sm-4">
-                              <input type="text" class="form-control" id="apellidoPaciente" name="apellidoPaciente"
-                                required>
-                            </div>
-                          </div>
-
-                          <div class="mb-3 row">
-                            <label for="contraseñaPaciente" class="col-sm-2 col-form-label">Contraseña:</label>
-                            <div class="col-sm-4">
-                              <input type="password" class="form-control" name="contraseñaPaciente"
-                                id="contraseñaPaciente" required>
-                              <!--Esto se tiene que validar con js en cliente-->
-                            </div>
-                            <label for="contraseñaPacienteRep" class="col-sm-2 col-form-label">Repetir
-                              Contraseña:</label>
-                            <div class="col-sm-4">
-                              <input type="password" class="form-control" name="contraseñaPacienteRep"
-                                id="contraseñaPacienteRep" required>
-                            </div>
-                          </div>
-
-                          <div class="mb-3 row">
-                            <label for="edadPaciente" class="col-sm-2 col-form-label">Edad:</label>
-                            <div class="col-sm-4">
-                              <input type="number" id="edadPaciente" class="form-control " name="edadPaciente" required>
-                            </div>
-                            <label for="deterioroPaciente" class="col-sm-2 col-form-label">Deterioro:</label>
-                            <div class="col-sm-4">
-                              <select name="deterioroPaciente" id="deterioroPaciente" class = "form-select">
-                                <option value="Leve" selected>Leve</option>
-                                <option value="Moderado">Moderado</option>
-                                <option value="Grave">Grave</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="mb-3 row">
-                            <div class="offset-sm-3 col-sm-9">
-                              <button type="submit" class="btn btn-primary">Confirmar</button>
-                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="modal fade" id="vincularPaciente" data-bs-backdrop="static">
-                  <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-
-                      <!-- cabecera del diálogo -->
-                      <div class="modal-header">
-                        <h4 class="modal-title">Vincular nuevo paciente</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                      </div>
-
-                      <!-- cuerpo del diálogo -->
-                      <div class="modal-body alert alert-primary">
-
-                        <form id="formVincularPaciente" method="post" action="/user/vincularPaciente">
-
-                          <div class="mb-2 row">
-                            <label for="correoVincular" class="col-sm-2 col-form-label">Correo:</label>
-                            <div class="col-sm-10">
-                              <input type="email" class="form-control" id="correoVincular" name="correoVincular"
-                                required>
-                            </div>
-                          </div>
-
-                          <div class="mb-3 row">
-                            <div class="offset-sm-3 col-sm-9">
-                              <button type="submit" class="btn btn-primary">Vincular</button>
-                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-
+              <!-- cabecera del diálogo -->
+              <div class="modal-header">
+                <h4 class="modal-title">Crear Cuenta</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
 
-              <div class="col-sm-12 col-md-9 alert alert-primary">
+              <!-- cuerpo del diálogo -->
+              <div class="modal-body alert alert-primary">
+                <p class="alert alert-warning d-none" id="alertaCrearPaciente"></p>
+                <form id="formCrearPaciente">
 
-                <!--CUADRANTE DE USUARIOS-->
-                <div id="divListadoUsuarios" class="text-center d-none">
-                  <h2 id="tituloUsuarios">Listado de Usuarios</h2>
-
-                  <p class=" alert alert-warning" id="alertaListadoUsuarios">No hay pacientes disponibles</p>
-
-                </div>
-
-                <!--CUADRANTE DE JUEGOS-->
-                <div id="divListadoJuegos" class=" text-center d-none">
-                  <h2>Listado de Juegos</h2>
-
-                  <p class=" alert alert-warning" id="alertaListadoJuegos">No hay juegos disponibles</p>
-                </div>
-
-                <!--CUADRANTE DEL HISTORIAL-->
-                <div id="cuadranteHistorial" class="text-center d-none">
-                  <h2>Historial de Partidas</h2>
-                  <table class="table table-striped " id="tablaHistorial">
-
-                    <thead>
-                      <tr>
-                        <th scope="col">Juego</th>
-                        <th scope="col">Categoría</th>
-                        <th scope="col">Aciertos</th>
-                        <th scope="col">Fallos</th>
-                        <th scope="col">Duración (seg)</th>
-                        <th scope="col">Nivel</th>
-                        <th scope="col">Fecha</th>
-                      </tr>
-                    </thead>
-                    <tbody id="bodyTablaHistorial">
-
-                    </tbody>
-                  </table>
-                </div>
-
-                <!--CUADRANTE DEL CALENDARIO-->
-                <div class="container bg-light rounded pb-3 mx-auto d-none" id="cuadranteCalendario">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h2 class="text-center">Calendario</h2>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-center d-flex align-items-center">
-                      <div id="calendario" class="calendario mx-auto"></div>
+                  <div class="mb-2 row">
+                    <label for="correoPaciente" class="col-sm-2 col-form-label">Correo:</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="correoPaciente" name="correoPaciente" required>
                     </div>
                   </div>
 
-                  <div class=" mt-2 text-center d-none" id="divTablaCalendario">
-                    <h3 id="tituloTabla"></h3>
-
-                    <button class="btn alert alert-info w-100" data-bs-toggle="modal"
-                      data-bs-target="#crearTarea"><strong>Asignar Nueva Tarea</strong></button>
-
-
-                    <table class="table table-striped " id="tablaCalendario">
-
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Juego</th>
-                          <th scope="col">Categoría</th>
-                          <th scope="col">Nivel</th>
-                          <th scope="col">Terminado</th>
-                        </tr>
-                      </thead>
-                      <tbody id="bodyTabla">
-
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <!--CUADRANTE DE COMENTARIOS-->
-                <div class="container d-none" id="cuadranteComentarios">
-                  <div class="row justify-content-center">
-                    <div>
-                      <div class="card border-info mt-4">
-                        <div class="card-header azulClaro text-center">
-                          <h4> Agregar Anotación</h4>
-                        </div>
-                        <div class="card-body">
-                          <!-- Comment form -->
-                          <form id="comentarioForm">
-                            <div class="mb-3">
-                              <label for="comentarioNuevo" class="form-label">Nueva Anotación </label>
-                              <textarea class="form-control" id="comentarioNuevo" name="comentarioNuevo"
-                                required></textarea>
-                            </div>
-                            <div class="text-center">
-                              <button class="btn azulClaro" id="btnEnviarComentario">Enviar</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
+                  <div class="mb-3 row">
+                    <label for="nombrePaciente" class="col-sm-2 col-form-label">Nombre:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="nombrePaciente" name="nombrePaciente" required>
+                    </div>
+                    <label for="apellidoPaciente" class="col-sm-2 col-form-label">Apellido:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="apellidoPaciente" name="apellidoPaciente" required>
                     </div>
                   </div>
 
-                  <!-- Container for displaying comments -->
-                  <div class="row justify-content-center mt-4">
-                    <div class="col-md-11">
-                      <div class="card border-secondary">
-                        <div class="card-header grisClaro text-center">
-                          <h4>Anotaciones</h4>
-                        </div>
-                        <div class="card-body" id="cajaComentarios">
-
-                          <!--Fin de caja de comentario-->
-
-                        </div>
-                      </div>
+                  <div class="mb-3 row">
+                    <label for="contraseñaPaciente" class="col-sm-2 col-form-label">Contraseña:</label>
+                    <div class="col-sm-4">
+                      <input type="password" class="form-control" name="contraseñaPaciente" id="contraseñaPaciente"
+                        required>
+                      <!--Esto se tiene que validar con js en cliente-->
+                    </div>
+                    <label for="contraseñaPacienteRep" class="col-sm-2 col-form-label">Repetir
+                      Contraseña:</label>
+                    <div class="col-sm-4">
+                      <input type="password" class="form-control" name="contraseñaPacienteRep"
+                        id="contraseñaPacienteRep" required>
                     </div>
                   </div>
-                </div>
 
-                <!--CUADRANTE DE ESTADISTICAS-->
-                <div class="container text-center d-none" id="cuadranteEstadisticas">
-                  <h2>Gráficos de rendimiento general</h2>
-
-                  <div class="row bg-light rounded" id="cajaRendimientoGeneral">
-
+                  <div class="mb-3 row">
+                    <label for="edadPaciente" class="col-sm-2 col-form-label">Edad:</label>
+                    <div class="col-sm-4">
+                      <input type="number" id="edadPaciente" class="form-control " name="edadPaciente" required>
+                    </div>
+                    <label for="deterioroPaciente" class="col-sm-2 col-form-label">Deterioro:</label>
+                    <div class="col-sm-4">
+                      <select name="deterioroPaciente" id="deterioroPaciente" class="form-select">
+                        <option value="Leve" selected>Leve</option>
+                        <option value="Moderado">Moderado</option>
+                        <option value="Grave">Grave</option>
+                      </select>
+                    </div>
                   </div>
 
+                  <div class="mb-3 row">
+                    <div class="offset-sm-3 col-sm-9">
+                      <button type="submit" class="btn btn-primary" id="modalCrearPaciente">Confirmar</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
 
-                  <div class="row d-flex justify-content-around align-items-center">
+            </div>
 
-                    <form class="text-center m-3 bg-light p-4 rounded">
-                      <div class="mb-3">
-                        <label for="selectCategorias" class="form-label"><strong>Seleccione una
-                            categoría:</strong></label>
-                        <select name="categorias" id="selectCategorias" class="form-select">
+          </div>
+        </div>
+
+        <div class="modal fade" id="vincularPaciente" data-bs-backdrop="static">
+          <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+              <!-- cabecera del diálogo -->
+              <div class="modal-header">
+                <h4 class="modal-title">Vincular nuevo paciente</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <!-- cuerpo del diálogo -->
+              <div class="modal-body alert alert-primary">
+                <p class="alert alert-warning d-none" id="alertaVincular"></p>
+                <form id="formVincularPaciente">
+
+                  <div class="mb-2 row">
+                    <label for="correoVincular" class="col-sm-2 col-form-label">Correo:</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="correoVincular" name="correoVincular" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3 row">
+                    <div class="offset-sm-3 col-sm-9">
+                      <button type="submit" class="btn btn-primary" id="modalVincular">Vincular</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-sm-12 col-md-9 alert alert-primary">
+
+        <!--CUADRANTE DE USUARIOS-->
+        <div id="divListadoUsuarios" class="text-center d-none">
+          <h2 id="tituloUsuarios">Listado de Usuarios</h2>
+
+          <p class=" alert alert-warning" id="alertaListadoUsuarios">No hay pacientes disponibles</p>
+
+        </div>
+
+        <!--CUADRANTE DE JUEGOS-->
+        <div id="divListadoJuegos" class=" text-center d-none">
+          <h2>Listado de Juegos</h2>
+
+          <p class=" alert alert-warning" id="alertaListadoJuegos">No hay juegos disponibles</p>
+        </div>
+
+        <!--CUADRANTE DEL HISTORIAL-->
+        <div id="cuadranteHistorial" class="text-center d-none">
+          <h2>Historial de Partidas</h2>
+          <table class="table table-striped " id="tablaHistorial">
+
+            <thead>
+              <tr>
+                <th scope="col">Juego</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Aciertos</th>
+                <th scope="col">Fallos</th>
+                <th scope="col">Duración (seg)</th>
+                <th scope="col">Nivel</th>
+                <th scope="col">Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="bodyTablaHistorial">
+
+            </tbody>
+          </table>
+        </div>
+
+        <!--CUADRANTE DEL CALENDARIO-->
+        <div class="container bg-light rounded pb-3 mx-auto d-none" id="cuadranteCalendario">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-center">Calendario</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center d-flex align-items-center">
+              <div id="calendario" class="calendario mx-auto"></div>
+            </div>
+          </div>
+
+          <div class=" mt-2 text-center d-none" id="divTablaCalendario">
+            <h3 id="tituloTabla"></h3>
+
+            <button class="btn alert alert-info w-100" data-bs-toggle="modal"
+              data-bs-target="#crearTarea"><strong>Asignar Nueva Tarea</strong></button>
+
+
+            <table class="table table-striped " id="tablaCalendario">
+
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Juego</th>
+                  <th scope="col">Categoría</th>
+                  <th scope="col">Nivel</th>
+                  <th scope="col">Terminado</th>
+                </tr>
+              </thead>
+              <tbody id="bodyTabla">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--CUADRANTE DE COMENTARIOS-->
+        <div class="container d-none" id="cuadranteComentarios">
+          <div class="row justify-content-center">
+            <div>
+              <div class="card border-info mt-4">
+                <div class="card-header azulClaro text-center">
+                  <h4> Agregar Anotación</h4>
+                </div>
+                <div class="card-body">
+                  <!-- Comment form -->
+                  <form id="comentarioForm">
+                    <div class="mb-3">
+                      <label for="comentarioNuevo" class="form-label">Nueva Anotación </label>
+                      <textarea class="form-control" id="comentarioNuevo" name="comentarioNuevo" required></textarea>
+                    </div>
+                    <div class="text-center">
+                      <button class="btn azulClaro" id="btnEnviarComentario">Enviar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Container for displaying comments -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-11">
+              <div class="card border-secondary">
+                <div class="card-header grisClaro text-center">
+                  <h4>Anotaciones</h4>
+                </div>
+                <div class="card-body" id="cajaComentarios">
+
+                  <!--Fin de caja de comentario-->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--CUADRANTE DE ESTADISTICAS-->
+        <div class="container text-center d-none" id="cuadranteEstadisticas">
+          <h2>Gráficos de rendimiento general</h2>
+
+          <div class="row bg-light rounded" id="cajaRendimientoGeneral">
+
+          </div>
+
+
+          <div class="row d-flex justify-content-around align-items-center">
+
+            <form class="text-center m-3 bg-light p-4 rounded">
+              <div class="mb-3">
+                <label for="selectCategorias" class="form-label"><strong>Seleccione una
+                    categoría:</strong></label>
+                <select name="categorias" id="selectCategorias" class="form-select">
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="selectMeses" class="form-label"><strong>Selecciona un mes:</strong></label>
+                <select class="form-select" id="selectMeses" name="meses">
+                  <option value="1" selected>Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5">Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10">Octubre</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn azulClaro" id="btnGraficos">Generar Gráficos</button>
+              </div>
+            </form>
+          </div>
+
+
+          <div class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded id=" cajaEstadisticas">
+
+            <div id="cajaGraficoHechos" class="cajaGraficas  mt-2 col col-lg-5 col-sm-12">
+
+            </div>
+
+
+            <div id="cajaGraficoProgreso" class="cajaGraficas mt-2 col col-lg-5 col-sm-12">
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+      <!--Modal de registro de nueva tarea-->
+
+      <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
+        <!-- data-bs impide que se cierre al pulsar fuera del modal -->
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+
+            <!-- cabecera del diálogo -->
+            <div class="modal-header">
+              <h4 class="modal-title">Crear Tarea</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- cuerpo del diálogo -->
+            <div class="modal-body alert alert-info">
+              <div class="container">
+                <div class="row">
+                  <div class="col ">
+                    <p id="diaModal"></p>
+                    <form>
+                      <div class="form-group">
+                        <label for="selectJuego">Juego:</label>
+                        <select class="form-control" name="selectJuego" id="selectJuego" required>
+                          <!-- Opciones del select -->
                         </select>
                       </div>
 
-                      <div class="mb-3">
-                        <label for="selectMeses" class="form-label"><strong>Selecciona un mes:</strong></label>
-                        <select class="form-select" id="selectMeses" name="meses">
-                          <option value="1" selected>Enero</option>
-                          <option value="2">Febrero</option>
-                          <option value="3">Marzo</option>
-                          <option value="4">Abril</option>
-                          <option value="5">Mayo</option>
-                          <option value="6">Junio</option>
-                          <option value="7">Julio</option>
-                          <option value="8">Agosto</option>
-                          <option value="9">Septiembre</option>
-                          <option value="10">Octubre</option>
-                          <option value="11">Noviembre</option>
-                          <option value="12">Diciembre</option>
+                      <div class="form-group">
+                        <label for="frecuencia">Frecuencia:</label>
+                        <select class="form-control" name="frecuencia" id="frecuencia" required>
+                          <option value="0">Sólo hoy</option>
+                          <option value="1">Cada día</option>
+                          <option value="2">Todas las Semanas</option>
                         </select>
                       </div>
-                      <div class="d-grid gap-2">
-                        <button class="btn azulClaro" id="btnGraficos">Generar Gráficos</button>
+
+                      <div class="form-group">
+                        <label for="selectNivel">Nivel:</label>
+                        <select class="form-control" name="selectNivel" id="selectNivel" required>
+                          <option value="1" selected>Fácil</option>
+                          <option value="2">Medio</option>
+                          <option value="3">Difícil</option>
+                        </select>
                       </div>
+
+
                     </form>
                   </div>
-
-
-                  <div class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded id=" cajaEstadisticas">
-
-                    <div id="cajaGraficoHechos" class="cajaGraficas  mt-2 col col-lg-5 col-sm-12">
-
-                    </div>
-
-
-                    <div id="cajaGraficoProgreso" class="cajaGraficas mt-2 col col-lg-5 col-sm-12">
-
-                    </div>
-
-                  </div>
-
-
                 </div>
               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="asignarTarea">Asignar</button>
+            </div>
 
-              <!--Modal de registro de nueva tarea-->
+          </div>
 
-              <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
-                <!-- data-bs impide que se cierre al pulsar fuera del modal -->
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                  <div class="modal-content">
-
-                    <!-- cabecera del diálogo -->
-                    <div class="modal-header">
-                      <h4 class="modal-title">Crear Tarea</h4>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <!-- cuerpo del diálogo -->
-                    <div class="modal-body alert alert-info">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col ">
-                            <p id="diaModal"></p>
-                            <form>
-                              <div class="form-group">
-                                <label for="selectJuego">Juego:</label>
-                                <select class="form-control" name="selectJuego" id="selectJuego" required>
-                                  <!-- Opciones del select -->
-                                </select>
-                              </div>
-
-                              <div class="form-group">
-                                <label for="frecuencia">Frecuencia:</label>
-                                <select class="form-control" name="frecuencia" id="frecuencia" required>
-                                  <option value="0">Sólo hoy</option>
-                                  <option value="1">Cada día</option>
-                                  <option value="2">Todas las Semanas</option>
-                                </select>
-                              </div>
-
-                              <div class="form-group">
-                                <label for="selectNivel">Nivel:</label>
-                                <select class="form-control" name="selectNivel" id="selectNivel" required>
-                                  <option value="1" selected>Fácil</option>
-                                  <option value="2">Medio</option>
-                                  <option value="3">Difícil</option>
-                                </select>
-                              </div>
-
-
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" id="asignarTarea">Asignar</button>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
+        </div>
+      </div>
 
 
   </section>

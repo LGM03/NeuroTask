@@ -84,7 +84,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
 
 
     altaPaciente(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
-
         const insertarUsuario = (datosUsuario) => {
             return new Promise((resolve, reject) => {
                 this.pool.getConnection((err, connection) => {
@@ -111,8 +110,8 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
                     if (err) {
                         reject(err);
                     } else {
-                        var sql2 = "INSERT INTO `paciente` (correo,edad)  VALUES (?,?);";
-                        connection.query(sql2, [datosUsuario.correo, datosUsuario.edad], function (err, resultado2) {
+                        var sql2 = "INSERT INTO `paciente` (correo,edad, deterioro)  VALUES (?,?,?);";
+                        connection.query(sql2, [datosUsuario.correo, datosUsuario.edad, datosUsuario.deterioro], function (err, resultado2) {
                             connection.release();
                             if (err) {
                                 reject(err);

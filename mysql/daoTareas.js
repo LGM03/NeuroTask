@@ -50,7 +50,7 @@ class DAOTareas {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT categoria, nombre, fechaInicio, aciertos, fallos,duracion , nivel from juegos inner join partidas on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? order by fechaInicio";
+                const sql = "SELECT categoria, nombre, fechaInicio, aciertos, fallos,duracion , nivel from juegos inner join partidas on idJ = juegos.id inner join categorias on categorias.id_cat = juegos.id_categoria where idP = ? order by fechaInicio desc";
                 connection.query(sql, [usuario], function (err, resultado) {
                     connection.release();
                     if (err) {

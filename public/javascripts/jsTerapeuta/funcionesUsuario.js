@@ -103,6 +103,86 @@ $(function () {
 
     })
 
+
+    $("#modalCrearPaciente").on("click", function (event) {
+        event.preventDefault()
+        $("#crearPaciente input").css("border-color", "")
+        
+        var correo = $("#correoPaciente").prop("value")
+        var contraseña1 = $("#contraseñaPacienteRep").prop("value")
+        var contraseña2 = $("#contraseñaPaciente").prop("value")
+        var edad = $("#edadPaciente").prop("value")
+        var nombre = $("#nombrePaciente").prop("value")
+        var apellidos = $("#apellidoPaciente").prop("value")
+        var deterioro = $("#deterioroPaciente").prop("value")
+
+        var datos = {
+            nombrePaciente: nombre,
+            apellidoPaciente: apellidos,
+            correoPaciente: correo,
+            contraseñaPaciente: contraseña1,
+            edadPaciente: edad,
+            deterioroPaciente : deterioro
+        }
+
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (correo.trim() == "" || !regex.test(correo)) {
+            $("#alertaCrearPaciente").removeClass("d-none")
+            $("#alertaCrearPaciente").text("El correo introducido no es válido")
+            $("#correoPaciente").css("border-color", "red");
+        } else if (contraseña1.trim() == "" || contraseña2.trim() == "" || contraseña1 != contraseña2) {
+            $("#alertaCrearPaciente").removeClass("d-none")
+            $("#alertaCrearPaciente").text("La contraseñas deben coincidir")
+            $("#contraseñaPacienteRep").css("border-color", "red");
+            $("#contraseñaPaciente").css("border-color", "red");
+        }
+        else if (edad.trim() == "") {
+            $("#alertaCrearPaciente").removeClass("d-none")
+            $("#alertaCrearPaciente").text("La edad introducida no es válida")
+            $("#edadPaciente").css("border-color", "red");
+        }
+        else if (nombre.trim() == "") {
+            $("#alertaCrearPaciente").removeClass("d-none")
+            $("#alertaCrearPaciente").text("El nombre introducido no es válido")
+            $("#nombrePaciente").css("border-color", "red");
+        }
+        else if (apellidos.trim() == "") {
+            $("#alertaCrearPaciente").removeClass("d-none")
+            $("#alertaCrearPaciente").text("Los apellidos introducidos no son válidos")
+            $("#apellidoPaciente").css("border-color", "red");
+        } else {
+            $.ajax({ // veo para cada dia que actividades hay
+                method: "POST",
+                url: "/user/crearPaciente",
+                data: datos,
+                success: function (datos, state, jqXHR) {
+
+                    if (datos == 0) {
+                        $("#alertaCrearPaciente").removeClass("d-none")
+                        $("#alertaCrearPaciente").text("El correo ya está registrado")
+                        $("#correoPaciente").css("border-color", "red");
+                    } else {
+                        $("#crearPaciente").modal("hide")
+                        $("#crearPaciente input").css("border-color", "")
+                        $("#alertaCrearPaciente").addClass("d-none")
+                        $("#correoPaciente, #contraseñaPaciente, #contraseñaPacienteRep, #edadPaciente, #nombrePaciente, #apellidoPaciente").val("");
+                        nuevoToast("Paciente creado con éxito")
+                    }
+                },
+                error: function (jqXHR, statusText, errorThrown) {
+                    $("#alertaCrearPaciente").removeClass("d-none")
+                    $("#alertaCrearPaciente").text("El correo introducido no es válido")
+                    $("#correoPaciente").css("border-color", "red");
+                }
+            });
+        }
+
+
+    })
+
+
+
     $("#btnIniciarSesion").on("click", function (event) {
 
         event.preventDefault()
