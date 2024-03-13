@@ -47,6 +47,24 @@ router.get('/leerCategorias', function (req, res, next) {
   });
 });
 
+
+
+router.get('/juegosPorCategoria', function (req, res, next) {
+
+  const DAOAp = require("../mysql/daoJuegos")
+  const midao = new DAOAp(pool)
+
+  midao.leerjuegosCategorias(req.query.categoria,(err, datos) => {
+    if (err) {
+      res.status(500)
+      res.json(0)
+    }
+    else {
+      res.json(datos)
+    }
+  });
+});
+
 router.get('/finJuego', function (req, res, next) {
 
   const daoAp = require('../mysql/daoJuegos')

@@ -105,6 +105,8 @@ $(function(){
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert"> No hay estadísticas sobre planificación </div>');
                     $("#cajaGraficoHechos").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
+
+                    formJuegoConcreto(opcionSeleccionada)
                     $("#cajaGraficoHechos .alertaEstadisticas").remove()
 
                     //Creo el canva
@@ -183,14 +185,14 @@ $(function(){
                             labels: labels,
                             datasets: [
                                 {
-                                    label: 'Tasa Aciertos',
+                                    label: 'Aciertos',
                                     data: dataAciertos,
                                     backgroundColor: 'rgba(75, 192, 192, 0.4)',
                                     borderColor: 'rgba(75, 192, 192, 1)',
                                     borderWidth: 1
                                 },
                                 {
-                                    label: 'Tasa Media Aciertos',
+                                    label: 'Media Aciertos',
                                     data: dataMedia,
                                     backgroundColor: 'rgba(255, 99, 132, 0.4)',
                                     borderColor: 'rgba(255, 99, 132, 1)',
@@ -209,6 +211,28 @@ $(function(){
 
 
     })
+
+    function formJuegoConcreto(categoria){
+        $("#cajaJuegoConcreto").removeClass('d-none')
+
+        $.ajax({
+            method: "GET",
+            url: "/juego/juegosPorCategoria",
+            data:{categoria:categoria},
+            success: function (datos, state, jqXHR) {
+                datos.forEach(function (dato) {
+                    $("#selectJuegoConcreto").append($('<option>', {
+                        value: dato.id,
+                        text: dato.nombre
+                    }));
+                });
+            },
+            error: function (jqXHR, statusText, errorThrown) {
+                nuevoToast("Ha ocurrido un error con las categorias")
+            }
+        });
+
+    }
 })
 
 

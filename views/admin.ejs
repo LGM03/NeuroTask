@@ -326,7 +326,7 @@
           </div>
 
 
-          <div class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded id=" cajaEstadisticas">
+          <div class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded" , id=" cajaEstadisticas">
 
             <div id="cajaGraficoHechos" class="cajaGraficas  mt-2 col col-lg-5 col-sm-12">
 
@@ -337,14 +337,27 @@
 
             </div>
 
+            <div id="cajaJuegoConcreto" class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded d-none">
+              <form class="text-center m-3 bg-light p-4 rounded">
+                <div class="mb-3">
+                  <label for="selectJuegoConcreto" class="form-label"><strong>Selecciona un juego:</strong></label>
+                  <select class="form-select" id="selectJuegoConcreto" name="graficaJuegos">
+                  </select>
+                </div>
+                <div class="d-grid gap-2">
+                  <button class="btn azulClaro" id="btnGraficosJuego">Generar Gráficos de Juego</button>
+                </div>
+              </form>
+            </div>
+
           </div>
 
+          
 
         </div>
       </div>
 
       <!--Modal de registro de nueva tarea-->
-
       <div class="modal fade" id="crearTarea" data-bs-backdrop="static">
         <!-- data-bs impide que se cierre al pulsar fuera del modal -->
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

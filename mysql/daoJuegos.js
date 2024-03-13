@@ -104,6 +104,24 @@ class DAOJuegos {
             }
         })
     }
+
+    leerjuegosCategorias(categoria, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null)
+            } else {
+                const sql = "select id,nombre from juegos where id_categoria= ?"
+                connection.query(sql, [categoria], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        callback(err, null)
+                    } else {
+                        callback(null, resultado)
+                    }
+                })
+            }
+        })
+    }
 }
 
 
