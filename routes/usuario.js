@@ -14,7 +14,7 @@ router.get("/login", async (req, res) => {
 
         midao.leerPorID(correo, async (err, datos) => {
             if (err) {
-                res.json(0) //Cargo una ventana de error y ha ocurrido un problema
+                res.status(400).json(0) //Cargo una ventana de error y ha ocurrido un problema
             }
             else {
                 if (datos != null) {
@@ -34,21 +34,19 @@ router.get("/login", async (req, res) => {
                             res.json('2')
                         }
                     } else {
-                        res.status(400)
-                        res.json(0)
+                        res.status(400).json(0)
                     }
-                }else{
-                    res.status(400)
-                    res.json(0)
+                } else {
+                    res.status(400).json(0)
                 }
             }
         });
-    } catch {
-        res.render('error', { error: 'Ha ocurrido un error' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).render('error', { error: 'Ha ocurrido un error' });
     }
+});
 
-
-})
 
 router.post("/logout", (req, res) => {
     req.session.destroy(err => {
