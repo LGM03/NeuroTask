@@ -116,7 +116,7 @@ export default class scene_parejas extends Phaser.Scene {
         var fechaFin = new Date();
         var tiempoTranscurrido = fechaFin - this.fechaInicio
         const minutos = Math.floor(tiempoTranscurrido / 60000);
-        const segundos = ((tiempoTranscurrido % 60000) / 1000).toFixed(0);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
         // Por ejemplo, puedes cambiar a otra escena
         this.scene.start("scene_fin",
             {

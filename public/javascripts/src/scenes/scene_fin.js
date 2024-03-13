@@ -41,19 +41,18 @@ export default class scene_fin extends Phaser.Scene {
             this.icPuntuacion = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "DosEstrella")
         }
 
-        this.icPuntuacion.setScale(0.8);
         this.icPuntuacion.setOrigin(0.5, 0.5);
 
 
-        this.tFallos = this.add.text(this.icPuntuacion.x + this.icPuntuacion.width / 7, this.icPuntuacion.y + 20, this.info.fallos * 100 + " pts", estiloTexto)
+        this.tFallos = this.add.text(this.icPuntuacion.x + this.icPuntuacion.width / 5, this.icPuntuacion.y + 20, this.info.fallos * 100 + " pts", estiloTexto)
         this.tFallos.setOrigin(0, 0.5);
         this.tFallos.setScale(1.2);
 
-        this.tAciertos = this.add.text(this.icPuntuacion.x - this.icPuntuacion.x / 4, this.icPuntuacion.y + 20, this.info.aciertos * 100 + " pts", estiloTexto)
+        this.tAciertos = this.add.text(this.icPuntuacion.x - this.icPuntuacion.x / 5, this.icPuntuacion.y + 20, this.info.aciertos * 100 + " pts", estiloTexto)
         this.tAciertos.setOrigin(0, 0.5);
         this.tAciertos.setScale(1.2);
 
-        this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 3 - 10, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
+        this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 4 + 30, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
         this.tTiempo.setOrigin(0, 0.5);
         this.tTiempo.setScale(1.2);
 

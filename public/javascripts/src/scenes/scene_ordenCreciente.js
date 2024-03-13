@@ -80,7 +80,7 @@ export default class scene_ordenCreciente extends Phaser.Scene {
         var fechaFin = new Date();
         var tiempoTranscurrido = fechaFin - this.fechaInicio
         const minutos = Math.floor(tiempoTranscurrido / 60000);
-        const segundos = ((tiempoTranscurrido % 60000) / 1000).toFixed(0);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
 
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');

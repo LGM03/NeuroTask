@@ -53,7 +53,7 @@ export default class scene_refranes extends Phaser.Scene {
 
     create() {
         const MS = 1000
-        this.duracion = 2  //en segundos
+        this.duracion = 0  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
         this.crearInterfaz();
         const self = this
@@ -145,9 +145,9 @@ export default class scene_refranes extends Phaser.Scene {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');
         $('#juegoLenguaje').addClass('d-none')
-        const minutos = Math.floor(this.duracion / 60000);
-        const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
-
+        const minutos = Math.floor(this.duracion / 60);
+        const segundos = (this.duracion % 60).toFixed(0);
+        console.log(this.duracion + " " +minutos+ " "+segundos)
         this.scene.start("scene_fin",
             {
                 aciertos: this.puntuacion,
