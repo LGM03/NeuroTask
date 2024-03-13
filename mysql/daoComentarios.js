@@ -28,8 +28,8 @@ class DAOComentarios{
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "insert into comentarios (idT,idP,comentario) values (?,?,?)";
-                connection.query(sql, [datos.terapeuta, datos.usuario, datos.comentario], function (err, resultado) {
+                const sql = "insert into comentarios (idT,idP,comentario,fecha) values (?,?,?,?)";
+                connection.query(sql, [datos.terapeuta, datos.usuario, datos.comentario,new Date()], function (err, resultado) {
                     connection.release();
                     if (err) {
                         callback(err, null);

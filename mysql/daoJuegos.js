@@ -90,8 +90,8 @@ class DAOJuegos {
                         connection.release();
                         callback(err, null)
                     } else {
-                        const sql = "insert into `planificacionesjugadas` (idtarea) values (?)" //la fecha se incluye de forma automatica como current timestamp en bd
-                        connection.query(sql, [datosJuego.idTarea], function (err, resultado) {
+                        const sql = "insert into `planificacionesjugadas` (idtarea,fecha) values (?,?)" //la fecha se incluye de forma automatica como current timestamp en bd
+                        connection.query(sql, [datosJuego.idTarea,new Date()], function (err, resultado) {
                             connection.release();
                             if (err) {
                                 callback(err, null)
