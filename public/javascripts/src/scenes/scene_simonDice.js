@@ -26,7 +26,7 @@ export default class scene_simonDice extends Phaser.Scene {
     create() {
 
         const MS = 1000
-        this.duracion = 10  //en segundos
+        this.duracion = 80  //en segundos
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         $('#ventanaSimonDice').removeClass('d-none')

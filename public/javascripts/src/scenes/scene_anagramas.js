@@ -65,6 +65,7 @@ export default class scene_refranes extends Phaser.Scene {
         })
 
         $("#btnAceptar").on("click", function (event) {
+            console.log(self.fraseFormada)
             if (self.fraseFormada.length != 0 &&
                 self.refran.includes(self.fraseFormada)) {
                 self.puntuacion++
@@ -79,13 +80,16 @@ export default class scene_refranes extends Phaser.Scene {
         })
 
         $("#btnCorregir").on("click", function (event) {
-            $("#contenedorBotones .botonPalabra").remove()
-            $("#fraseFormada").text("")
-            self.fraseFormada = ""
-            self.arrayDePalabras.forEach((element => {
-                var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + element + '</button>'
+            var palabraFormada = $("#fraseFormada").text()
+            if(palabraFormada.length>0){
+                var letra = palabraFormada.charAt(palabraFormada.length - 1);
+                $("#fraseFormada").text(palabraFormada.slice(0, -1)) //Quito una letra del texto de solucion
+                self.fraseFormada = self.fraseFormada.slice(0,-1)
+                var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + letra + '</button>'
                 $('#contenedorBotones').append(botonPalabra)
-            }))
+                
+            }
+            console.log($("#fraseFormada").text())
 
         })
     }
