@@ -70,32 +70,27 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         })
     }
 
-
     cubrirResultado(esAcierto) {
-
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');
 
-        var color = 0xFF0000
+        var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "fallo").setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
         if (esAcierto) {
-            var color = 0x00FF00
+            cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "acierto").setScale(0.4).setOrigin(0.5, 0.5) //imagen de fondo
         }
-        const cover = this.add.rectangle(0, 0, this.sys.game.config.width, this.sys.game.config.height, color, 0.75);
-        cover.setOrigin(0, 0);
 
         this.tweens.add({
             targets: cover,
             alpha: 0,
-            duration: 1500,
+            duration: 1250,
             ease: 'Linear',
             onComplete: () => {
+                cover.destroy();
                 $('canvas').css('z-index', '1');
                 $('#ventanaOrden').css('z-index', '2');
-                cover.destroy();
             }
         });
     }
-
 
     mostrarTres() {
         this.seleccionable = false //ya no se podra seleccionar 

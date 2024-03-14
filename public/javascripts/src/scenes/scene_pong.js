@@ -37,7 +37,7 @@ export default class scene_pong extends Phaser.Scene {
         this.derecha.setScale(0.8);
 
         this.ball = this.physics.add.image(center_width, center_height, "ball")
-        this.ball.setVelocityX(350);
+        this.ball.setVelocityX(500);
         this.ball.setScale(this.sys.game.config.height * 0.2 / this.ball.height);
         this.ball.setBounce(1); //Que rebote a la misma velocidad con la que choco
         this.physics.world.setBoundsCollision(false, false, true, true)//chocques con izq,derecha,arriba,abajo
@@ -70,7 +70,7 @@ export default class scene_pong extends Phaser.Scene {
                 
             }
             this.ball.setPosition(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
-            this.ball.setVelocityX(350)
+            this.ball.setVelocityX(500)
 
         }
         // En el método create() o donde configures tus sprites y entradas del usuario

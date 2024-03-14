@@ -73,13 +73,13 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     cubrirResultado(esAcierto) {
-        $('#ventanaSimonDice').addClass('d-none')
-        var color = 0xFF0000
+        $('canvas').css('z-index', '2');
+        $('#ventanaSimonDice').css('z-index', '1');
+
+        var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "fallo").setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
         if (esAcierto) {
-            var color = 0x00FF00
+            cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "acierto").setScale(0.4).setOrigin(0.5, 0.5) //imagen de fondo
         }
-        const cover = this.add.rectangle(0, 0, this.sys.game.config.width, this.sys.game.config.height, color, 0.5);
-        cover.setOrigin(0, 0);
 
         this.tweens.add({
             targets: cover,
@@ -87,8 +87,9 @@ export default class scene_simonDice extends Phaser.Scene {
             duration: 1250,
             ease: 'Linear',
             onComplete: () => {
-                $('#ventanaSimonDice').removeClass('d-none')
                 cover.destroy();
+                $('canvas').css('z-index', '1');
+                $('#ventanaSimonDice').css('z-index', '2');
             }
         });
     }

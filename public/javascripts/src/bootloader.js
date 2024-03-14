@@ -23,7 +23,9 @@ class Bootloader extends Phaser.Scene {  //Sirve para cargar los archivos, solo 
         this.load.image("TresEstrella", "javascripts/assets/estrellita3.png")
         this.load.image("botonContinuar", "javascripts/assets/botonContinuar.png")
         this.load.image("fondoRosa", "javascripts/assets/fondoRosa.png")
-
+        this.load.image("acierto", "javascripts/assets/acierto.png")
+        this.load.image("fallo", "javascripts/assets/error.png")
+        
         //Iconos propios del juego
         if (this.idJuego == "1") { 
             this.descripcion = "Presiona la pantalla para mover el cohete.\n Lleva al astronauta a la meta."
