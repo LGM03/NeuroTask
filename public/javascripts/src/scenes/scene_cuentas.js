@@ -34,7 +34,7 @@ export default class scene_cuentas extends Phaser.Scene {
                 this.maxResta = 20
                 break;
             case 3:
-                this.operadores = ['+', '-', 'X'];
+                this.operadores = ['+', '-', 'x'];
                 this.maxSuma = 50
                 this.maxResta = 60
                 break;
@@ -77,42 +77,42 @@ export default class scene_cuentas extends Phaser.Scene {
     crearInterfaz() {
         // Sección de la operación
         this.operador1 = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 12, '', {
-            fontSize: '42px',
+            fontSize: '80px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5);
-        this.operador2 = this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12, '', {
-            fontSize: '42px',
+        this.operador2 = this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12 +20, '', {
+            fontSize: '80px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5);
 
-        this.operacion = this.add.text(6 * this.sys.game.config.width / 13, 2 * this.sys.game.config.height / 12, '', {
-            fontSize: '42px',
+        this.operacion = this.add.text(6 * this.sys.game.config.width / 13 -30, 2 * this.sys.game.config.height / 12, '', {
+            fontSize: '95px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5);
 
         // Sección de los números
         const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-        let xPos = 4;
+        let xPos = 3;
         let yPos = 6;
 
-        this.respuesta = this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12, "_________", {
-            fontSize: '50px',
+        this.respuesta = this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12 +20, "_________", {
+            fontSize: '80px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5)
 
         this.respuesta = this.add.text(this.sys.game.config.width / 2, 4 * this.sys.game.config.height / 13, "", {
-            fontSize: '50px',
+            fontSize: '80px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5)
 
         for (let i = 0; i < numeros.length; i++) {
 
-            const numero = this.add.image(xPos * this.sys.game.config.width / 12, yPos * this.sys.game.config.height / 12, this.teclas[i]).setOrigin(0.5).setScale(0.5);
+            const numero = this.add.image(xPos * this.sys.game.config.width / 12, yPos * this.sys.game.config.height / 12 -10, this.teclas[i]).setOrigin(0.5).setScale(0.9);
             numero.setInteractive();
             numero.tipo = 'numero';
             numero.value = numeros[i];
@@ -120,24 +120,24 @@ export default class scene_cuentas extends Phaser.Scene {
 
             // Ajustar la posición para cada fila
             if (i === 2 || i === 5) {
-                xPos = 4;
-                yPos += 2;
+                xPos = 3;
+                yPos += 2.2;
             }
         }
 
-        this.enviar = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 4) * this.sys.game.config.height / 12, "aceptar", {
+        this.enviar = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 4) * this.sys.game.config.height / 12 -30, "aceptar", {
             fontSize: '24px',
             color: '#fff',
             fontFamily: 'Arial'
-        }).setScale(0.5)
+        }).setScale(0.9)
         this.enviar.setInteractive();
         this.enviar.tipo = "solucionar"
 
-        this.corregir = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 2) * this.sys.game.config.height / 12, "corregir", {
+        this.corregir = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 2) * this.sys.game.config.height / 12 -20, "corregir", {
             fontSize: '24px',
             color: '#fff',
             fontFamily: 'Arial'
-        }).setScale(0.5)
+        }).setScale(0.9)
         this.corregir.setInteractive();
         this.corregir.tipo = "corregir"
 
@@ -158,7 +158,7 @@ export default class scene_cuentas extends Phaser.Scene {
                 var num2 = Phaser.Math.Between(1, num1);
                 this.solucion = num1 - num2;
                 break;
-            case 'X':
+            case 'x':
                 var num1 = Phaser.Math.Between(1, 30);
                 var num2 = Phaser.Math.Between(2, 5);
                 this.solucion = num1 * num2;
