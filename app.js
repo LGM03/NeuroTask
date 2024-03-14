@@ -7,7 +7,7 @@ var logger = require('morgan');
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
-const pool = require('./bd')
+const pool = require('./routes/bd')
 
 const sessionStore = new MySQLStore({},pool); //donde alamceno las sesiones
 
