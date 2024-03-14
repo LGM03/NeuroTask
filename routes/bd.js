@@ -1,4 +1,4 @@
-/*
+
 const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
   host: "localhost",
@@ -7,9 +7,9 @@ const pool = mysql.createPool({ //instancia de acceso a la base de datos
   database: "neurotask" //nombre de la bd
 })
 
-module.exports = pool*/
+module.exports = pool
 
-
+/*
 
 const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
@@ -20,4 +20,4 @@ const pool = mysql.createPool({ //instancia de acceso a la base de datos
   port : 3306
 })
 
-module.exports = pool
+module.exports = pool*/

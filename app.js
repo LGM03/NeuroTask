@@ -7,14 +7,10 @@ var logger = require('morgan');
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
+const pool = require('./bd')
 
-const sessionStore = new MySQLStore({  //donde alamceno las sesiones
-  host: "b5b0g1c3rrjx6iqzevap-mysql.services.clever-cloud.com",
-  user: "uifaywq7zxn9ezvs",
-  password: "zB2Dza3JsQwr3iDEW6bs",
-  database: "b5b0g1c3rrjx6iqzevap", //nombre de la bd
-  port : 3306
-});
+const sessionStore = new MySQLStore({},pool); //donde alamceno las sesiones
+
 
 //Manejos de sesiones
 
