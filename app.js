@@ -31,8 +31,6 @@ var usuarioRouter = require('./routes/usuario');
 var tareasRouter = require('./routes/tareas');
 var comentariosRouter = require('./routes/comentarios');
 
-
-
 // view engine setup
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
@@ -42,11 +40,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));//estaba a false, lo cambio a true
 app.use(cookieParser());
-
-app.use(function (req, res, next) {
-  res.locals.usuario = req.session.usuario || null;
-  next();
-});
 
 app.use('/', indexRouter);
 app.use('/juego', juegoRouter);
