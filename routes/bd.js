@@ -1,5 +1,5 @@
 
-
+/*
 const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
   host: "localhost",
@@ -10,7 +10,7 @@ const pool = mysql.createPool({ //instancia de acceso a la base de datos
 
 module.exports = pool
 
-/*
+*/
 const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
   host: "b5b0g1c3rrjx6iqzevap-mysql.services.clever-cloud.com",
@@ -19,4 +19,4 @@ const pool = mysql.createPool({ //instancia de acceso a la base de datos
   database: "b5b0g1c3rrjx6iqzevap", //nombre de la bd
 })
 
-module.exports = pool*/
+module.exports = pool
