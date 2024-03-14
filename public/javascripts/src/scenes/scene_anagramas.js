@@ -81,7 +81,9 @@ export default class scene_refranes extends Phaser.Scene {
 
         $("#btnCorregir").on("click", function (event) {
             var palabraFormada = $("#fraseFormada").text()
-            if(palabraFormada.length>0){
+            console.log(palabraFormada)
+            console.log(palabraFormada.length)
+            if(palabraFormada.length>1){
                 var letra = palabraFormada.charAt(palabraFormada.length - 1);
                 $("#fraseFormada").text(palabraFormada.slice(0, -1)) //Quito una letra del texto de solucion
                 self.fraseFormada = self.fraseFormada.slice(0,-1)
@@ -89,7 +91,6 @@ export default class scene_refranes extends Phaser.Scene {
                 $('#contenedorBotones').append(botonPalabra)
                 
             }
-            console.log($("#fraseFormada").text())
 
         })
     }

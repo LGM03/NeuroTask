@@ -43,7 +43,7 @@ router.get("/login", async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).render('error', { error: 'Ha ocurrido un error' });
+        res.status(500).render('error');
     }
 });
 
