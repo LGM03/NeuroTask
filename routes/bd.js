@@ -1,4 +1,3 @@
-
 /*
 const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
@@ -8,10 +7,10 @@ const pool = mysql.createPool({ //instancia de acceso a la base de datos
   database: "neurotask" //nombre de la bd
 })
 
-module.exports = pool
+module.exports = pool*/
 
-*/
-const mysql = require('mysql2/promise');
+
+const mysql = require("mysql")
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
   host: "b5b0g1c3rrjx6iqzevap-mysql.services.clever-cloud.com",
   user: "uifaywq7zxn9ezvs",
