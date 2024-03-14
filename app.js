@@ -7,10 +7,13 @@ var logger = require('morgan');
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
-const pool = require('./routes/bd')
 
-const sessionStore = new MySQLStore({},pool); //donde alamceno las sesiones
-
+const sessionStore = new MySQLStore({  //donde alamceno las sesiones
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "neurotask"
+});
 
 //Manejos de sesiones
 
