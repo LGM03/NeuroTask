@@ -41,6 +41,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));//estaba a false, lo cambio a true
 app.use(cookieParser());
 
+app.use(function (req, res, next) {
+  res.locals.usuario = req.session.usuario || null;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/juego', juegoRouter);
 app.use('/admin', adminRouter);
