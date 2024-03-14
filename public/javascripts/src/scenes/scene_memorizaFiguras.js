@@ -74,10 +74,13 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');
 
-        var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "fallo").setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
+        
+        var imagen = "fallo"
         if (esAcierto) {
-            cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, "acierto").setScale(0.4).setOrigin(0.5, 0.5) //imagen de fondo
+            imagen = "acierto"
         }
+        var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, imagen).setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
+
 
         this.tweens.add({
             targets: cover,
