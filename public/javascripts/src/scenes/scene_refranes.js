@@ -8,32 +8,54 @@ export default class scene_refranes extends Phaser.Scene {
         this.refranesFaciles = [
             "Más vale tarde que nunca.",
             "El que la sigue, la consigue.",
-            "A lo hecho pecho",
-            "Cada loco con su tema",
-            "De tal palo tal astilla",
-            "El que la hace la paga",
-            "Dinero llama dinero",
-            "No hay mal que por bien no venga."
-        ];
-        this.refranesMedios = [
-            "A caballo regalado no se le mira el dentado.",
-            "En boca cerrada no entran moscas.",
-            "El que mucho abarca, poco aprieta.",
-            "Quien siembra vientos, recoge tempestades.",
+            "A lo hecho pecho.",
+            "Cada loco con su tema.",
+            "De tal palo tal astilla.",
+            "El que la hace la paga.",
+            "Dinero llama dinero.",
+            "No hay mal que por bien no venga.",
             "A mal tiempo, buena cara.",
-            "Más vale prevenir que lamentar",
+            "Más vale prevenir que lamentar.",
+            "A quien madruga, Dios lo ayuda.",
+            "En boca cerrada no entran moscas.",
+            "Cría cuervos y te sacarán los ojos.",
+            "El amor todo lo puede.",
+            "Perro que ladra no muerde."
+        ];
+        
+        this.refranesMedios = [
+            "A caballo regalado no le mires el dentado.",
+            "Quien siembra vientos, recoge tempestades.",
             "A cada cerdo le llega su San Martín.",
-            "Al que madruga Dios le ayuda",
-        ];
-        this.refranesDificiles = [
-            "En boca cerrada no entran moscas",
+            "Al que madruga, Dios lo ayuda.",
             "Más vale pájaro en mano que ciento volando.",
-            "No por mucho madrugar, amanece más temprano",
-            "A caballo regalado no le mires el dentado",
-            "Al pan, pan, y al vino, vino.",
-            "El que mucho corre, pronto para",
-            "Mejor solo que mal acompañado"
+            "El que mucho abarca, poco aprieta.",
+            "Camarón que se duerme, se lo lleva la corriente.",
+            "El que mucho corre, pronto para.",
+            "Mejor solo que mal acompañado.",
+            "Más vale prevenir que lamentar.",
+            "Quien mal anda, mal acaba.",
+            "Más vale perder el tiempo que perder la vida.",
+            "No hay peor ciego que el que no quiere ver."
         ];
+        
+        this.refranesDificiles = [
+            "No por mucho madrugar, amanece más temprano.",
+            "Al pan, pan, y al vino, vino.",
+            "Perro que ladra, mordió antes.",
+            "Camarón que se duerme, se lo lleva la corriente.",
+            "En boca cerrada no entran moscas.",
+            "Más vale tarde que nunca.",
+            "El amor todo lo puede.",
+            "Quien mucho abarca, poco aprieta.",
+            "A donde fueres, haz lo que vieres.",
+            "El que mucho corre, pronto para.",
+            "Más vale perder un minuto en la vida que la vida en un minuto.",
+            "La avaricia rompe el saco.",
+            "La envidia es como el cáncer que carcome por dentro.",
+            "En boca cerrada no entran moscas, pero no sale la verdad."
+        ];
+        
         this.casos = []
     }
 

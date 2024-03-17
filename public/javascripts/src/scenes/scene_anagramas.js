@@ -9,25 +9,26 @@ export default class scene_refranes extends Phaser.Scene {
         this.ejercicios = [
             {
                 "Países": [
-                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Canadá"],
-                    ["Japón", "Austria", "Rusia", "India", "Corea", "Egipto","Suecia"],
-                    ["Suiza","Noruega", "Estonia", "Singapur", "Portugal", "Malasia", "Letonia"]
+                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Canadá", "Alemania", "Reino Unido", "Estados Unidos"],
+                    ["Japón", "Austria", "Rusia", "India", "Corea", "Egipto", "Suecia", "Argentina", "Sudáfrica", "Australia"],
+                    ["Suiza", "Noruega", "Estonia", "Singapur", "Portugal", "Malasia", "Letonia", "Nueva Zelanda", "Islandia", "Chile"]
                 ]
             },
             {
                 "Animales": [
-                    ["Gato", "Perro", "Pato", "Pez", "Oso", "Ratón", "Loro", "Conejo"],
-                    ["Tigre", "León", "Cebra", "Jirafa", "Hámster", "Gorila", "Canguro"],
-                    ["Pájaro", "Delfín", "Salmón","Elefante", "Cangrejo","Sardina"]
+                    ["Gato", "Perro", "Pato", "Pez", "Oso", "Ratón", "Loro", "Conejo", "Caballo", "Vaca"],
+                    ["Tigre", "León", "Cebra", "Jirafa", "Hámster", "Gorila", "Canguro", "Zorro", "Serpiente", "Mono"],
+                    ["Pájaro", "Delfín", "Salmón", "Elefante", "Cangrejo", "Sardina", "Búho", "Rinoceronte", "Hipopótamo", "Chimpancé"]
                 ]
             },
             {
                 "Colores": [
-                    ["Rojo", "Azul", "Verde", "Amarillo", "Blanco", "Negro", "Morado", "Gris"],
-                    ["Naranja", "Violeta", "Marrón", "Rosa", "Turquesa", "Dorado", "Plateado"],
-                    ["Índigo", "Ámbar", "Cian", "Lavanda", "Carmesí", "Rubí", "Beige"]
+                    ["Rojo", "Azul", "Verde", "Amarillo", "Blanco", "Negro", "Morado", "Gris", "Rosa", "Naranja"],
+                    ["Violeta", "Marrón", "Turquesa", "Dorado", "Plateado", "Índigo", "Ámbar", "Cian", "Carmesí", "Rubí"],
+                    ["Lavanda", "Beige", "Esmeralda", "Teal", "Magenta", "Marfil", "Cobalto", "Óxido", "Celeste", "Terciopelo"]
                 ]
             }
+            
         ]
 
 

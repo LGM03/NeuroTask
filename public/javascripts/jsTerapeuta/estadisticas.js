@@ -1,4 +1,4 @@
-$(function(){
+$(function () {
     $(document).on("click", ".btnVerEstadisticas", function () {
         $('.cajaGraficas').empty()
         $('#cajaRendimientoGeneral').empty()
@@ -17,13 +17,16 @@ $(function(){
             method: "GET",
             url: "/juego/leerCategorias",
             success: function (datos, state, jqXHR) {
-                datos.forEach(function (dato) {
-                    $("#selectCategorias").data("usuario", usuario)
-                    $("#selectCategorias").append($('<option>', {
-                        value: dato.id_cat,
-                        text: dato.categoria
-                    }));
-                });
+                if ($("#selectCategorias").find("option").length == 0) {
+                    datos.forEach(function (dato) {
+                        $("#selectCategorias").data("usuario", usuario)
+                        $("#selectCategorias").append($('<option>', {
+                            value: dato.id_cat,
+                            text: dato.categoria
+                        }));
+
+                    });
+                }
             },
             error: function (jqXHR, statusText, errorThrown) {
                 nuevoToast("Ha ocurrido un error con las categorias")
@@ -159,7 +162,7 @@ $(function(){
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
-                
+
                     $("#cajaGraficoProgreso .alertaEstadisticas").remove()
 
                     //Creo el canva
@@ -212,13 +215,13 @@ $(function(){
 
     })
 
-    function formJuegoConcreto(categoria){
+    function formJuegoConcreto(categoria) {
         $("#cajaJuegoConcreto").removeClass('d-none')
 
         $.ajax({
             method: "GET",
             url: "/juego/juegosPorCategoria",
-            data:{categoria:categoria},
+            data: { categoria: categoria },
             success: function (datos, state, jqXHR) {
                 datos.forEach(function (dato) {
                     $("#selectJuegoConcreto").append($('<option>', {

@@ -228,7 +228,7 @@ function crearCajaJuego(element) {
     infoContainer.append(nombreCom)
 
     const tipoContainer = $('<div class = "text-start"></div>');
-    const tipo = $('<p class="mb-0"> ' + element.categoria + '</p>')
+    const tipo = $('<p class="mb-0"> <em>Categoría: ' + element.categoria + '</em></p>')
     tipoContainer.append(tipo)
 
     const descripcionContainer = $('<div class = "text-start"></div>');
