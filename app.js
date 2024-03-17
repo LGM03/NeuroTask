@@ -7,13 +7,14 @@ var app = express();
 const session = require("express-session");
 const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
-const pool =  require('./routes/bd')
+const pool = require('./routes/bd')
+const crypto = require('crypto')
 
 const sessionStore = new MySQLStore({
   clearExpired: true,
   checkExpirationInterval: 900000, // Intervalo de comprobación de expiración en milisegundos (15 minutos)
   expiration: 86400000, // Tiempo de expiración predeterminado en milisegundos (1 día)
-},pool);
+}, pool);
 
 const middlewareSession = session({
   secret: "foobar34", // Clave secreta para firmar la sesión
@@ -53,6 +54,36 @@ app.use('/user', usuarioRouter);
 app.use('/tareas', tareasRouter);
 
 app.use('/comentarios', comentariosRouter);
+
+app.get('/iniciar-sesion', (req, res) => {
+  const token = req.query.token; // Obtener el token de la URL de inicio de sesión automático
+
+  // Verificar si el token es válido buscando el usuario asociado en la base de datos
+  pool.getConnection(function (err, connection) {
+    if (err) {
+      callback(err, null);
+    } else {
+      const sql = 'SELECT * FROM usuario WHERE token = ?';
+      connection.query(sql, [token], (error, results) => {
+        if (error) {
+          console.error('Error al consultar la base de datos:', error);
+          res.status(500).send('Error al iniciar sesión');
+          return;
+        }
+
+        if (results.length === 0) {
+          res.status(404).send('Usuario no encontrado');
+          return;
+        }
+
+        // Usuario encontrado, iniciar sesión automáticamente
+        const usuario = results[0];
+        res.send(`Inicio de sesión automático para usuario: ${usuario.correo}`);
+      });
+    }
+  })
+});
+
 
 
 // catch 404 and forward to error handler
