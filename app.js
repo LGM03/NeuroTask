@@ -55,6 +55,64 @@ app.use('/tareas', tareasRouter);
 
 app.use('/comentarios', comentariosRouter);
 
+
+app.get('/generar-url', (req, res) => {
+  const userId = req.query.usuario//req.query.usuario; // Obtener el ID del usuario
+
+  if (req.session.usuario.tipo == "terapeuta") { //Compruebo que quien quere acceder es un terapeuta
+    // Verificar si el usuario existe en la base de datos
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        callback(err, null);
+      } else {
+        const sql = 'SELECT * FROM usuario WHERE correo = ?';
+        connection.query(sql, [userId], (error, results) => { //busco el token en la bd 
+          if (error) {
+            console.error('Error al consultar la base de datos:', error);
+            res.status(500).send('Error al generar la URL de inicio de sesión automático');
+            return;
+          }
+          if (results.length === 0) {
+            res.status(404).send('Usuario no encontrado');
+            return;
+          }
+
+          // Obtener el token del usuario (si ya tiene uno)
+          const usuario = results[0];
+          let token = usuario.token;
+
+          // Si el usuario no tiene un token, generar uno nuevo
+          if (!token) {
+            token = crypto.randomBytes(16).toString('hex');
+            // Actualizar el token en la base de datos para el usuario específico
+            const updateSql = 'UPDATE usuario SET token = ? WHERE correo = ?';
+            connection.query(updateSql, [token, userId], (updateError, updateResults) => {
+              if (updateError) {
+                console.error('Error al actualizar el token en la base de datos:', updateError);
+                res.status(500).send('Error al generar la URL de inicio de sesión automático');
+                return;
+              }
+              generarUrlInicioSesion(token);
+            });
+          } else {
+            generarUrlInicioSesion(token);
+          }
+
+          // Función para generar la URL de inicio de sesión automático
+          function generarUrlInicioSesion(token) {
+            // Construir la URL de inicio de sesión automático
+            const loginUrl = `${req.protocol}://${req.get('host')}/iniciar-sesion?token=${token}`;
+            res.send(loginUrl);
+          }
+        });
+      }
+    })
+
+  } else {
+    res.status(403).send('Acceso denegado');
+  }
+});
+
 app.get('/iniciar-sesion', (req, res) => {
   const token = req.query.token; // Obtener el token de la URL de inicio de sesión automático
 
@@ -78,7 +136,13 @@ app.get('/iniciar-sesion', (req, res) => {
 
         // Usuario encontrado, iniciar sesión automáticamente
         const usuario = results[0];
-        res.send(`Inicio de sesión automático para usuario: ${usuario.correo}`);
+        req.session.usuario = {
+          nombre: usuario.nombre,
+          correo: usuario.correo,
+          tipo : "paciente",
+          edad : usuario.edad
+      }
+        res.redirect('/')
       });
     }
   })

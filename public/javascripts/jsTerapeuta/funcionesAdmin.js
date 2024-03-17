@@ -189,6 +189,9 @@ function crearCajaPaciente(element) {
     const deterioro = $('<p class="mb-0 correoPaciente"> <em>Deterioro: ' + element.deterioro + '</em></p>')
     deterioroContainer.append(deterioro)
 
+    var botonURL = $('<button class="alert alert-secondary p-1 w-100 btnCopiarURL mt-1"> Copiar URL de inicio de sesión</button>')
+
+
     const cajaBotones = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
 
     var botonHistorial = $('<button class="alert alert-success p-1 w-100 btnVerHistorial"> Ver Historiales </button>')
@@ -208,6 +211,7 @@ function crearCajaPaciente(element) {
     cajaInfo.append(infoContainer);
     cajaInfo.append(tipoContainer);
     cajaInfo.append(deterioroContainer);
+    cajaInfo.append(botonURL)
 
     caja.append(cajaInfo, cajaBotones, cajaBotones2)
     caja.data("correo", element.correoP)
