@@ -52,7 +52,6 @@ app.use('/juego', juegoRouter);
 app.use('/admin', adminRouter);
 app.use('/user', usuarioRouter);
 app.use('/tareas', tareasRouter);
-
 app.use('/comentarios', comentariosRouter);
 
 
@@ -147,8 +146,6 @@ app.get('/iniciar-sesion', (req, res) => {
     }
   })
 });
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
