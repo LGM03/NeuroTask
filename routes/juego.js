@@ -24,6 +24,8 @@ router.get('/', function (req, res, next) {
         console.log(err);
       }
       else {
+        indice = datos.descripcion.indexOf('<ol>');
+        datos.descripcion=datos.descripcion.substring(0, indice);
         res.render('juego', { juego: datos, esPlan : false});
       }
     });

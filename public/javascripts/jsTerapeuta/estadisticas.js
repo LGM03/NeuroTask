@@ -223,6 +223,7 @@ $(function () {
             url: "/juego/juegosPorCategoria",
             data: { categoria: categoria },
             success: function (datos, state, jqXHR) {
+                $("#selectJuegoConcreto").empty()
                 datos.forEach(function (dato) {
                     $("#selectJuegoConcreto").append($('<option>', {
                         value: dato.id,
