@@ -188,8 +188,8 @@ export default class scene_cuentas extends Phaser.Scene {
     }
 
     finalizarJuego() {
-        const minutos = Math.floor(this.duracion / 60000);
-        const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
+        const minutos = Math.floor(this.duracion / 60);
+        const segundos = ((this.duracion % 60)).toFixed(0);
 
         this.scene.start("scene_fin",
             {

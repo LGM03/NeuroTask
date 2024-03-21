@@ -9,9 +9,9 @@ export default class scene_refranes extends Phaser.Scene {
         this.ejercicios = [
             {
                 "Países": [
-                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Canadá", "Alemania", "Reino Unido", "Estados Unidos"],
+                    ["España", "Francia", "Italia", "Brasil", "China", "México", "Canadá", "Alemania"],
                     ["Japón", "Austria", "Rusia", "India", "Corea", "Egipto", "Suecia", "Argentina", "Sudáfrica", "Australia"],
-                    ["Suiza", "Noruega", "Estonia", "Singapur", "Portugal", "Malasia", "Letonia", "Nueva Zelanda", "Islandia", "Chile"]
+                    ["Suiza", "Noruega", "Estonia", "Singapur", "Portugal", "Malasia", "Letonia", "Islandia", "Chile"]
                 ]
             },
             {
