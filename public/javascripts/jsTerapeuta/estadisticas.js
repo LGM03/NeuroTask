@@ -1,7 +1,9 @@
 $(function () {
     $(document).on("click", ".btnVerEstadisticas", function () {
         $('.cajaGraficas').empty()
+        $('canvas').remove()
         $('#cajaRendimientoGeneral').empty()
+        $("#cajaEstadisticas").addClass('d-none')
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
@@ -17,9 +19,9 @@ $(function () {
             method: "GET",
             url: "/juego/leerCategorias",
             success: function (datos, state, jqXHR) {
+                $("#selectCategorias").data("usuario", usuario)
                 if ($("#selectCategorias").find("option").length == 0) {
                     datos.forEach(function (dato) {
-                        $("#selectCategorias").data("usuario", usuario)
                         $("#selectCategorias").append($('<option>', {
                             value: dato.id_cat,
                             text: dato.categoria
@@ -94,10 +96,15 @@ $(function () {
     $('#btnGraficos').on("click", function (event) {
 
         event.preventDefault()
-        $('.cajaGraficas').empty()
+        $(".alertaEstadisticas").remove()
+        $("#cajaEstadisticas").removeClass('d-none')
         var opcionSeleccionada = $("#selectCategorias").val();
         var fechaSeleccionada = $("#selectMeses").val();
         var usuario = $("#selectCategorias").data("usuario")
+        console.log(fechaSeleccionada)
+        console.log(opcionSeleccionada)
+        console.log(usuario)
+
         $.ajax({  //Consulto los valores de las reservas para esa facultad
             method: "GET",
             url: "/tareas/planificacionesJugadas",
@@ -109,7 +116,6 @@ $(function () {
                     $("#cajaGraficoHechos").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
 
-                    formJuegoConcreto(opcionSeleccionada)
                     $("#cajaGraficoHechos .alertaEstadisticas").remove()
 
                     //Creo el canva
@@ -152,24 +158,25 @@ $(function () {
             }
         })
 
-        $.ajax({  //Consulto los valores de las reservas para esa facultad
+        $.ajax({ 
             method: "GET",
             url: "/tareas/progresoCategoria",
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
-                if (datos.length == 0) {  //Si no hay ninguna reserva aviso al usuario
+                if (datos.length == 0) {  
                     nuevoToast("No hay estadísticas sobre esta categoría disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
                 } else {  //Si hay reservas muestro el canvas
 
+                    formJuegoConcreto(opcionSeleccionada)
                     $("#cajaGraficoProgreso .alertaEstadisticas").remove()
 
                     //Creo el canva
                     const canvas = document.createElement('canvas');
                     canvas.width = 300
                     canvas.height = 300
-                    var titulo = $('<p><strong>Progreso Mensual</strong></p>');
+                    var titulo = $('<p><strong>Progreso Mensual General</strong></p>');
 
                     //Meto el canva en el div
                     const container = $('#cajaGraficoProgreso');
@@ -211,10 +218,73 @@ $(function () {
                 nuevoToast("Ha ocurrido un error con las estadísticas")
             }
         })
-
-
     })
 
+    $("#btnGraficosJuego").on("click",function(event){
+        event.preventDefault()
+        var juego = $("#selectJuegoConcreto").val() //Obtengo el id del juego del que se quiere saber la estadistica
+        var usuario= $("#selectCategorias").data("usuario")  //Obtengo el id del usuario del que se quiere saber la estadistica
+        var fechaSeleccionada = $("#selectMeses").val();
+        $.ajax({  //Consulto los valores de las reservas para esa facultad
+            method: "GET",
+            url: "/tareas/progresoJuegoConcreto",
+            data: { juego : juego, usuario: usuario, fechaSeleccionada : fechaSeleccionada }, 
+            success: function (datos, state, jqXHR) {
+                if (datos.length == 0) {  
+                    nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
+                    $("#cajaGraficoJuego").append(alerta)
+                } else {  //Si hay reservas muestro el canvas
+
+                    $("#cajaGraficoJuego .alertaEstadisticas").remove()
+
+                    //Creo el canva
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 300
+                    canvas.height = 300
+                    var titulo = $('<p><strong>Progreso Juego Mensual</strong></p>');
+
+                    //Meto el canva en el div
+                    const container = $('#cajaGraficoJuego');
+                    container.empty();
+                    container.append(titulo)
+                    container.append(canvas);
+                    const ctx = canvas.getContext('2d');
+
+                    const labels = datos.map(item => item.dia);
+                    var dataAciertos = datos.map(item => item['tasaAciertos_jugador']);
+                    var dataMedia = datos.map(item => item['tasaAciertos_media_deterioro']);
+
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Aciertos',
+                                    data: dataAciertos,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Media Aciertos',
+                                    data: dataMedia,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        }
+                    });
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) { //Si ha ocurrido un error aviso al usuario
+                nuevoToast("Ha ocurrido un error con las estadísticas")
+            }
+        })
+    })
     function formJuegoConcreto(categoria) {
         $("#cajaJuegoConcreto").removeClass('d-none')
 

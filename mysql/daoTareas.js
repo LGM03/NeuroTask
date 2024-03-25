@@ -135,8 +135,33 @@ class DAOTareas {
                 });
             }
         });
-    }
+    }  
 
+    progresoJuego(datos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = "SELECT DAY(partidas.fechaInicio) AS dia, "+
+                    "AVG(CASE WHEN paciente.correo = ? THEN partidas.aciertos / NULLIF(partidas.aciertos + partidas.fallos, 0) END) AS tasaAciertos_jugador,"+
+                   " AVG(partidas.aciertos / NULLIF(partidas.aciertos + partidas.fallos, 0)) AS tasaAciertos_media_deterioro "+
+                "FROM partidas INNER JOIN juegos ON partidas.idJ = juegos.id "+
+                "INNER JOIN paciente ON partidas.idP = paciente.correo WHERE juegos.id = ? AND MONTH(partidas.fechaInicio) = ? "+
+                    "AND paciente.deterioro = (SELECT deterioro FROM paciente WHERE correo = ?) GROUP BY DATE(partidas.fechaInicio);"  //agrupamos por dia, sin tener en cuenta la hora
+                
+               connection.query(sql, [datos.usuario, datos.juego,datos.fecha, datos.usuario], function (err, resultado) {
+                    connection.release();
+                    if (err) {
+                        console.log(err)
+                        callback(err, null);
+                    } else {
+                        console.log(resultado)
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    } 
 
 
     borrarTarea(id, callback) {

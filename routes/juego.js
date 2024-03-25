@@ -72,7 +72,7 @@ router.get('/finJuego', function (req, res, next) {
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
-  if (req.session.usuario) { //Si tengo una sesion de usuario registrada
+  if (req.session.usuario && req.session.usuario.tipo == "paciente") { //Si tengo una sesion de usuario registrada
 
     const datosPartida = {
       idJuego: req.query.idJuego,
