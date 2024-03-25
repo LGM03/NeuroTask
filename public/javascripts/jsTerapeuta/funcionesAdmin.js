@@ -87,6 +87,7 @@ $(function () {
     })
 
     $(document).on("click", ".btnVerHistorial", function () {
+        $("#bodyTablaHistorial").empty()
         var divContenedor = $(this).closest('.cajaPaciente');
         var usuario = divContenedor.data("correo")
         divContenedor.removeClass('cajaPaciente')
