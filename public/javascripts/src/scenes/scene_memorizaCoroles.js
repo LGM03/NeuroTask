@@ -66,12 +66,12 @@ export default class scene_memorizaColores extends Phaser.Scene {
                         this.seleccionadas = []
                         this.secuencia_objetivo = []
                         this.cubrirResultado(true) //true porque es acierto
-                        await this.esperar(500)
+                        await this.esperar(750)
                         this.puntuacion++;
                     } else {
                         this.fallos++;
                         this.cubrirResultado(false)
-                        await this.esperar(500)
+                        await this.esperar(750)
                         this.secuencia_objetivo = []
                         this.seleccionadas = []
                     }
@@ -98,7 +98,8 @@ export default class scene_memorizaColores extends Phaser.Scene {
         this.tweens.add({
             targets: cover,
             alpha: 0,
-            duration: 1250,
+            duration: 750,
+            delay:250,
             ease: 'Linear',
             onComplete: () => {
                 cover.destroy();
