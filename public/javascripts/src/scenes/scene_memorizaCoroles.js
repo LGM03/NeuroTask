@@ -51,7 +51,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
 
         this.mostrarTres();
 
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
+        this.input.on('gameobjectdown', async function (pointer, gameObject) {
             if (this.seleccionable) {
                 this.seleccionadas.push(gameObject.value)
 
@@ -66,10 +66,12 @@ export default class scene_memorizaColores extends Phaser.Scene {
                         this.seleccionadas = []
                         this.secuencia_objetivo = []
                         this.cubrirResultado(true) //true porque es acierto
+                        await this.esperar(1250)
                         this.puntuacion++;
                     } else {
                         this.fallos++;
                         this.cubrirResultado(false)
+                        await esperar(500)
                         this.secuencia_objetivo = []
                         this.seleccionadas = []
                     }
@@ -189,7 +191,6 @@ export default class scene_memorizaColores extends Phaser.Scene {
 
     }
 
- 
 
     esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
