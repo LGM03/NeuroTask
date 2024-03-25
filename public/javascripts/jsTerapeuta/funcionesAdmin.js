@@ -13,7 +13,7 @@ $(function () {
                 datos.forEach((elem) => {
                     $("#selectJuego").append($('<option>', {
                         value: elem.id,
-                        text: elem.nombre
+                        text: elem.nombre + " - "+ elem.categoria
                     }));
                 })
                 $("#selectJuego option[value='1']").prop("selected", true);
