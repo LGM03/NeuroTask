@@ -61,7 +61,7 @@ export default class scene_refranes extends Phaser.Scene {
         $("#tituloJuego").text("Descubre una palabra con todas estas letras")
         $(document).on("click", ".botonPalabra", function (event) {
             self.fraseFormada += $(this).text()
-            $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
+            $("#fraseFormada").text($("#fraseFormada").text() + "" + $(this).text())
             $(this).remove()
         })
 
@@ -83,8 +83,10 @@ export default class scene_refranes extends Phaser.Scene {
 
         $("#btnCorregir").on("click", function (event) {
             var palabraFormada = $("#fraseFormada").text()
-            if(palabraFormada.length>1){
+            console.log(palabraFormada)
+            if(palabraFormada.length>0){
                 var letra = palabraFormada.charAt(palabraFormada.length - 1);
+                console.log(letra)
                 $("#fraseFormada").text(palabraFormada.slice(0, -1)) //Quito una letra del texto de solucion
                 self.fraseFormada = self.fraseFormada.slice(0,-1)
                 var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + letra + '</button>'
