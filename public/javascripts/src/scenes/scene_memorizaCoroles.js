@@ -41,7 +41,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
         this.fondo.setScale(0.5);
 
-        this.info = this.add.text(4 * this.sys.canvas.width / 8, 1 * this.sys.canvas.height / 8, "Memoriza estas cartas", {
+        this.info = this.add.text(4 * this.sys.canvas.width / 8, 1 * this.sys.canvas.height / 8, "Memoriza estos colores", {
             fontSize: '42px',
             color: '#000',
             fontFamily: 'Arial',
@@ -58,7 +58,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
                 const scaleX = gameObject.scaleX;
                 const scaleY = gameObject.scaleY;
 
-                this.cobertura.add(this.add.rectangle(gameObject.x, gameObject.y, gameObject.width * scaleX, gameObject.height * scaleY, 0x504C4F, 0.75).setOrigin(0.5, 0.5));
+                this.cobertura.add(this.add.rectangle(gameObject.x, gameObject.y, gameObject.width * scaleX, gameObject.height * scaleY, 0xFFFFFF, 0.75).setOrigin(0.5, 0.5));
                 
                 if (this.seleccionadas.length == this.secuencia_objetivo.length) {
                 
@@ -66,12 +66,12 @@ export default class scene_memorizaColores extends Phaser.Scene {
                         this.seleccionadas = []
                         this.secuencia_objetivo = []
                         this.cubrirResultado(true) //true porque es acierto
-                        await this.esperar(1250)
+                        await this.esperar(500)
                         this.puntuacion++;
                     } else {
                         this.fallos++;
                         this.cubrirResultado(false)
-                        await esperar(500)
+                        await this.esperar(500)
                         this.secuencia_objetivo = []
                         this.seleccionadas = []
                     }
