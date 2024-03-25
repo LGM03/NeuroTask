@@ -75,7 +75,8 @@ export default class scene_pong extends Phaser.Scene {
         }
         // En el método create() o donde configures tus sprites y entradas del usuario
         this.input.on('pointerdown', function (pointer) {
-            if (pointer.y < this.sys.canvas.height / 2) {
+            if (pointer.y < this.derecha.y) {
+                console.log(pointer.y + " "+ this.ball.y)
                 this.derecha.body.setVelocityY(-300); // Inicia el movimiento hacia arriba
             } else {
                 this.derecha.body.setVelocityY(300); // Inicia el movimiento hacia abajo

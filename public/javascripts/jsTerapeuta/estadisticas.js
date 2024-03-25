@@ -202,7 +202,7 @@ $(function () {
                                     borderWidth: 1
                                 },
                                 {
-                                    label: 'Media Aciertos',
+                                    label: 'Aciertos Generales',
                                     data: dataMedia,
                                     backgroundColor: 'rgba(255, 99, 132, 0.4)',
                                     borderColor: 'rgba(255, 99, 132, 1)',
@@ -268,7 +268,7 @@ $(function () {
                                     borderWidth: 1
                                 },
                                 {
-                                    label: 'Media Aciertos',
+                                    label: 'Aciertos Generales',
                                     data: dataMedia,
                                     backgroundColor: 'rgba(255, 99, 132, 0.4)',
                                     borderColor: 'rgba(255, 99, 132, 1)',
