@@ -13,9 +13,9 @@ export default class scene_cuentas extends Phaser.Scene {
         this.operadores = ['+', '-'];
         this.nSoluciones = 3;
         this.listaSoluciones = []
-
+        this.RONDAS_TOTALES = 10
+        this.rondas_actuales=0
     }
-
 
     init(data) {
         this.idJuego = data.idJuego,
@@ -41,17 +41,10 @@ export default class scene_cuentas extends Phaser.Scene {
                 this.maxResta = 60
                 break;
         }
-
     }
 
-
     create() {
-
-        const MS = 1000
-        this.duracion = 80  //en segundos
         this.textSoluciones = this.add.group();
-        this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
-
 
         this.fondo = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "fondoRosa"); // Cambia la imagen de fondo según tu necesidad
         this.fondo.setScale(0.5);
@@ -65,7 +58,9 @@ export default class scene_cuentas extends Phaser.Scene {
         // Detectar clics en los números
         this.input.on('gameobjectdown', function (pointer, gameObject) {
             if (gameObject.tipo === 'numero') {
+                this.respuesta.setText(gameObject.valor)
                 this.verificarRespuesta(gameObject.valor);
+                this.rondas_actuales++;
             }
         }, this);
     }
@@ -95,7 +90,12 @@ export default class scene_cuentas extends Phaser.Scene {
             fontFamily: 'Arial'
         }).setOrigin(0.5)
 
-        
+        this.respuesta = this.add.text(this.sys.game.config.width / 2, 4 * this.sys.game.config.height / 13, "", {
+            fontSize: '80px',
+            color: '#000',
+            fontFamily: 'Arial'
+        }).setOrigin(0.5)
+
         //Seccion de soluciones
         for (let i = 0; i < this.nSoluciones; i++) {
 
@@ -111,7 +111,7 @@ export default class scene_cuentas extends Phaser.Scene {
     generarOperacion() {
         this.textSoluciones.clear(true,true)
         const operador = Phaser.Math.RND.pick(this.operadores);
-        
+        this.respuesta.setText("");
         switch (operador) {
             case '+':
                 var num1 = Phaser.Math.Between(1, this.maxSuma);
@@ -156,7 +156,7 @@ export default class scene_cuentas extends Phaser.Scene {
         }
     }
 
-    verificarRespuesta(respuesta) {
+    async verificarRespuesta(respuesta) {
         if (parseInt(respuesta) === this.solucion) {
             this.puntuacion++;
             this.cubrirResultado(true)
@@ -164,35 +164,47 @@ export default class scene_cuentas extends Phaser.Scene {
             this.fallos++;
             this.cubrirResultado(false)
         }
-        this.generarOperacion();
+        this.time.delayedCall(1000,  this.generarOperacion, [], this);
+    
+    }
+
+    async update(){
+        if(this.rondas_actuales==this.RONDAS_TOTALES){
+            await this.esperar(900)
+            this.finalizarJuego()
+        }
+    }
+
+    esperar(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     finalizarJuego() {
-        const minutos = Math.floor(this.duracion / 60);
-        const segundos = ((this.duracion % 60)).toFixed(0);
+        var fechaFin = new Date();
+        var tiempoTranscurrido = fechaFin - this.fechaInicio
+        const minutos = Math.floor(tiempoTranscurrido / 60000);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
 
         this.scene.start("scene_fin",
-            {
+              {
                 aciertos: this.puntuacion,
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion,
+                segundos: minutos * 60 + segundos,
                 nivel: this.nivel,
                 plan: this.plan
             });
     }
 
     cubrirResultado(esAcierto) {
-      
         
         var imagen = "fallo"
         if (esAcierto) {
             imagen = "acierto"
         }
         var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, imagen).setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
-
 
         this.tweens.add({
             targets: cover,
