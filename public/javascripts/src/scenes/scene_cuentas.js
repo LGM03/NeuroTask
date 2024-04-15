@@ -11,6 +11,8 @@ export default class scene_cuentas extends Phaser.Scene {
         this.fechaInicio = new Date()
         this.teclas = ["uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "cero"]
         this.operadores = ['+', '-'];
+        this.nSoluciones = 3;
+        this.listaSoluciones = []
 
     }
 
@@ -47,6 +49,7 @@ export default class scene_cuentas extends Phaser.Scene {
 
         const MS = 1000
         this.duracion = 80  //en segundos
+        this.textSoluciones = this.add.group();
         this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
 
 
@@ -62,14 +65,7 @@ export default class scene_cuentas extends Phaser.Scene {
         // Detectar clics en los números
         this.input.on('gameobjectdown', function (pointer, gameObject) {
             if (gameObject.tipo === 'numero') {
-                var sol = this.respuesta.text
-                this.respuesta.setText(sol + gameObject.value)
-                //this.verificarRespuesta(gameObject.value);
-            } else if (gameObject.tipo === 'solucionar') {
-                this.verificarRespuesta(this.respuesta.text);
-            } else if (gameObject.tipo === 'corregir' && this.respuesta.text.length > 0) {
-                var sol = this.respuesta.text
-                this.respuesta.setText(sol.slice(0, -1))
+                this.verificarRespuesta(gameObject.valor);
             }
         }, this);
     }
@@ -93,60 +89,29 @@ export default class scene_cuentas extends Phaser.Scene {
             fontFamily: 'Arial'
         }).setOrigin(0.5);
 
-        // Sección de los números
-        const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-        let xPos = 3;
-        let yPos = 6;
-
-        this.respuesta = this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12 +20, "_________", {
+        this.add.text(this.sys.game.config.width / 2, 2 * this.sys.game.config.height / 12 +20, "_________", {
             fontSize: '80px',
             color: '#000',
             fontFamily: 'Arial'
         }).setOrigin(0.5)
 
-        this.respuesta = this.add.text(this.sys.game.config.width / 2, 4 * this.sys.game.config.height / 13, "", {
-            fontSize: '80px',
-            color: '#000',
-            fontFamily: 'Arial'
-        }).setOrigin(0.5)
+        
+        //Seccion de soluciones
+        for (let i = 0; i < this.nSoluciones; i++) {
 
-        for (let i = 0; i < numeros.length; i++) {
-
-            const numero = this.add.image(xPos * this.sys.game.config.width / 12, yPos * this.sys.game.config.height / 12 -10, this.teclas[i]).setOrigin(0.5).setScale(0.9);
+            const numero = this.add.image((i+1) * this.sys.game.config.width / 4, 3 * this.sys.game.config.height / 4, "tecla").setOrigin(0.5,1);
             numero.setInteractive();
-            numero.tipo = 'numero';
-            numero.value = numeros[i];
-            xPos += 2;
-
-            // Ajustar la posición para cada fila
-            if (i === 2 || i === 5) {
-                xPos = 3;
-                yPos += 2.2;
-            }
-        }
-
-        this.enviar = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 4) * this.sys.game.config.height / 12 -30, "aceptar", {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        }).setScale(0.9)
-        this.enviar.setInteractive();
-        this.enviar.tipo = "solucionar"
-
-        this.corregir = this.add.image((xPos - 2) * this.sys.game.config.width / 12, (yPos - 2) * this.sys.game.config.height / 12 -20, "corregir", {
-            fontSize: '24px',
-            color: '#fff',
-            fontFamily: 'Arial'
-        }).setScale(0.9)
-        this.corregir.setInteractive();
-        this.corregir.tipo = "corregir"
+            numero.valor = 0
+            numero.tipo="numero"
+            this.listaSoluciones.push(numero)
+        } 
 
     }
 
     generarOperacion() {
-
+        this.textSoluciones.clear(true,true)
         const operador = Phaser.Math.RND.pick(this.operadores);
-        this.respuesta.setText("");
+        
         switch (operador) {
             case '+':
                 var num1 = Phaser.Math.Between(1, this.maxSuma);
@@ -159,8 +124,8 @@ export default class scene_cuentas extends Phaser.Scene {
                 this.solucion = num1 - num2;
                 break;
             case 'x':
-                var num1 = Phaser.Math.Between(1, 30);
-                var num2 = Phaser.Math.Between(2, 5);
+                var num1 = Phaser.Math.Between(1, 10);
+                var num2 = Phaser.Math.Between(2, 10);
                 this.solucion = num1 * num2;
                 break;
         }
@@ -172,6 +137,23 @@ export default class scene_cuentas extends Phaser.Scene {
         this.operador1.setText(num1, textStyle).setOrigin(0.5);
         this.operador2.setText(num2, textStyle).setOrigin(0.5);
         this.operacion.setText(operador, textStyle).setOrigin(0.5);
+
+        var posiblesSoluciones = [this.solucion]
+        for (let i = 1; i < this.nSoluciones; i++) {
+            var numeroAleatorio = Math.floor(Math.random() * (this.solucion + 21));
+            while(numeroAleatorio==this.solucion){
+                numeroAleatorio = Math.floor(Math.random() * (this.solucion + 21));
+            }
+            posiblesSoluciones.push(numeroAleatorio)
+        }
+        Phaser.Utils.Array.Shuffle(posiblesSoluciones);
+        
+        for (let i = 0; i < this.nSoluciones; i++) {
+            var texto = this.add.text((i+1) * this.sys.game.config.width / 4, 3 * this.sys.game.config.height / 4, posiblesSoluciones[i], { fontFamily: 'Arial', fontSize: 65, color: '#000000' });
+            texto.setPosition( this.listaSoluciones[i].x - texto.width / 2,  this.listaSoluciones[i].y -  this.listaSoluciones[i].height / 2 - texto.height / 2);
+            this.listaSoluciones[i].valor= posiblesSoluciones[i]
+            this.textSoluciones.add(texto)
+        }
     }
 
     verificarRespuesta(respuesta) {
@@ -182,8 +164,6 @@ export default class scene_cuentas extends Phaser.Scene {
             this.fallos++;
             this.cubrirResultado(false)
         }
-
-        this.respuesta.setText("")
         this.generarOperacion();
     }
 
@@ -217,14 +197,12 @@ export default class scene_cuentas extends Phaser.Scene {
         this.tweens.add({
             targets: cover,
             alpha: 0,
-            duration: 1250,
+            duration: 1400,
             ease: 'Linear',
             onComplete: () => {
                 cover.destroy();
             }
         });
     }
-
-
 
 }
