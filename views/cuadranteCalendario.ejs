@@ -1,0 +1,35 @@
+<!--CUADRANTE DEL CALENDARIO-->
+<div class="container bg-light rounded pb-3 mx-auto d-none" id="cuadranteCalendario">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center">Calendario</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center d-flex align-items-center">
+        <div id="calendario" class="calendario mx-auto"></div>
+      </div>
+    </div>
+
+    <div class=" mt-2 text-center d-none" id="divTablaCalendario">
+      <h3 id="tituloTabla"></h3>
+
+      <button class="btn alert alert-info w-100" data-bs-toggle="modal"
+        data-bs-target="#crearTarea" id="btnModalPlan"><strong>Asignar Nueva Tarea</strong></button>
+      <table class="table table-striped " id="tablaCalendario">
+
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Juego</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Nivel</th>
+            <th scope="col">Terminado</th>
+          </tr>
+        </thead>
+        <tbody id="bodyTabla">
+
+        </tbody>
+      </table>
+    </div>
+  </div>

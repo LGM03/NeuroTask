@@ -1,0 +1,40 @@
+<!--CUADRANTE DE COMENTARIOS-->
+<div class="container d-none" id="cuadranteComentarios">
+    <div class="row justify-content-center">
+      <div>
+        <div class="card border-info mt-4">
+          <div class="card-header azulClaro text-center">
+            <h4> Agregar Anotación</h4>
+          </div>
+          <div class="card-body">
+            <!-- Comment form -->
+            <form id="comentarioForm">
+              <div class="mb-3">
+                <label for="comentarioNuevo" class="form-label">Nueva Anotación </label>
+                <textarea class="form-control" id="comentarioNuevo" name="comentarioNuevo" required></textarea>
+              </div>
+              <div class="text-center">
+                <button class="btn azulClaro" id="btnEnviarComentario">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container for displaying comments -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-11">
+        <div class="card border-secondary">
+          <div class="card-header grisClaro text-center">
+            <h4>Anotaciones</h4>
+          </div>
+          <div class="card-body" id="cajaComentarios">
+
+            <!--Fin de caja de comentario-->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

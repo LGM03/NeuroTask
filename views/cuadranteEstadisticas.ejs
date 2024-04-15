@@ -1,0 +1,75 @@
+<!--CUADRANTE DE ESTADISTICAS-->
+<div class="container text-center d-none" id="cuadranteEstadisticas">
+    <h2>Gráficos de rendimiento general</h2>
+
+    <div class="row bg-light rounded" id="cajaRendimientoGeneral">
+
+    </div>
+
+
+    <div class="row d-flex justify-content-around align-items-center">
+
+      <form class="text-center m-3 bg-light p-4 rounded">
+        <div class="mb-3">
+          <label for="selectCategorias" class="form-label"><strong>Seleccione una
+              categoría:</strong></label>
+          <select name="categorias" id="selectCategorias" class="form-select">
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="selectMeses" class="form-label"><strong>Selecciona un mes:</strong></label>
+          <select class="form-select" id="selectMeses" name="meses">
+            <option value="1" selected>Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn azulClaro" id="btnGraficos">Generar Gráficos</button>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded" , id="cajaEstadisticas">
+
+      <div id="cajaGraficoHechos" class="cajaGraficas  mt-2 col col-lg-5 col-sm-12">
+
+      </div>
+
+
+      <div id="cajaGraficoProgreso" class="cajaGraficas mt-2 col col-lg-5 col-sm-12">
+
+      </div>
+
+      <div id="cajaJuegoConcreto" class="mt-2 pb-3 pt-3 bg-light row d-flex justify-content-around rounded d-none">
+        <form class="text-center m-3 bg-light p-4 rounded">
+          <div class="mb-3">
+            <label for="selectJuegoConcreto" class="form-label"><strong>Selecciona un juego:</strong></label>
+            <select class="form-select" id="selectJuegoConcreto" name="graficaJuegos">
+            </select>
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn azulClaro" id="btnGraficosJuego">Generar Gráficos de Juego</button>
+          </div>
+        </form>
+        <div id="cajaGraficoJuego" class="cajaGraficas mt-2 col col-lg-5 col-sm-12">
+
+        </div>
+      </div>
+
+    </div>
+
+    
+
+  </div>

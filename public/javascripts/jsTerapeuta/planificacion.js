@@ -143,7 +143,8 @@ $(function(){
                 $("#diaModal").text("Tarea para el " + date.format('DD-MM-YYYY'))
                 $("#diaModal").data("fecha", date.format('YYYY-MM-DD'))
                 $("#diaModal").data("usuario", usuario)
-
+                $("#btnModalPlan").click() //Abro el modal para asignar tareas
+                
                 $.ajax({ // veo para cada dia que actividades hay
                     method: "GET",
                     url: "/tareas/tareaUsuarioDia",
