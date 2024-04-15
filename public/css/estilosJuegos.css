@@ -149,3 +149,13 @@ canvas {
     /* Color del número */
     font-weight: bold;
 }
+
+#tematicaInicial{
+    font-size: 60px;
+    font-weight: bold;
+}
+
+#tematica{
+    font-size: 45px;
+    font-weight: bold;
+}
