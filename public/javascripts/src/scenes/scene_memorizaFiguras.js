@@ -11,6 +11,8 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
 
         this.secuencia_objetivo = []
         this.seleccionadas = []
+        this.RONDAS_TOTALES = 2
+        this.rondas_actuales=0
     }
 
     init(data) {
@@ -36,9 +38,6 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
 
     create() {
         const MS = 1000
-        this.duracion = 80  //en segundos
-        this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
-
         this.mostrarTres();
 
         var self = this
@@ -61,7 +60,8 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
                         self.secuencia_objetivo = []
                         self.seleccionadas = []
                     }
-
+                    
+                    self.rondas_actuales++;
                     setTimeout(async () => {
                         self.mostrarTres();
                     }, 1500);
@@ -151,21 +151,31 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async update(){
+        console.log(this.rondas_actuales + " "+ this.RONDAS_TOTALES)
+        if(this.rondas_actuales==this.RONDAS_TOTALES){
+            await this.esperar(900)
+            this.finalizarJuego()
+        }
+    }
+
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');
         $('#ventanaOrden').addClass('d-none')
-        const minutos = Math.floor(this.duracion / 60);
-        const segundos = ((this.duracion % 60)).toFixed(0);
+        var fechaFin = new Date();
+        var tiempoTranscurrido = fechaFin - this.fechaInicio
+        const minutos = Math.floor(tiempoTranscurrido / 60000);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
 
         this.scene.start("scene_fin",
-            {
+              {
                 aciertos: this.puntuacion,
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion,
+                segundos: minutos * 60 + segundos,
                 nivel: this.nivel,
                 plan: this.plan
             });
