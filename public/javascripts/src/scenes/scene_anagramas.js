@@ -7,6 +7,8 @@ export default class scene_refranes extends Phaser.Scene {
         this.fechaInicio = new Date();
         this.tiempoCategoria = 3
         this.MS = 1000
+        this.RONDAS_TOTALES = 2
+        this.rondas_actuales = 0
         this.ejercicios = [
             {
                 "Países": [
@@ -29,7 +31,7 @@ export default class scene_refranes extends Phaser.Scene {
                     ["Lavanda", "Beige", "Esmeralda", "Teal", "Magenta", "Marfil", "Cobalto", "Óxido", "Celeste", "Terciopelo"]
                 ]
             }
-            
+
         ]
 
         this.casos = []
@@ -45,16 +47,17 @@ export default class scene_refranes extends Phaser.Scene {
             this.nivel = this.plan.nivel
         }
 
-        const categoriaAleatoria = this.ejercicios[Math.floor(Math.random() *  this.ejercicios.length)];
+        const categoriaAleatoria = this.ejercicios[Math.floor(Math.random() * this.ejercicios.length)];
         $("#tematica").text(Object.keys(categoriaAleatoria)[0])
         $("#tematicaInicial").text(Object.keys(categoriaAleatoria)[0])
-        this.casos = categoriaAleatoria[Object.keys(categoriaAleatoria)[0]][this.nivel-1].concat();
+        this.casos = categoriaAleatoria[Object.keys(categoriaAleatoria)[0]][this.nivel - 1].concat();
     }
 
-    create() {
-        
-        this.duracion = 80  //en segundos
-        this.time.delayedCall(this.duracion * this.MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
+    async create() {
+        $('#divTematicaLenguaje').removeClass('d-none')
+        await this.esperar(this.MS * this.tiempoCategoria)
+        $('#juegoLenguaje').removeClass('d-none')
+        $('#divTematicaLenguaje').addClass('d-none')
         this.crearInterfaz();
         const self = this
         $("#tituloJuego").text("Descubre una palabra con todas estas letras")
@@ -62,41 +65,38 @@ export default class scene_refranes extends Phaser.Scene {
             self.fraseFormada += $(this).text()
             $("#fraseFormada").text($("#fraseFormada").text() + "" + $(this).text())
             $(this).remove()
-        })
 
-        $("#btnAceptar").on("click", function (event) {
-          
-            if (self.fraseFormada.length != 0 &&
-                self.refran == self.fraseFormada) {
-                self.puntuacion++
-                self.cubrirResultado(true)
-            } else {
-                self.fallos++
-                self.cubrirResultado(false)
+            if (self.fraseFormada.length == self.refran.length) {
+                if (self.refran == self.fraseFormada) {
+                    self.puntuacion++
+                    self.cubrirResultado(true)
+                } else {
+                    self.fallos++
+                    self.cubrirResultado(false)
+                }
+                self.rondas_actuales++;
+                self.time.delayedCall(500, self.siguienteRonda, [], self); 
+            
             }
-            $("#contenedorBotones .botonPalabra").remove()
-            $("#fraseFormada").text("")
-            self.crearInterfaz();
+
         })
 
         $("#btnCorregir").on("click", function (event) {
             var palabraFormada = $("#fraseFormada").text()
-            if(palabraFormada.length>0){
+            if (palabraFormada.length > 0) {
                 var letra = palabraFormada.charAt(palabraFormada.length - 1);
                 $("#fraseFormada").text(palabraFormada.slice(0, -1)) //Quito una letra del texto de solucion
-                self.fraseFormada = self.fraseFormada.slice(0,-1)
+                self.fraseFormada = self.fraseFormada.slice(0, -1)
                 var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + letra + '</button>'
                 $('#contenedorBotones').append(botonPalabra)
-                
             }
-
         })
     }
 
     cubrirResultado(esAcierto) {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');
- 
+
         var imagen = "fallo"
         if (esAcierto) {
             imagen = "acierto"
@@ -114,6 +114,12 @@ export default class scene_refranes extends Phaser.Scene {
                 $('#juegoLenguaje').css('z-index', '2');
             }
         });
+    }
+
+    siguienteRonda(){
+        $("#contenedorBotones .botonPalabra").remove()
+        $("#fraseFormada").text("")
+        this.crearInterfaz();
     }
 
     async crearInterfaz() {
@@ -134,36 +140,43 @@ export default class scene_refranes extends Phaser.Scene {
 
         const self = this
         this.fraseFormada = ""
-        $('#divTematicaLenguaje').removeClass('d-none')
-        await self.esperar(this.MS*this.tiempoCategoria)
-        $('#juegoLenguaje').removeClass('d-none')  
-        $('#divTematicaLenguaje').addClass('d-none')
+       
+        $('#juegoLenguaje').removeClass('d-none')
         this.arrayDePalabras.forEach((element => {
             var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + element + '</button>'
             $('#contenedorBotones').append(botonPalabra)
         }))
 
     }
-    
+
     esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async update(){
+        if(this.rondas_actuales==this.RONDAS_TOTALES){
+            await this.esperar(400)
+            this.finalizarJuego()
+        }
+    }
+    
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');
         $('#juegoLenguaje').addClass('d-none')
-        const minutos = Math.floor(this.duracion / 60);
-        const segundos = (this.duracion % 60).toFixed(0);
-        console.log(this.duracion + " " +minutos+ " "+segundos)
+        var fechaFin = new Date();
+        var tiempoTranscurrido = fechaFin - this.fechaInicio
+        const minutos = Math.floor(tiempoTranscurrido / 60000);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
+
         this.scene.start("scene_fin",
-            {
+              {
                 aciertos: this.puntuacion,
                 fallos: this.fallos,
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion,
+                segundos: minutos * 60 + segundos,
                 nivel: this.nivel,
                 plan: this.plan
             });
