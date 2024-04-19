@@ -11,7 +11,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
 
         this.secuencia_objetivo = []
         this.seleccionadas = []
-        this.RONDAS_TOTALES = 2
+        this.RONDAS_TOTALES = 6
         this.rondas_actuales=0
     }
 

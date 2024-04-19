@@ -10,7 +10,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
         this.colores = ["0xFF0000", "0x0000FF", "0x00FF00", "0xFF8000", "0xFFFF00", "0x582900", "0x9C1CF0", "0x000000"]
         this.secuencia_objetivo = []
         this.seleccionadas = []
-        this.RONDAS_TOTALES = 10
+        this.RONDAS_TOTALES = 6
         this.rondas_actuales=0
         
     }

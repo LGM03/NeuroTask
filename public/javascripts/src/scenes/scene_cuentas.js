@@ -13,7 +13,7 @@ export default class scene_cuentas extends Phaser.Scene {
         this.operadores = ['+', '-'];
         this.nSoluciones = 3;
         this.listaSoluciones = []
-        this.RONDAS_TOTALES = 10
+        this.RONDAS_TOTALES = 6
         this.rondas_actuales=0
     }
 
