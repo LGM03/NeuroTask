@@ -10,6 +10,8 @@ export default class scene_pong extends Phaser.Scene {
         this.idJuego = data.idJuego
         this.nivel = data.nivel
         this.plan = data.plan
+        this.RONDAS_TOTALES = 6
+        this.rondas_actuales=0
 
         if (this.plan != null) {
             this.nivel = this.plan.nivel
@@ -18,9 +20,6 @@ export default class scene_pong extends Phaser.Scene {
 
     create() {
         const MS = 1000
-        this.duracion = 80  //en segundos
-        this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);
-
         this.puntosD = 0;
         this.puntosI = 0;
 
@@ -71,6 +70,7 @@ export default class scene_pong extends Phaser.Scene {
             }
             this.ball.setPosition(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
             this.ball.setVelocityX(500)
+            this.rondas_actuales++;
 
         }
         // En el método create() o donde configures tus sprites y entradas del usuario
@@ -87,6 +87,11 @@ export default class scene_pong extends Phaser.Scene {
             this.derecha.body.setVelocityY(0); // Detiene el movimiento
         }, this);
 
+        if(this.rondas_actuales==this.RONDAS_TOTALES){
+        
+            this.finalizarJuego()
+        }
+
     }
 
     chocaPala() {
@@ -95,8 +100,10 @@ export default class scene_pong extends Phaser.Scene {
 
 
     finalizarJuego() {
-        const minutos = Math.floor(this.duracion / 60);
-        const segundos = ((this.duracion % 60)).toFixed(0);
+        var fechaFin = new Date();
+        var tiempoTranscurrido = fechaFin - this.fechaInicio
+        const minutos = Math.floor(tiempoTranscurrido / 60000);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
         // Por ejemplo, puedes cambiar a otra escena
         this.scene.start("scene_fin",
             {
@@ -105,7 +112,7 @@ export default class scene_pong extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion,
+                segundos: minutos * 60 + segundos,
                 nivel: this.nivel,
                 plan: this.plan
             });
