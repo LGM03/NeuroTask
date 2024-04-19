@@ -1,4 +1,4 @@
-export default class scene_refranes extends Phaser.Scene {
+export default class scene_anagramas extends Phaser.Scene {
 
     constructor() {
         super({ key: "scene_anagramas" });
@@ -7,7 +7,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.fechaInicio = new Date();
         this.tiempoCategoria = 3
         this.MS = 1000
-        this.RONDAS_TOTALES = 2
+        this.RONDAS_TOTALES = 6
         this.rondas_actuales = 0
         this.ejercicios = [
             {
