@@ -5,7 +5,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.puntuacion = 0;
         this.fallos = 0;
         this.fechaInicio = new Date();
-        this.RONDAS_TOTALES = 2
+        this.RONDAS_TOTALES = 6
         this.rondas_actuales = 0
         this.refranesFaciles = [
             "Más vale tarde que nunca.",
