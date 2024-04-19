@@ -11,6 +11,8 @@ export default class scene_simonDice extends Phaser.Scene {
         this.colores = ["bombillaMorada", "bombillaRoja", "bombillaAzul", "bombillaAmarilla"]
         this.secuencia_objetivo = []
         this.seleccionadas = []
+
+        this.rondas_actuales = 0
     }
 
     init(data) {
@@ -18,16 +20,26 @@ export default class scene_simonDice extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if(this.plan != null){
+        if (this.plan != null) {
             this.nivel = this.plan.nivel
+        }
+
+        switch (this.nivel) {
+            case 1:
+                this.RONDAS_TOTALES = 4
+                break;
+            case 2:
+                this.RONDAS_TOTALES = 6
+                break;
+            case 3:
+                this.RONDAS_TOTALES = 8
+                break;
         }
     }
 
     create() {
 
         const MS = 1000
-        this.duracion = 80  //en segundos
-        this.time.delayedCall(this.duracion * MS, this.finalizarJuego, [], this);  //Finaliza el juego pasado el tiempo
 
         $('#ventanaSimonDice').removeClass('d-none')
         const self = this
@@ -46,7 +58,7 @@ export default class scene_simonDice extends Phaser.Scene {
                 if (self.seleccionadas.length == self.secuencia_objetivo.length && self.secuencia_objetivo.length >= 1) {
                     self.seleccionable = false
                     if (self.seleccionadas.every((element, index) => element == self.secuencia_objetivo[index])) {
-                    
+
                         self.seleccionadas = []
                         self.cubrirResultado(true) //true porque es acierto
                         self.puntuacion++;
@@ -59,6 +71,7 @@ export default class scene_simonDice extends Phaser.Scene {
                     }
                     //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
                     self.elaborarSecuencia();
+                    self.rondas_actuales++;
                 } else if (self.seleccionadas.length > self.secuencia_objetivo.length) {
                     self.fallos++;
                     self.cubrirResultado(false)
@@ -66,10 +79,18 @@ export default class scene_simonDice extends Phaser.Scene {
                     self.secuencia_objetivo = []
                     self.seleccionadas = []
                     self.elaborarSecuencia();
+                    self.rondas_actuales++;
                 }
 
             }
         })
+    }
+
+    async update() {
+        if (this.rondas_actuales == this.RONDAS_TOTALES) {
+            await this.esperar(900)
+            this.finalizarJuego()
+        }
     }
 
     cubrirResultado(esAcierto) {
@@ -116,14 +137,13 @@ export default class scene_simonDice extends Phaser.Scene {
             }
             //Agrego un nuevo elemento a la secuencia actual y lo muestro
 
-            for (var i = 0; i < this.nivel; i++) {
-                var nuevo = Math.floor(Math.random() * 4)
-                $("#" + this.colores[nuevo]).removeClass("sombra");
-                await this.esperar(1000)
-                $("#" + this.colores[nuevo]).addClass("sombra");
-                this.secuencia_objetivo.push(this.colores[nuevo])
-                await this.esperar(1000)
-            }
+            var nuevo = Math.floor(Math.random() * 4)
+            $("#" + this.colores[nuevo]).removeClass("sombra");
+            await this.esperar(1000)
+            $("#" + this.colores[nuevo]).addClass("sombra");
+            this.secuencia_objetivo.push(this.colores[nuevo])
+            await this.esperar(1000)
+
 
             $('#ventanaSimonDice').addClass('d-none')
             var mensajeRepite = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "repite")
@@ -144,8 +164,10 @@ export default class scene_simonDice extends Phaser.Scene {
         $('canvas').css('z-index', '2');
         $('#ventanaSimonDice').css('z-index', '1');
         $('#ventanaSimonDice').addClass("d-none")
-        const minutos = Math.floor(this.duracion / 60);
-        const segundos = (((this.duracion * 1000) % 60000) / 1000).toFixed(0);
+        var fechaFin = new Date();
+        var tiempoTranscurrido = fechaFin - this.fechaInicio
+        const minutos = Math.floor(tiempoTranscurrido / 60000);
+        const segundos = parseInt(((tiempoTranscurrido % 60000) / 1000).toFixed(0));
 
         this.scene.start("scene_fin",
             {
@@ -154,7 +176,7 @@ export default class scene_simonDice extends Phaser.Scene {
                 idJuego: this.idJuego,
                 fechaInicio: this.fechaInicio,
                 duracion: { minutos, segundos },
-                segundos: this.duracion,
+                segundos: minutos * 60 + segundos,
                 nivel: this.nivel,
                 plan: this.plan
             });
