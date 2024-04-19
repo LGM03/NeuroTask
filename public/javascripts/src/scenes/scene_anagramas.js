@@ -138,7 +138,6 @@ export default class scene_anagramas extends Phaser.Scene {
             return 0.5 - Math.random();
         });
 
-        const self = this
         this.fraseFormada = ""
        
         $('#juegoLenguaje').removeClass('d-none')
