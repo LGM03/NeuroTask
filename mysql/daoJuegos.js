@@ -10,7 +10,7 @@ class DAOJuegos {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT * from juegos inner join categorias on categorias.id_cat = juegos.id_categoria";
+                const sql = "SELECT * from juegos inner join categorias on categorias.id_cat = juegos.id_categoria ORDER by id";
                 connection.query(sql, null, function (err, resultado) {
                     connection.release();
                     if (err) {

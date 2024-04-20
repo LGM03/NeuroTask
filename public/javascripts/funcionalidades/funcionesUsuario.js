@@ -1,32 +1,6 @@
 
 
 $(function () {
-
-    /*
-    $.ajax({ // veo para cada dia que actividades hay
-        method: "GET",
-        url: "/tareas/tareaPlan",
-        data: {
-            dia: moment().format("YYYY-MM-DD")
-        },
-        success: function (datos, state, jqXHR) {
-
-            if (datos.length == 0) {
-                $("#textoElige").removeClass("d-none")
-                $("#btnJugarPlan").addClass("d-none")
-
-            } else if (datos.length > 0) {
-
-                $("#btnJugarPlan").removeClass("d-none")
-                $("#btnJugarPlan").data("plan", datos)
-                $("#textoElige").addClass("d-none")
-            }
-        },
-        error: function (jqXHR, statusText, errorThrown) {
-            nuevoToast("Ha ocurrido un error")
-        }
-    });
-*/
     $("#btnCrearNuevaCuenta").on("click", function (event) {
         event.preventDefault()
         $("#crearCuenta input").css("border-color", "")
