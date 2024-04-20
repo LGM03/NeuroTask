@@ -15,7 +15,7 @@ NeuroTask
 <p style="text-align: justify;">Como Trabajo de Fin de Grado de Ingeniería de Software, se desarrolla una aplicación web para la prevención del deterioro cognitivo. 
 La aplicación cuenta con actividades para trabajar diversos aspectos como la atención o la memoria a corto plazo entre otros. Además cuenta con la posibilidad de realizar un seguimiento por parte de un terapeuta, mediante la asignación de tareas y el analisis de los resultados obtenidos.</p>
 <h2 align="center">Despliegue </h2>
-<p style="text-align: justify;">Para realizar el despliegue de la aplicación es necesario tener instalado Visual Studio Code, Node.js y Xammp, aunque diversos módulos serán instalados posteriormente desde el código.</p>
+<p style="text-align: justify;">Para realizar el despliegue de la aplicación es necesario tener instalado Visual Studio Code, Node.js y Xammp, además, diversos módulos serán instalados posteriormente desde el código.</p>
 
 <h3 align="center">:floppy_disk: Acceso a la base de datos</h3>
 <p style="text-align: justify;"> En primer lugar se iniciará la base de datos, para ello es necesario abrir Xammp y activar los módulos Apache y MySQL, como se ve reflejado en la siguiente imagen.
