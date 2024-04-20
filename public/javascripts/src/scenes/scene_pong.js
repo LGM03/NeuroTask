@@ -11,7 +11,7 @@ export default class scene_pong extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
         this.RONDAS_TOTALES = 6
-        this.rondas_actuales=0
+        this.rondas_actuales = 0
 
         if (this.plan != null) {
             this.nivel = this.plan.nivel
@@ -51,22 +51,22 @@ export default class scene_pong extends Phaser.Scene {
             this.izquierda3.setScale(0.3);
             this.physics.add.collider(this.ball, this.izquierda3, this.chocaPala, null, this)
         }
-        if(this.nivel==3){
-            crearTweenParaElemento.call(this, this.izquierda2,this.sys.game.config.height);
-            crearTweenParaElemento.call(this, this.izquierda3,this.sys.game.config.height / 6);
+        if (this.nivel == 3) {
+            crearTweenParaElemento.call(this, this.izquierda2, this.sys.game.config.height);
+            crearTweenParaElemento.call(this, this.izquierda3, this.sys.game.config.height / 6);
         }
         this.physics.add.collider(this.ball, this.derecha, this.chocaPala, null, this)
     }
-    
+
 
     update(time, delta) {
         if (this.ball.x < 0 || this.ball.x > this.sys.game.config.width) {
             if (this.ball.x < 0) {
                 this.puntosI += 1;  // Corregir la variable
-              
+
             } else {
                 this.puntosD += 1;  // Corregir la variable
-                
+
             }
             this.ball.setPosition(this.sys.game.config.width / 2, this.sys.game.config.height / 2);
             this.ball.setVelocityX(500)
@@ -75,20 +75,11 @@ export default class scene_pong extends Phaser.Scene {
         }
         // En el método create() o donde configures tus sprites y entradas del usuario
         this.input.on('pointerdown', function (pointer) {
-            if (pointer.y < this.derecha.y) {
-                console.log(pointer.y + " "+ this.ball.y)
-                this.derecha.body.setVelocityY(-300); // Inicia el movimiento hacia arriba
-            } else {
-                this.derecha.body.setVelocityY(300); // Inicia el movimiento hacia abajo
-            }
+            this.derecha.y = pointer.y;
         }, this);
 
-        this.input.on('pointerup', function (pointer) {
-            this.derecha.body.setVelocityY(0); // Detiene el movimiento
-        }, this);
+        if (this.rondas_actuales == this.RONDAS_TOTALES) {
 
-        if(this.rondas_actuales==this.RONDAS_TOTALES){
-        
             this.finalizarJuego()
         }
 
@@ -122,7 +113,7 @@ export default class scene_pong extends Phaser.Scene {
 function crearTweenParaElemento(elemento, posY) {
     return this.tweens.add({
         targets: elemento,
-        y: posY ,  // posición y hacia arriba
+        y: posY,  // posición y hacia arriba
         duration: 2000,  // duración del movimiento en milisegundos
         yoyo: true,  // hace que el movimiento sea de ida y vuelta
         repeat: -1,  // para repetir infinitamente
