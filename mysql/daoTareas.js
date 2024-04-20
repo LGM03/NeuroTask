@@ -152,6 +152,28 @@ class DAOTareas {
                connection.query(sql, [datos.usuario, datos.juego,datos.fecha, datos.usuario], function (err, resultado) {
                     connection.release();
                     if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    } 
+
+    
+    progresoTotal(datos, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err, null);
+            } else {
+                const sql = `SELECT MONTHNAME(partidas.fechaInicio) AS mes, AVG(CASE WHEN paciente.correo = ? THEN partidas.aciertos / NULLIF (
+            partidas.aciertos + partidas.fallos,0) END) AS tasaAciertos_jugador,AVG(partidas.aciertos / NULLIF(partidas.aciertos + partidas.fallos,0)
+    ) AS tasaAciertos_media_deterioro FROM partidas INNER JOIN juegos ON partidas.idJ = juegos.id INNER JOIN paciente ON partidas.idP = paciente.correo WHERE 
+    juegos.id = ? AND paciente.deterioro = (SELECT  deterioro FROM paciente WHERE correo = ?) GROUP BY MONTH(partidas.fechaInicio);`;
+               connection.query(sql, [datos.usuario, datos.juego,datos.usuario], function (err, resultado) {
+                    connection.release();
+                    if (err) {
                         console.log(err)
                         callback(err, null);
                     } else {

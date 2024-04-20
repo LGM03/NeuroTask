@@ -284,6 +284,66 @@ $(function () {
                 nuevoToast("Ha ocurrido un error con las estadísticas")
             }
         })
+
+        $.ajax({  //Consulto los valores de las reservas para esa facultad
+            method: "GET",
+            url: "/tareas/progresoJuegoTotal",
+            data: { juego : juego, usuario: usuario, fechaSeleccionada : fechaSeleccionada }, 
+            success: function (datos, state, jqXHR) {
+                if (datos.length == 0) {  
+                    nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
+                    var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
+                    $("#cajaGraficoJuegoTotal").append(alerta)
+                } else {  //Si hay reservas muestro el canvas
+
+                    $("#cajaGraficoJuegoTotal .alertaEstadisticas").remove()
+
+                    //Creo el canva
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 300
+                    canvas.height = 300
+                    var titulo = $('<p><strong>Progreso Juego Total</strong></p>');
+
+                    //Meto el canva en el div
+                    const container = $('#cajaGraficoJuegoTotal');
+                    container.empty();
+                    container.append(titulo)
+                    container.append(canvas);
+                    const ctx = canvas.getContext('2d');
+
+                    const labels = datos.map(item => item.mes);
+                    var dataAciertos = datos.map(item => item['tasaAciertos_jugador']);
+                    var dataMedia = datos.map(item => item['tasaAciertos_media_deterioro']);
+
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Aciertos',
+                                    data: dataAciertos,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Aciertos Generales',
+                                    data: dataMedia,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.4)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        }
+                    });
+
+                }
+            },
+            error: function (jqXHR, statusText, errorThrown) { //Si ha ocurrido un error aviso al usuario
+                nuevoToast("Ha ocurrido un error con las estadísticas")
+            }
+        })
     })
     function formJuegoConcreto(categoria) {
         $("#cajaJuegoConcreto").removeClass('d-none')

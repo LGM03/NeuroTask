@@ -152,8 +152,6 @@ router.get('/progresoJuegoConcreto', function (req, res, next) { /*Se ve el rend
     fecha: req.query.fechaSeleccionada
   }
 
-  console.log (data)
-
   midao.progresoJuego(data, (err, datos) => {
     if (err) {
       res.send({});
@@ -164,6 +162,26 @@ router.get('/progresoJuegoConcreto', function (req, res, next) { /*Se ve el rend
   });
 }); 
 
+
+router.get('/progresoJuegoTotal', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+
+  const DAOAp = require("../mysql/daoTareas")
+  const midao = new DAOAp(pool)
+
+  var data = {
+    usuario: req.query.usuario,
+    juego: req.query.juego
+  }
+
+  midao.progresoTotal(data, (err, datos) => {
+    if (err) {
+      res.send({});
+    }
+    else {
+      res.send(datos);
+    }
+  });
+}); 
 
 //Accede a la base de datos borrando la tarea con el id dado
 router.delete('/eliminar', function (req, res, next) {

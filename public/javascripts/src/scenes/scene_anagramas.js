@@ -66,8 +66,8 @@ export default class scene_anagramas extends Phaser.Scene {
             $("#fraseFormada").text($("#fraseFormada").text() + "" + $(this).text())
             $(this).remove()
 
-            if (self.fraseFormada.length == self.refran.length) {
-                if (self.refran == self.fraseFormada) {
+            if (self.fraseFormada.length == self.solucion.length) {
+                if (self.solucion == self.fraseFormada) {
                     self.puntuacion++
                     self.cubrirResultado(true)
                 } else {
@@ -126,14 +126,14 @@ export default class scene_anagramas extends Phaser.Scene {
         // Sección de la operación
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
 
-        this.refran = this.casos[elegido]
+        this.solucion = this.casos[elegido]
 
         //Para que no se repitan dos iguales en un mismo juego los elimino al sacarlos
         if (this.casos.length != 1) {
             this.casos.splice(elegido, 1)
         }
 
-        this.arrayDePalabras = this.refran.split(''); //Desordeno la frase
+        this.arrayDePalabras = this.solucion.split(''); //Desordeno la frase
         this.arrayDePalabras.sort(function () {
             return 0.5 - Math.random();
         });
