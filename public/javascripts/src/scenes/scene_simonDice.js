@@ -11,7 +11,7 @@ export default class scene_simonDice extends Phaser.Scene {
         this.colores = ["bombillaMorada", "bombillaRoja", "bombillaAzul", "bombillaAmarilla"]
         this.secuencia_objetivo = []
         this.seleccionadas = []
-
+        this.esFallo = false
         this.rondas_actuales = 0
     }
 
@@ -58,15 +58,14 @@ export default class scene_simonDice extends Phaser.Scene {
                 if (self.seleccionadas.length == self.secuencia_objetivo.length && self.secuencia_objetivo.length >= 1) {
                     self.seleccionable = false
                     if (self.seleccionadas.every((element, index) => element == self.secuencia_objetivo[index])) {
-
                         self.seleccionadas = []
                         self.cubrirResultado(true) //true porque es acierto
                         self.puntuacion++;
+                        self.esFallo = false
                     } else {
                         self.fallos++;
+                        self.esFallo = true
                         self.cubrirResultado(false)
-                        self.rondas = 1
-                        self.secuencia_objetivo = []
                         self.seleccionadas = []
                     }
                     //ya no se podra seleccionar otra bombilla hasta que no termine de mostrarse la secuencia
@@ -75,8 +74,7 @@ export default class scene_simonDice extends Phaser.Scene {
                 } else if (self.seleccionadas.length > self.secuencia_objetivo.length) {
                     self.fallos++;
                     self.cubrirResultado(false)
-                    self.rondas = 1
-                    self.secuencia_objetivo = []
+                    self.esFallo = true
                     self.seleccionadas = []
                     self.elaborarSecuencia();
                     self.rondas_actuales++;
@@ -119,7 +117,7 @@ export default class scene_simonDice extends Phaser.Scene {
     elaborarSecuencia() {
         //Muestro la secuencia actual
 
-        setTimeout(async () => {
+        this.timeoutElaborarSec = setTimeout(async () => {
 
             $('#ventanaSimonDice').addClass('d-none')
             var mensajeMemoriza = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "memoriza")
@@ -136,14 +134,14 @@ export default class scene_simonDice extends Phaser.Scene {
                 await this.esperar(1000)
             }
             //Agrego un nuevo elemento a la secuencia actual y lo muestro
-
-            var nuevo = Math.floor(Math.random() * 4)
-            $("#" + this.colores[nuevo]).removeClass("sombra");
-            await this.esperar(1000)
-            $("#" + this.colores[nuevo]).addClass("sombra");
-            this.secuencia_objetivo.push(this.colores[nuevo])
-            await this.esperar(1000)
-
+            if (!this.esFallo) {
+                var nuevo = Math.floor(Math.random() * 4)
+                $("#" + this.colores[nuevo]).removeClass("sombra");
+                await this.esperar(1000)
+                $("#" + this.colores[nuevo]).addClass("sombra");
+                this.secuencia_objetivo.push(this.colores[nuevo])
+                await this.esperar(1000)
+            }
 
             $('#ventanaSimonDice').addClass('d-none')
             var mensajeRepite = this.add.image(this.sys.canvas.width / 2, this.sys.canvas.height / 2, "repite")
@@ -161,6 +159,7 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     finalizarJuego() {
+        clearTimeout(this.timeoutElaborarSec);
         $('canvas').css('z-index', '2');
         $('#ventanaSimonDice').css('z-index', '1');
         $('#ventanaSimonDice').addClass("d-none")
