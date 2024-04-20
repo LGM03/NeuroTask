@@ -159,3 +159,7 @@ canvas {
     font-size: 45px;
     font-weight: bold;
 }
+
+#imgMensaje{
+    max-width: 35%;
+}
