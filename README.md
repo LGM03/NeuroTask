@@ -15,7 +15,7 @@ NeuroTask
 <p style="text-align: justify;">Como Trabajo de Fin de Grado de Ingeniería de Software, se desarrolla una aplicación web para la prevención del deterioro cognitivo. 
 La aplicación cuenta con actividades para trabajar diversos aspectos como la atención o la memoria a corto plazo entre otros. Además cuenta con la posibilidad de realizar un seguimiento por parte de un terapeuta, mediante la asignación de tareas y el analisis de los resultados obtenidos.</p>
 <h2 align="center">Despliegue </h2>
-<p style="text-align: justify;">Para realizar el despliegue de la aplicación es necesario tener instalado Visual Studio Code, Node.js y Xammp, aunque diversos módulos serán instalados posteriormente desde el código.</p>
+<p style="text-align: justify;">Para realizar el despliegue de la aplicación es necesario tener instalado Visual Studio Code, Node.js y Xammp, además, diversos módulos serán instalados posteriormente desde el código.</p>
 
 <h3 align="center">:floppy_disk: Acceso a la base de datos</h3>
 <p style="text-align: justify;"> En primer lugar se iniciará la base de datos, para ello es necesario abrir Xammp y activar los módulos Apache y MySQL, como se ve reflejado en la siguiente imagen.
@@ -23,8 +23,8 @@ La aplicación cuenta con actividades para trabajar diversos aspectos como la at
   ![Iniciar servicios en Xammp](https://github.com/LGM03/NeuroTask/assets/99087911/4370ad24-ca10-4bab-9d0f-16f52c0db193)
 
 Posteriormente abriremos PhpMyAdmin desde el navegador mediante la ruta http://localhost/phpmyadmin/index.php e importaremos la base de datos.
-Es necesario tener una bd homónima ya creada, que podrá crearse mediante una consulta create database o desde la pestalla Nueva Base de datos. Una vez creada una base de datos llamada NeuroTask, podremos importar las tablas y los datos desde la pestaña importar, seleccionamos el archivo neuroTask que contiene la BD y pulsamos aceptar.
-![Importar Base de datos en PhpMyAdmin](https://github.com/LGM03/NeuroTask/assets/99087911/7bd38cb2-ed26-4e27-aa5d-b32b97479fee)
+Para importar la base de datos, utilizaremos el archivo neurotask.sql del repositorio, este script generará automaticamente una base de datos con el nombre apropiado y todas las tablas necesarias para el correcto funcionamiento de la aplicación. Podremos importar todo el contenido desde la pestaña importar, seleccionando el archivo neurotask.sql que contiene la BD y pulsando aceptar.
+![Importar Base de datos en PhpMyAdmin](https://github.com/LGM03/NeuroTask/assets/99087911/60c6b223-e354-4ec0-8105-c52cd45e000b)
 
 La información de la base de datos, podrá ser modificada en el fichero routes/bd.js, modificando el siguiente fragmento de código:
 </p>
