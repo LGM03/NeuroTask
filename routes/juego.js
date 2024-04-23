@@ -119,7 +119,7 @@ router.get('/finPlan', function (req, res, next) {
 
     midao.guardarPartidaPlan(datosPartida, (err, datos) => {
       if (err) {
-        console.log(err);
+        console.log(err); 
       }
       else { //Redirijo a juego indice -1 para seguir con la planificación
         res.redirect('/juego?id=-1')

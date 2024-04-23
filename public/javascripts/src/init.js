@@ -32,8 +32,10 @@ export function obtenerPlan() {
         success: function (datos, state, jqXHR) {
             if (datos.length == 0) {
                 $("#ventanaMensaje").removeClass('d-none')
-                $("#imgMensaje").attr("src","/images/felicitacion.png")
+                $("#imgMensaje").attr("src","/images/felicitacion1.png")
                 $("#imgMensaje").attr("alt","Felicidades, has terminado tu planificación")
+                
+                $("#imgMensaje").css("max-width","75%")
 
                 setTimeout(async () => {
                     window.location.href = `/`
