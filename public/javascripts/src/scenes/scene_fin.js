@@ -52,6 +52,10 @@ export default class scene_fin extends Phaser.Scene {
         this.tAciertos.setOrigin(0, 0.5);
         this.tAciertos.setScale(1.2);
 
+        if(this.info.duracion.segundos <10){
+            this.info.duracion.segundos = "0"+this.info.duracion.segundos
+        }
+        
         this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 4 + 30, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
         this.tTiempo.setOrigin(0, 0.5);
         this.tTiempo.setScale(1.2);
