@@ -26,22 +26,25 @@ Posteriormente abriremos PhpMyAdmin desde el navegador mediante la ruta http://l
 Para importar la base de datos, utilizaremos el archivo neurotask.sql del repositorio, este script generará automaticamente una base de datos con el nombre apropiado y todas las tablas necesarias para el correcto funcionamiento de la aplicación. Podremos importar todo el contenido desde la pestaña importar, seleccionando el archivo neurotask.sql que contiene la BD y pulsando aceptar.
 ![Importar Base de datos en PhpMyAdmin](https://github.com/LGM03/NeuroTask/assets/99087911/60c6b223-e354-4ec0-8105-c52cd45e000b)
 
-La información de la base de datos, podrá ser modificada en el fichero routes/bd.js, modificando el siguiente fragmento de código:
-</p>
-<p align='center'">
-const mysql = require("mysql") <br>
-const pool = mysql.createPool({<br>
-  host: "localhost",<br>
-  user: "root",<br>
-  password: "",<br>
-  database: "neurotask"})<br>
-module.exports = pool<br>
-</p>
-
 
 <h3 align="center">:file_folder: Acceso al código </h3>
 <p style="text-align: justify;">
-Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> y <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
+Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> 
+  
+Para acceder a la base de datos creada desde el código, será necesario crear un fichero llamado config.js en la raíz del proyecto, el incluir las siguientes varibles con los datos de la base de datos creada
+</p>
+
+<p align='center'">
+module.exports = {
+VAR_PORT: tu_puerto,
+VAR_HOST: tu_host,
+VAR_USER: tu_usuario,
+VAR_PASSWORD: tu_contraseña,
+VAR_DATABASE: tu_bd
+}
+</p>
+  
+ Finalmente, será necesario escribri en la consola <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
 
 </p>
 <p style="text-align: justify;">
