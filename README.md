@@ -31,7 +31,7 @@ Para importar la base de datos, utilizaremos el archivo neurotask.sql del reposi
 <p style="text-align: justify;">
 Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> 
   
-Para acceder a la base de datos creada desde el código, será necesario crear un fichero llamado config.js en la raíz del proyecto, el incluir las siguientes varibles con los datos de la base de datos creada
+Para acceder a la base de datos creada desde el código, será necesario crear un fichero llamado config.js en la raíz del proyecto, e incluir las siguientes varibles con los datos de la base de datos creada
 </p>
 
 <p align='center'">
