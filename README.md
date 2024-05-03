@@ -56,7 +56,7 @@ ENV_DATABASE= "tu_bd"<br>
 </p>
 <p style="text-align: justify;">
 A partir de este momento será posible acceder a la aplicación desde localhost, por defecto desde el puerto 3000, mediante la ruta http://localhost:3000/.
-Este puerto podrá ser modificado en nuestro codigo en el fichero bin/www, donde se declara la instancia de nuestra aplicación web y el puerto de escucha mediante el siguiente codigo</p>
+Este puerto podrá ser modificado en nuestro codigo en el fichero bin/www, donde se declara la instancia de nuestra aplicación web y el puerto de escucha mediante el siguiente codigo o en el fichero .env creado anteriormente</p>
 <p align='center'">
 var app = require('../app');<br>
 var debug = require('debug')('aplicacionesweb:server');<br>
