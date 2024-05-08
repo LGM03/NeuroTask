@@ -18,7 +18,7 @@ console.log(config.VAR_HOST)
 console.log(config.VAR_DATABASE)
 console.log(config.VAR_USER)
 
-var port = normalizePort(config.VAR_PORT);
+var port = normalizePort(config.PORT);
 app.set('port', port);
 
 /**

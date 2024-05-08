@@ -3,6 +3,7 @@ var router = express.Router();
 const pool = require('./bd')
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  console.log("estamos en /")
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)
 

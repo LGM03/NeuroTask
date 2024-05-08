@@ -1,5 +1,9 @@
 const config = require('../config');
 const mysql = require("mysql")
+console.log(config.PORT)
+console.log(config.VAR_HOST)
+console.log(config.VAR_DATABASE)
+console.log(config.VAR_USER)
 const pool = mysql.createPool({ //instancia de acceso a la base de datos 
   host: config.VAR_HOST,
   user: config.VAR_USER,
