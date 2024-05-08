@@ -25,6 +25,7 @@ const middlewareSession = session({
 
 app.use(middlewareSession);
 
+console.log("correcto 1")
 var indexRouter = require('./routes/index');
 var juegoRouter = require('./routes/juego');
 var adminRouter = require('./routes/admin');
@@ -43,6 +44,8 @@ app.use(express.urlencoded({ extended: true }));//estaba a false, lo cambio a tr
 app.use(cookieParser());
 
 app.use(function (req, res, next) {
+
+  console.log("correcto 2")
   res.locals.usuario = req.session.usuario || null;
   next();
 });
@@ -55,6 +58,7 @@ app.use('/tareas', tareasRouter);
 app.use('/comentarios', comentariosRouter);
 
 
+console.log("correcto 3")
 app.get('/generar-url', (req, res) => {
   const userId = req.query.usuario//req.query.usuario; // Obtener el ID del usuario
 
@@ -138,9 +142,9 @@ app.get('/iniciar-sesion', (req, res) => {
         req.session.usuario = {
           nombre: usuario.nombre,
           correo: usuario.correo,
-          tipo : "paciente",
-          edad : usuario.edad
-      }
+          tipo: "paciente",
+          edad: usuario.edad
+        }
         res.redirect('/')
       });
     }
@@ -149,11 +153,15 @@ app.get('/iniciar-sesion', (req, res) => {
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+
+  console.log("err 1")
   next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
+
+  console.log("err 2")
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
