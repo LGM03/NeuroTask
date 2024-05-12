@@ -84,27 +84,29 @@ export function arranque(idJuego, planJuegos = null) {
         }
     };
 
+    config.scene = [inicio, Bootloader, scene_dificultad, scene_play] 
     if (idJuego == "1") { //Juego del Pong
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_pong, scene_fin] //TODO
+        config.scene.push(scene_pong)
     } else if (idJuego == "2") { //Juego Cuentas
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_cuentas, scene_fin]
+        config.scene.push(scene_cuentas)
     } else if (idJuego == "3") { //Juego Emparejar
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_parejas, scene_fin]
+        config.scene.push(scene_parejas)
     } else if (idJuego == "4") { //Juego Ordenar de Mayor a Menor
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_ordenCreciente, scene_fin]
+        config.scene.push(scene_ordenCreciente)
     } else if (idJuego == "5") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_anagramas, scene_fin]
+        config.scene.push(scene_anagramas)
     } else if (idJuego == "6") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_refranes, scene_fin]
+        config.scene.push(scene_refranes)
     } else if (idJuego == "7") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_simonDice, scene_fin]
+        config.scene.push(scene_simonDice)
     } else if (idJuego == "8") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_ordenDecreciente, scene_fin]
+        config.scene.push(scene_ordenDecreciente)
     } else if (idJuego == "9") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_memorizaFiguras, scene_fin]
+        config.scene.push(scene_memorizaFiguras)
     } else if (idJuego == "10") {
-        config.scene = [inicio, Bootloader, scene_dificultad, scene_play, scene_memorizaColores, scene_fin]
+        config.scene.push(scene_memorizaColores)
     }
+    config.scene.push(scene_fin)
     var game = new Phaser.Game(config)
     game.canvas.style.borderRadius = '10px';
 
