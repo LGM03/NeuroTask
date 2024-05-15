@@ -17,7 +17,7 @@ export default class scene_dificultad extends Phaser.Scene {
         }
     }
 
-    create() {
+    create() { //Creo una ventana con las opciones de dificultad
 
         $('#ventanaDificultad').removeClass('d-none')
 

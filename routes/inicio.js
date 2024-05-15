@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const pool = require('./bd')
 
+//Inicio de sesion
 router.post('/', (req, res) => {
     
     datosInicio = {
@@ -18,6 +19,7 @@ router.post('/', (req, res) => {
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
 
+    //Busco el usuario en la bd, si no esta aviso
     midao.leerUsuario(datosInicio, (err, datos) => {
         if (err) {
     

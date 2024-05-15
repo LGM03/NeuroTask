@@ -7,8 +7,9 @@ export default class scene_anagramas extends Phaser.Scene {
         this.fechaInicio = new Date();
         this.tiempoCategoria = 3
         this.MS = 1000
-        this.RONDAS_TOTALES = 6
+        this.RONDAS_TOTALES = 6 //Numero de rondas que se van a jugar 
         this.rondas_actuales = 0
+        //Batería de casos, divididos por tipo y dificultad 
         this.ejercicios = [
             {
                 "Países": [
@@ -43,10 +44,11 @@ export default class scene_anagramas extends Phaser.Scene {
         this.nivel = data.nivel
         this.plan = data.plan
 
-        if (this.plan != null) {
+        if (this.plan != null) { //Si forma parte de un plan recojo su nivel
             this.nivel = this.plan.nivel
         }
 
+        //Escojo los casos segun categoria aleatoria y nivel
         const categoriaAleatoria = this.ejercicios[Math.floor(Math.random() * this.ejercicios.length)];
         $("#tematica").text(Object.keys(categoriaAleatoria)[0])
         $("#tematicaInicial").text(Object.keys(categoriaAleatoria)[0])
@@ -54,6 +56,7 @@ export default class scene_anagramas extends Phaser.Scene {
     }
 
     async create() {
+        //Creo toda la vista con JQUERY en un div
         $('#divTematicaLenguaje').removeClass('d-none')
         await this.esperar(this.MS * this.tiempoCategoria)
         $('#juegoLenguaje').removeClass('d-none')
@@ -61,27 +64,31 @@ export default class scene_anagramas extends Phaser.Scene {
         this.crearInterfaz();
         const self = this
         $("#tituloJuego").text("Descubre una palabra con todas estas letras")
+
+        //Cuando de click a una letra 
         $(document).on("click", ".botonPalabra", function (event) {
             self.fraseFormada += $(this).text()
             $("#fraseFormada").text($("#fraseFormada").text() + "" + $(this).text())
             $(this).remove()
 
+            //Si la longitud que tengo es la de la solucion compruebo automaticamente
             if (self.fraseFormada.length == self.solucion.length) {
-                if (self.solucion == self.fraseFormada) {
+                if (self.solucion == self.fraseFormada) { //Si la solucion es la adecuada aumento puntuacion
                     self.puntuacion++
                     self.cubrirResultado(true)
-                } else {
+                } else { //Si la solucion es fallida aumento cantida de fallos 
                     self.fallos++
                     self.cubrirResultado(false)
                 }
-                self.rondas_actuales++;
-                self.time.delayedCall(500, self.siguienteRonda, [], self); 
+                self.rondas_actuales++; //acierte o falle aumento rondas totales
+                self.time.delayedCall(500, self.siguienteRonda, [], self);  //Espero 500ms antes de pasar a la siguiente ronda
             
             }
 
         })
 
-        $("#btnCorregir").on("click", function (event) {
+        //Al pulsar el boton corregir se retorna una letra a su sitio original
+        $("#btnCorregir").on("click", function (event) { 
             var palabraFormada = $("#fraseFormada").text()
             if (palabraFormada.length > 0) {
                 var letra = palabraFormada.charAt(palabraFormada.length - 1);
@@ -93,6 +100,7 @@ export default class scene_anagramas extends Phaser.Scene {
         })
     }
 
+    //En caso de acierto o fallo cubro temporalmente la pantalla con una imagen
     cubrirResultado(esAcierto) {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');
@@ -116,6 +124,7 @@ export default class scene_anagramas extends Phaser.Scene {
         });
     }
 
+    //Para pasar a la siguiente ronda, borro los divs que hay y los genero de nuevo
     siguienteRonda(){
         $("#contenedorBotones .botonPalabra").remove()
         $("#fraseFormada").text("")
@@ -141,7 +150,7 @@ export default class scene_anagramas extends Phaser.Scene {
         this.fraseFormada = ""
        
         $('#juegoLenguaje').removeClass('d-none')
-        this.arrayDePalabras.forEach((element => {
+        this.arrayDePalabras.forEach((element => { //Creo un boton por cada letra 
             var botonPalabra = '<button class="btn botonPalabra rounded bg-white col-lg-3 col-md-3">' + element + '</button>'
             $('#contenedorBotones').append(botonPalabra)
         }))
@@ -152,13 +161,15 @@ export default class scene_anagramas extends Phaser.Scene {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async update(){
+    async update(){ //Si he terminado todas las rondas llamo a la funcion de final
         if(this.rondas_actuales==this.RONDAS_TOTALES){
             await this.esperar(400)
             this.finalizarJuego()
         }
     }
     
+    
+    //Funcion final de juego, llama a escena final, le pasa los datos que corresponden
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');

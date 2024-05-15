@@ -3,7 +3,7 @@ var router = express.Router();
 
 const pool = require('./bd')
 
-/* GET home page. */
+//Si soy admin accedo a la ventana de administrador, si no, vuelvo a la inicial
 router.get('/', function (req, res, next) { //meter BD aqui
 
   if(req.session.usuario  != undefined && req.session.usuario.tipo == "terapeuta"){
@@ -13,8 +13,8 @@ router.get('/', function (req, res, next) { //meter BD aqui
   }
 });
 
-
-router.get('/listarUsuarios', function (req, res, next) { //meter BD aqui
+// Lista todos lsos pacientes de un terapeuta
+router.get('/listarUsuarios', function (req, res, next) { 
 
   const DAOAp = require("../mysql/daoUsuarios")
   const midao = new DAOAp(pool)
@@ -29,6 +29,7 @@ router.get('/listarUsuarios', function (req, res, next) { //meter BD aqui
   });
 });
 
+//Obtengo el listado total de todos los juegos
 router.get('/leerJuegos', function (req, res, next) {
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)

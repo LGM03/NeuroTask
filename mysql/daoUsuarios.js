@@ -164,7 +164,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
     }
 
 
-    pacientesXTerapeuta(correoTer, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
+    pacientesXTerapeuta(correoTer, callback) {  //Listo todos los paciente de un terapeuta
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null);  //Si ocurre algun error retornamos el error
