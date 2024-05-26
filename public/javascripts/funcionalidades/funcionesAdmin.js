@@ -132,6 +132,7 @@ $(function () {
 
                 if (datos == 1) {//Si todo ha ido bien escondo el modal y muestro un toast de correcto
                     $("#vincularPaciente").modal("hide")
+                    $("#correoVincular").val("")
                     nuevoToast("Paciente vinculado con éxito")
                 } else { //Si ha ocurrido un error en el modal lo indico
                     $("#alertaVincular").removeClass("d-none")
