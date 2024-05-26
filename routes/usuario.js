@@ -42,7 +42,6 @@ router.get("/login", async (req, res) => {
             }
         });
     } catch (error) {
-        console.error(error);
         res.status(500).render('error');
     }
 });
@@ -105,7 +104,6 @@ router.post('/crearPaciente', (req, res) => {
         deterioro: req.body.deterioroPaciente
     }
 
-    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
     const saltRounds = 10; // Número de rondas para el proceso de hashing (mayor es más seguro, pero más lento)
@@ -140,7 +138,6 @@ router.post('/vincularPaciente', (req, res) => {
         correoTer: req.session.usuario.correo //Paso tambien el correo del terapeuta que esta creando el usuario
     }
 
-    console.log(datosUsuario)
     const DAOAp = require("../mysql/daoUsuarios")
     const midao = new DAOAp(pool)
 

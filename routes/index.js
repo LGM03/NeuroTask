@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 
   midao.leerTodos((err, datos) => {
     if (err) {
-      console.log(err);
+      res.render('error')
     }
     else {
       res.render('index', { juegos : datos, usuario : req.session.usuario});  //Cargo la ventana principal con la información de todos los juegos

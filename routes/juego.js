@@ -10,10 +10,10 @@ router.get('/', function (req, res, next) {
 
     var juego = {
       descripcion: "¡Bienvenido a la planificación de hoy!",
-      id : -1  //Cuando hay que reproducir planificación el id es null
+      id: -1  //Cuando hay que reproducir planificación el id es null
     }
 
-    res.render('juego', { juego: juego, esPlan : true })
+    res.render('juego', { juego: juego, esPlan: true })
 
   } else {
     const DAOAp = require("../mysql/daoJuegos")
@@ -21,16 +21,17 @@ router.get('/', function (req, res, next) {
 
     midao.leerPorID(id, (err, datos) => {
       if (err) {
-        console.log(err);
+
+        res.render('error')
       }
       else {
         indice = datos.descripcion.indexOf('<ol>');
-        datos.descripcion=datos.descripcion.substring(0, indice);
-        res.render('juego', { juego: datos, esPlan : false});
+        datos.descripcion = datos.descripcion.substring(0, indice);
+        res.render('juego', { juego: datos, esPlan: false });
       }
     });
   }
-});  
+});
 
 
 //Leo todas las categorias 
@@ -41,7 +42,8 @@ router.get('/leerCategorias', function (req, res, next) {
 
   midao.leerCategorias((err, datos) => {
     if (err) {
-      console.log(err);
+
+      res.render('error')
     }
     else {
       res.json(datos)
@@ -56,7 +58,7 @@ router.get('/juegosPorCategoria', function (req, res, next) {
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)
 
-  midao.leerjuegosCategorias(req.query.categoria,(err, datos) => {
+  midao.leerjuegosCategorias(req.query.categoria, (err, datos) => {
     if (err) {
       res.status(500)
       res.json(0)
@@ -83,10 +85,11 @@ router.get('/finJuego', function (req, res, next) {
       usuario: req.session.usuario.correo,
       nivel: req.query.nivel
     }
-   
+
     midao.guardarPartida(datosPartida, (err, datos) => { //Guardo una partida y redirijo al origen
       if (err) {
-        console.log(err);
+
+        res.render('error')
       }
       else {
         res.redirect('/')
@@ -105,26 +108,26 @@ router.get('/finPlan', function (req, res, next) { //Cuando se acaba la planific
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)
 
-    const datosPartida = {
-      idJuego: req.query.idJuego,
-      fechaInicio: req.query.fechaInicio,
-      aciertos: req.query.aciertos,
-      fallos: req.query.fallos,
-      duracion: req.query.duracion,
-      usuario: req.session.usuario.correo,
-      nivel: req.query.nivel,
-      idTarea : req.query.idTarea
+  const datosPartida = {
+    idJuego: req.query.idJuego,
+    fechaInicio: req.query.fechaInicio,
+    aciertos: req.query.aciertos,
+    fallos: req.query.fallos,
+    duracion: req.query.duracion,
+    usuario: req.session.usuario.correo,
+    nivel: req.query.nivel,
+    idTarea: req.query.idTarea
+  }
+
+
+  midao.guardarPartidaPlan(datosPartida, (err, datos) => {
+    if (err) {
+      res.render('error')
     }
-
-
-    midao.guardarPartidaPlan(datosPartida, (err, datos) => {
-      if (err) {
-        console.log(err); 
-      }
-      else { //Redirijo a juego indice -1 para seguir con la planificación
-        res.redirect('/juego?id=-1')
-      }
-    })
+    else { //Redirijo a juego indice -1 para seguir con la planificación
+      res.redirect('/juego?id=-1')
+    }
+  })
 
 });
 

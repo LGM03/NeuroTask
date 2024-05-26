@@ -22,6 +22,13 @@
     font-size: 25px;
 }
 
+.volverInicio{
+    
+    background-color: #b2f6ff;
+    text-decoration: none; /* Elimina el subrayado*/
+    border-color: #42474d;
+}
+
 #textoElige {
     font-family: 'EB Garamond';
     font-weight: bold;

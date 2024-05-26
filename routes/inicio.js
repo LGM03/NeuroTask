@@ -22,7 +22,6 @@ router.post('/', (req, res) => {
     //Busco el usuario en la bd, si no esta aviso
     midao.leerUsuario(datosInicio, (err, datos) => {
         if (err) {
-    
             res.redirect(`/?error=${"El usuario no existe"}`); 
         }
         else {
