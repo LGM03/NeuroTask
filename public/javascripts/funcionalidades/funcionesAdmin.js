@@ -24,7 +24,7 @@ $(function () {
         }
     })
 
-
+    //listo todos los pacientes de un terapeuta
     $("#listarPacientes").on("click", function (event) {
         $("#tituloUsuarios").text("Listado de Usuarios")
         $("#cuadranteCalendario").addClass("d-none")
@@ -35,7 +35,7 @@ $(function () {
         $("#divListadoJuegos").addClass('d-none')
         $("#alertaListadoUsuarios").addClass('d-none')
         $("#divListadoUsuarios .cajaPaciente").remove()
-
+        //Solicitud a la base de datos de los usuarios por paciente
         $.ajax({
             url: "/admin/listarUsuarios",
             method: "GET",
@@ -55,7 +55,7 @@ $(function () {
             }
         })
     })
-
+    //listar todos juegos 
     $("#listarJuegos").on("click", function (event) {
         $("#divListadoUsuarios").addClass('d-none')
         $("#cuadranteCalendario").addClass("d-none")
@@ -65,7 +65,7 @@ $(function () {
         $("#divListadoJuegos").removeClass('d-none')
         $("#alertaListadoJuegos").addClass('d-none')
         $("#divListadoJuegos .cajaJuego").remove()
-        $.ajax({
+        $.ajax({ //Solicitud de info de los juegos
             url: "/admin/leerJuegos",
             method: "GET",
             success: function (datos, b, c) {
@@ -76,16 +76,14 @@ $(function () {
                     datos.forEach(element => {
                         crearCajaJuego(element);
                     });
-
                 }
             },
             error: function (a, b, c) {
                 $("#alertaListadoJuegos").removeClass('d-none')
             }
         })
-
     })
-
+    //Ver historial de juegos de un paciente 
     $(document).on("click", ".btnVerHistorial", function () {
         $("#bodyTablaHistorial").empty()
         var divContenedor = $(this).closest('.cajaPaciente');
@@ -99,80 +97,65 @@ $(function () {
         $("#cuadranteEstadisticas").addClass("d-none")
         $("#cuadranteHistorial").removeClass("d-none")
 
-        $.ajax({
+        $.ajax({//Solicitud informacion del historial del paciente
             method: "GET",
             url: "/tareas/partidasUsuario",
             data: { usuario: usuario },
             success: function (datos, state, jqXHR) {
-
-                if (datos.length != 0) {
-
-                    datos.forEach(function (dato) {
-
+                if (datos.length != 0) { //Si hay datos disponibles para mostrar
+                    datos.forEach(function (dato) {//actualizo dinamicamente la vista
                         const date = new Date(dato.fechaInicio);
-                        console.log(dato)
-                        console.log(date)
                         const formattedDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
                         var fila = '<tr><td>' + dato.nombre + '</td><td>' + dato.categoria + '</td><td>' + dato.aciertos + '</td><td>' + dato.fallos + '</td><td>' + dato.duracion + '</td><td>' + dato.nivel + '</td><td>' + formattedDate + '</td></tr>';
-
                         $("#bodyTablaHistorial").append(fila);
                     });
                 } else {
                     nuevoToast("No hay tareas en el histórico")
-
                 }
             },
             error: function (jqXHR, statusText, errorThrown) {
                 nuevoToast("Ha ocurrido un error con el historial")
-
             }
         });
     })
-
+    //logica del modal para vincular un terapeuta con un paciente
     $("#modalVincular").on("click", function (event) {
         event.preventDefault()
         $("#alertaVincular").addClass("d-none")
         $("#vincularPaciente input").css("border-color", "")
         var correoPaciente = $("#correoVincular").prop("value")
-        $.ajax({
+        $.ajax({ //Actualizo la base de datos
             method: "POST",
             url: "/user/vincularPaciente",
             data: { correoPaciente: correoPaciente },
             success: function (datos, state, jqXHR) {
 
-                if (datos == 1) {
-
+                if (datos == 1) {//Si todo ha ido bien escondo el modal y muestro un toast de correcto
                     $("#vincularPaciente").modal("hide")
                     nuevoToast("Paciente vinculado con éxito")
-
-                } else {
+                } else { //Si ha ocurrido un error en el modal lo indico
                     $("#alertaVincular").removeClass("d-none")
                     $("#alertaVincular").text("El correo introducido no es válido")
                     $("#correoVincular").css("border-color", "red");
                     nuevoToast("No se pudo vincular al paciente")
-
                 }
             },
-            error: function (jqXHR, statusText, errorThrown) {
+            error: function (jqXHR, statusText, errorThrown) { //En caso de error lo indico
                 $("#alertaVincular").removeClass("d-none")
                 $("#alertaVincular").text("El correo introducido no es válido")
                 $("#correoVincular").css("border-color", "red");
                 nuevoToast("No se pudo vincular al paciente")
-
             }
         });
-
     })
-
-
 })
-
+//Creo una caja para mostrar los pacientes de un terapeuta 
 function crearCajaPaciente(element) {
 
     const caja = $('<div class="row bg-light rounded m-2 d-flex justify-content-around cajaPaciente" ></div>');
 
     const cajaInfo = $('<div class="col col-md-4 cajaInfo bg-light rounded m-2 d-flex flex-column"></div>');
-    // Sección de info de la reserva
+    // Sección de info del paciente
 
     // Contenedor para el nombre y la fecha
     const infoContainer = $('<div class="text-start"></div>');
@@ -188,8 +171,6 @@ function crearCajaPaciente(element) {
     deterioroContainer.append(deterioro)
 
     var botonURL = $('<button class="alert alert-secondary p-1 w-100 btnCopiarURL mt-1"> Copiar URL de inicio de sesión</button>')
-
-
     const cajaBotones = $('<div class="col col-md-3 bg-light rounded m-2 d-flex flex-column"></div>');
 
     var botonHistorial = $('<button class="alert alert-success p-1 w-100 btnVerHistorial"> Ver Historiales </button>')
@@ -215,14 +196,14 @@ function crearCajaPaciente(element) {
     caja.data("correo", element.correoP)
     $("#divListadoUsuarios").append(caja);
 }
-
+//Creo una caja para mostrar los juegos disponibles y su informacion
 function crearCajaJuego(element) {
 
     const caja = $('<div class="row bg-light rounded m-2 d-flex justify-content-around cajaJuego" ></div>');
 
     const imagen = $('<img src="' + element.imagen + '"alt="' + element.nombre + '" class = "mt-1 imagenListada">')
     const cajaInfo = $('<div class="col col-md-8 cajaInfo bg-light rounded m-2 d-flex flex-column"></div>');
-    // Sección de info de la reserva
+    // Sección de info del paciente
 
     // Contenedor para el nombre y la fecha
     const infoContainer = $('<div class="text-start"></div>');
@@ -243,7 +224,7 @@ function crearCajaJuego(element) {
 
     $("#divListadoJuegos").append(caja);
 }
-
+//Toast para mostrar mensajes abajo a la derecha 
 function nuevoToast(text) {
     Toastify({
         text: text,

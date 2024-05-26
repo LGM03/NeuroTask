@@ -21,8 +21,8 @@ router.get('/tareaUsuarioDia', function (req, res, next) {
     }
   });
 });
-
-router.get('/tareaPlan', function (req, res, next) { //obtiene todas las tareas de un dia (realizadas y no realizadas)
+ //obtiene todas las tareas de un dia (realizadas y no realizadas)
+router.get('/tareaPlan', function (req, res, next) {
 
   if (req.session.usuario != undefined) {
     const DAOAp = require("../mysql/daoTareas")
@@ -45,8 +45,8 @@ router.get('/tareaPlan', function (req, res, next) { //obtiene todas las tareas 
   }
 });  
 
-
-router.get('/tareaPrimera', function (req, res, next) { //obtiene las tareas a realizar ese dia (no realizadas)
+//obtiene las tareas a realizar ese dia (no realizadas)
+router.get('/tareaPrimera', function (req, res, next) { 
 
     const DAOAp = require("../mysql/daoTareas")
     const midao = new DAOAp(pool)
@@ -66,7 +66,7 @@ router.get('/tareaPrimera', function (req, res, next) { //obtiene las tareas a r
 
 });  
 
-
+//Guarda las partidas de un usuario
 router.get('/partidasUsuario', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
@@ -81,7 +81,7 @@ router.get('/partidasUsuario', function (req, res, next) {
     }
   });
 });
-
+//Accede a las planificaciones jugadas
 router.get('/planificacionesJugadas', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
@@ -99,8 +99,8 @@ router.get('/planificacionesJugadas', function (req, res, next) {
     }
   });
 });
-
-router.get('/rendimientoGeneral', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+ //Se ve el rendimiento general del usuario
+router.get('/rendimientoGeneral', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
@@ -116,8 +116,8 @@ router.get('/rendimientoGeneral', function (req, res, next) { /*Se ve el rendimi
     }
   });
 });
-
-router.get('/progresoCategoria', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+//Se ve el rendimiento general del usuario por categoria
+router.get('/progresoCategoria', function (req, res, next) { 
 
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
@@ -139,9 +139,8 @@ router.get('/progresoCategoria', function (req, res, next) { /*Se ve el rendimie
   });
 });   
 
-
-
-router.get('/progresoJuegoConcreto', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+//Se ve el rendimiento general del usuario para un juego
+router.get('/progresoJuegoConcreto', function (req, res, next) { 
 
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
@@ -162,8 +161,8 @@ router.get('/progresoJuegoConcreto', function (req, res, next) { /*Se ve el rend
   });
 }); 
 
-
-router.get('/progresoJuegoTotal', function (req, res, next) { /*Se ve el rendimiento general del usuario por categoria*/
+//Se ve el rendimiento general del usuario para un juego en funcion de sus meses
+router.get('/progresoJuegoTotal', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
   const midao = new DAOAp(pool)
@@ -200,7 +199,7 @@ router.delete('/eliminar', function (req, res, next) {
     }
   });
 });
-
+//asigna una tarea aun paciente 
 router.post('/asignar', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoTareas")
@@ -214,8 +213,7 @@ router.post('/asignar', function (req, res, next) {
     terapeuta: req.session.usuario.correo,
     nivel: req.body.nivel
   }
-
-
+  
   midao.asignarTarea(data, (err, datos) => {
     if (err) {
       res.json(0);

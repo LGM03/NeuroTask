@@ -23,7 +23,7 @@ export default class scene_simonDice extends Phaser.Scene {
         if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
-
+        //Para cada dificultad cambio las caracteristicas del juego
         switch (this.nivel) {
             case 1:
                 this.RONDAS_TOTALES = 4
@@ -38,14 +38,12 @@ export default class scene_simonDice extends Phaser.Scene {
     }
 
     create() {
-
         const MS = 1000
-
         $('#ventanaSimonDice').removeClass('d-none')
         const self = this
         // Asignar un evento de clic al botón
 
-        this.elaborarSecuencia();
+        this.elaborarSecuencia(); //Muestro la secuencia objetivo
 
         $('#ventanaSimonDice').on("click", ".bombilla", async function (event) {
             if (self.seleccionable) {
@@ -84,6 +82,7 @@ export default class scene_simonDice extends Phaser.Scene {
         })
     }
 
+    //Compruebo que se hayan cumplido todas las rondas 
     async update() {
         if (this.rondas_actuales == this.RONDAS_TOTALES) {
             await this.esperar(900)
@@ -91,6 +90,7 @@ export default class scene_simonDice extends Phaser.Scene {
         }
     }
 
+    //Cubro los resultado de acierto o fallo 
     cubrirResultado(esAcierto) {
         $('canvas').css('z-index', '2');
         $('#ventanaSimonDice').css('z-index', '1');
@@ -157,7 +157,8 @@ export default class scene_simonDice extends Phaser.Scene {
     esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
+    
+    //Logica para llamar a la escena final pasando aciertos, fallos y tiempo invertido.
     finalizarJuego() {
         clearTimeout(this.timeoutElaborarSec);
         $('canvas').css('z-index', '2');

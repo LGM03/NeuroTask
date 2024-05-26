@@ -5,7 +5,6 @@ const pool = require('./bd')
 //Cargo la ventana principal con todos los juegos sacados de la bd, 
 //y le paso el usuario para saber si puede jugar planificacion 
 router.get('/', function (req, res, next) {
-  console.log("estamos en /")
   const DAOAp = require("../mysql/daoJuegos")
   const midao = new DAOAp(pool)
 

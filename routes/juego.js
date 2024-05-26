@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
 });  
 
 
-
+//Leo todas las categorias 
 router.get('/leerCategorias', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoJuegos")
@@ -50,7 +50,7 @@ router.get('/leerCategorias', function (req, res, next) {
 });
 
 
-
+//Leo todos los juegos en funcion de su categoria
 router.get('/juegosPorCategoria', function (req, res, next) {
 
   const DAOAp = require("../mysql/daoJuegos")
@@ -66,7 +66,7 @@ router.get('/juegosPorCategoria', function (req, res, next) {
     }
   });
 });
-
+//Logica de fin de juego. Guardo sus datos y redirijo al origen
 router.get('/finJuego', function (req, res, next) {
 
   const daoAp = require('../mysql/daoJuegos')
@@ -84,7 +84,7 @@ router.get('/finJuego', function (req, res, next) {
       nivel: req.query.nivel
     }
    
-    midao.guardarPartida(datosPartida, (err, datos) => {
+    midao.guardarPartida(datosPartida, (err, datos) => { //Guardo una partida y redirijo al origen
       if (err) {
         console.log(err);
       }
@@ -100,7 +100,7 @@ router.get('/finJuego', function (req, res, next) {
 
 });
 
-router.get('/finPlan', function (req, res, next) {
+router.get('/finPlan', function (req, res, next) { //Cuando se acaba la planificacion guardo la partida y redirijo al juego con id-1
 
   const daoAp = require('../mysql/daoJuegos')
   midao = new daoAp(pool)

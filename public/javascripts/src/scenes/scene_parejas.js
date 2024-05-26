@@ -54,9 +54,9 @@ export default class scene_parejas extends Phaser.Scene {
                 self.seleccionadas.push($(this).attr("id")); //Me guardo el id de la carta pulsada
                 $(this).data("seleccionable", false) //La carta deja de estar disponible para pulsar
 
-                $(this).children('img').attr('src', '/javascripts/assets/' + $(this).data("valor") + '.png') //cambio su imagen
+                $(this).children('img').attr('src', '/javascripts/assets/' + $(this).data("valor") + '.png') //cambio su imagen para descubrir su valor 
 
-                if (self.seleccionadas.length === 2) {
+                if (self.seleccionadas.length === 2) { //Cuando se han seleccionado dos cartas
                     setTimeout(function () {
                         self.seleccionables = false;
                         if ($("#" + self.seleccionadas[0]).data("valor") == $("#" + self.seleccionadas[1]).data("valor")) {
@@ -72,7 +72,8 @@ export default class scene_parejas extends Phaser.Scene {
                                 $carta2.removeClass('cubrirImagenCorrecta');
                             }, 1000);
                             self.puntuacion += 1;
-                        } else {
+
+                        } else { //En caso de que las cartas no coincidan
                             self.fallos++;
                             var $carta1 =  $("#" + self.seleccionadas[0])
                             $("#" + self.seleccionadas[0]).addClass('cubrirImagen')
@@ -103,12 +104,12 @@ export default class scene_parejas extends Phaser.Scene {
 
     update(time, delta) {
 
-        if (this.puntuacion === this.valores.length / 2) { //Cuando ya he encontrado todas Salida
+        if (this.puntuacion === this.valores.length / 2) { //Cuando ya he encontrado todas --> Salida
             this.finalizarJuego()
         }
     }
 
-
+    //Logica para llamar a la escena final pasando aciertos, fallos y tiempo invertido.
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');
@@ -130,7 +131,7 @@ export default class scene_parejas extends Phaser.Scene {
                 plan: this.plan
             });
     }
-
+    //Logica para cubrir la carta con un color en caso de acierto
     cubrirCartaCorrecta(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
@@ -148,7 +149,7 @@ export default class scene_parejas extends Phaser.Scene {
             }
         });
     }
-
+//Logica para cubrir la carta con un color en caso de fallo
     cubrirCartaErronea(carta) {
         const scaleX = carta.scaleX;
         const scaleY = carta.scaleY;
@@ -170,28 +171,3 @@ export default class scene_parejas extends Phaser.Scene {
 
 
 }
-
-
-/*OPERACIONES VARIAS CON ESCENAS:
-    this.scene.bringToTop(z ) -> Mueve la escena z delante del todo
-    this.scene.sendToBack(z) -> Mueve la escena z atrás del todo
-    this.scene.moveUp(z) -> Mueve la escena z una posicion hacia delante
-    this.scene.moveDown(z) ->Mueve la escena z una posicion hacia atras
-    this.scene.moveAbove(z,w) -> Mueve la escena w encima de una escena  z indicada
-    this.scene.moveBelow(z,w) -> Mueve la escena  w detras de una escena z indicada 
-*/
-
-
-/*estilos del tecxto 
-        color : 'HEX'
-        backgroundColor : 'HEX'
-        fontSize : px
-        padding:{
-            top:
-            bottom:
-            left:
-            right:
-        }
-        
-        
-        */ 

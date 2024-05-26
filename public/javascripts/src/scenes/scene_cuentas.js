@@ -25,7 +25,7 @@ export default class scene_cuentas extends Phaser.Scene {
         if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
-
+        //Para nivel de dificultad defino unas caracteristicas 
         switch (this.nivel) {
             case 1:  
                 this.maxSuma = 10
@@ -107,7 +107,7 @@ export default class scene_cuentas extends Phaser.Scene {
         } 
 
     }
-
+    //Genero la operacion y guardo su resultado esperado
     generarOperacion() {
         this.textSoluciones.clear(true,true)
         const operador = Phaser.Math.RND.pick(this.operadores);
@@ -147,7 +147,7 @@ export default class scene_cuentas extends Phaser.Scene {
             posiblesSoluciones.push(numeroAleatorio)
         }
         Phaser.Utils.Array.Shuffle(posiblesSoluciones);
-        
+        //genero los botones con las soluciones
         for (let i = 0; i < this.nSoluciones; i++) {
             var texto = this.add.text((i+1) * this.sys.game.config.width / 4, 3 * this.sys.game.config.height / 4, posiblesSoluciones[i], { fontFamily: 'Arial', fontSize: 65, color: '#000000' });
             texto.setPosition( this.listaSoluciones[i].x - texto.width / 2,  this.listaSoluciones[i].y -  this.listaSoluciones[i].height / 2 - texto.height / 2);
@@ -155,7 +155,7 @@ export default class scene_cuentas extends Phaser.Scene {
             this.textSoluciones.add(texto)
         }
     }
-
+    //Verifico la validez de la respuesta 
     async verificarRespuesta(respuesta) {
         if (parseInt(respuesta) === this.solucion) {
             this.puntuacion++;
@@ -167,7 +167,7 @@ export default class scene_cuentas extends Phaser.Scene {
         this.time.delayedCall(1000,  this.generarOperacion, [], this);
     
     }
-
+    //Compruebo si ya he cumplido las rodnas necesarias, en caso afirmativo llamo a la funcion de finalizar 
     async update(){
         if(this.rondas_actuales==this.RONDAS_TOTALES){
             await this.esperar(900)
@@ -179,7 +179,7 @@ export default class scene_cuentas extends Phaser.Scene {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    finalizarJuego() {
+    finalizarJuego() { //Funcion para finalizar el juego 
         var fechaFin = new Date();
         var tiempoTranscurrido = fechaFin - this.fechaInicio
         const minutos = Math.floor(tiempoTranscurrido / 60000);

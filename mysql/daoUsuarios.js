@@ -4,7 +4,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
     constructor(pool) { //Constructor guarda pool en un atributo propio
         this.pool = pool
     }
-
+    //busco un paciente por su id
     leerPorID(correo, callback) { //Busco al usuario que inicia sesion
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -37,7 +37,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
         });
     }
 
-
+    //Da de alta un terapeuta
     altaUsuario(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -66,8 +66,8 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
             }
         });
     }
-
-    vincularPaciente(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
+    //asigna un paciente a un terapeuta
+    vincularPaciente(datosUsuario, callback) { 
         this.pool.getConnection(function (err, connection) {
             if (err) {
                 callback(err, null);  //Si ocurre algun error retornamos el error
@@ -84,7 +84,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
         });
     }
 
-
+    
     altaPaciente(datosUsuario, callback) {  //Creo un usuario nuevo, si se crea bien retorna 1, sino, null
         const insertarUsuario = (datosUsuario) => {
             return new Promise((resolve, reject) => {
@@ -163,7 +163,7 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
 
     }
 
-
+    //Listar todos lo pacientes de un terapeuta
     pacientesXTerapeuta(correoTer, callback) {  //Listo todos los paciente de un terapeuta
         this.pool.getConnection(function (err, connection) {
             if (err) {

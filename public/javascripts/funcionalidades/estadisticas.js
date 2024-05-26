@@ -1,4 +1,5 @@
 $(function () {
+    //Cuando pulso el boton de ver estadisticas 
     $(document).on("click", ".btnVerEstadisticas", function () {
         $('.cajaGraficas').empty()
         $('canvas').remove()
@@ -15,7 +16,7 @@ $(function () {
         $("#cuadranteComentarios").addClass("d-none")
         $("#cuadranteEstadisticas").removeClass("d-none")
 
-        $.ajax({
+        $.ajax({ //Veo las estadisticas generales de un paciente por categoria
             method: "GET",
             url: "/juego/leerCategorias",
             success: function (datos, state, jqXHR) {
@@ -31,12 +32,12 @@ $(function () {
                 }
             },
             error: function (jqXHR, statusText, errorThrown) {
-                nuevoToast("Ha ocurrido un error con las categorias")
+                nuevoToast("Ha ocurrido un error con las categorias") //Si ha ocurrido un error lo indico
             }
         });
 
         Chart.defaults.font.size = 22;
-        $.ajax({
+        $.ajax({ //Muestro graficas por rendimiento general 
             method: "GET",
             url: "/tareas/rendimientoGeneral",
             data: { usuario: usuario },
@@ -56,7 +57,7 @@ $(function () {
                     const labels = datos.map(item => item.categoria);
                     const aciertos = datos.map(item => item.aciertos);
 
-                    const myChart = new Chart(ctx, {
+                    const myChart = new Chart(ctx, { //Creo una grafica de aciertos sobre intentos 
                         type: 'bar',
                         data: {
                             labels: labels,
@@ -80,41 +81,36 @@ $(function () {
                     });
 
                 } else {
+                    //Si no tengo informacion que mostrar lo indico
                     nuevoToast("No hay rendimiento general disponible para mostrar")
                     var alerta = $('<div class="alert alert-secondary mt-3" role="alert" id = "alertaEstadisticas"> No hay estadísticas disponibles </div>');
                     $("#cajaRendimientoGeneral").append(alerta)
                 }
             },
             error: function (jqXHR, statusText, errorThrown) {
-                nuevoToast("Ha ocurrido un error con las categorias")
+                nuevoToast("Ha ocurrido un error con las categorias") //Si ha ocurrido un error lo indico
             }
         });
-
-
     })
-
+    //Boton para ver las graficas de una categoria concreta
     $('#btnGraficos').on("click", function (event) {
-
         event.preventDefault()
         $(".alertaEstadisticas").remove()
         $("#cajaEstadisticas").removeClass('d-none')
         var opcionSeleccionada = $("#selectCategorias").val();
         var fechaSeleccionada = $("#selectMeses").val();
         var usuario = $("#selectCategorias").data("usuario")
-        console.log(fechaSeleccionada)
-        console.log(opcionSeleccionada)
-        console.log(usuario)
 
-        $.ajax({  //Consulto los valores de las reservas para esa facultad
+        $.ajax({  //Consulto los valores de las planificaciones 
             method: "GET",
             url: "/tareas/planificacionesJugadas",
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
-                if (datos.contador + datos.hecho == 0) {  //Si no hay ninguna reserva aviso al usuario
+                if (datos.contador + datos.hecho == 0) {  //Si no hay ninguna datos aviso al usuario
                     nuevoToast("No hay estadísticas sobre planificación disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert"> No hay estadísticas sobre planificación </div>');
                     $("#cajaGraficoHechos").append(alerta)
-                } else {  //Si hay reservas muestro el canvas
+                } else { 
 
                     $("#cajaGraficoHechos .alertaEstadisticas").remove()
 
@@ -130,7 +126,7 @@ $(function () {
 
                     var ctx = canvas.getContext('2d');
 
-                    // Configuración de la gráfica
+                    // Configuración de la gráfica para mostrar la proporcion de planificacion pendiente 
                     var config = {
                         type: 'pie',
                         data: {
@@ -158,16 +154,16 @@ $(function () {
             }
         })
 
-        $.ajax({ 
+        $.ajax({ //Recojo la informacion del progeso de una categoria concreta 
             method: "GET",
             url: "/tareas/progresoCategoria",
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
-                if (datos.length == 0) {  
+                if (datos.length == 0) {  //Si no hay nada que mostrar lo indico
                     nuevoToast("No hay estadísticas sobre esta categoría disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
-                } else {  //Si hay reservas muestro el canvas
+                } else {  //Si hay datos muestro el canvas
 
                     formJuegoConcreto(opcionSeleccionada)
                     $("#cajaGraficoProgreso .alertaEstadisticas").remove()
@@ -189,7 +185,7 @@ $(function () {
                     var dataAciertos = datos.map(item => item['tasaAciertos']);
                     var dataMedia = datos.map(item => item['tasaMediaAciertos']);
 
-                    const myChart = new Chart(ctx, {
+                    const myChart = new Chart(ctx, { //muestro una grafica para ver las estadisticas de una categoria
                         type: 'bar',
                         data: {
                             labels: labels,
@@ -219,13 +215,13 @@ $(function () {
             }
         })
     })
-
+    //Boton para ver las graficas para un juego concreto
     $("#btnGraficosJuego").on("click",function(event){
         event.preventDefault()
         var juego = $("#selectJuegoConcreto").val() //Obtengo el id del juego del que se quiere saber la estadistica
         var usuario= $("#selectCategorias").data("usuario")  //Obtengo el id del usuario del que se quiere saber la estadistica
         var fechaSeleccionada = $("#selectMeses").val();
-        $.ajax({  //Consulto los valores de las reservas para esa facultad
+        $.ajax({ 
             method: "GET",
             url: "/tareas/progresoJuegoConcreto",
             data: { juego : juego, usuario: usuario, fechaSeleccionada : fechaSeleccionada }, 
@@ -234,7 +230,7 @@ $(function () {
                     nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
                     $("#cajaGraficoJuego").append(alerta)
-                } else {  //Si hay reservas muestro el canvas
+                } else {  //Si hay datos muestro el canvas
 
                     $("#cajaGraficoJuego .alertaEstadisticas").remove()
 
@@ -255,7 +251,7 @@ $(function () {
                     var dataAciertos = datos.map(item => item['tasaAciertos_jugador']);
                     var dataMedia = datos.map(item => item['tasaAciertos_media_deterioro']);
 
-                    const myChart = new Chart(ctx, {
+                    const myChart = new Chart(ctx, { // Creo una grafica para ver las estadisticas de un juego
                         type: 'line',
                         data: {
                             labels: labels,
@@ -285,7 +281,7 @@ $(function () {
             }
         })
 
-        $.ajax({  //Consulto los valores de las reservas para esa facultad
+        $.ajax({  
             method: "GET",
             url: "/tareas/progresoJuegoTotal",
             data: { juego : juego, usuario: usuario, fechaSeleccionada : fechaSeleccionada }, 
@@ -294,7 +290,7 @@ $(function () {
                     nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
                     $("#cajaGraficoJuegoTotal").append(alerta)
-                } else {  //Si hay reservas muestro el canvas
+                } else {  //Si hay datos muestro el canvas
 
                     $("#cajaGraficoJuegoTotal .alertaEstadisticas").remove()
 
@@ -315,7 +311,7 @@ $(function () {
                     var dataAciertos = datos.map(item => item['tasaAciertos_jugador']);
                     var dataMedia = datos.map(item => item['tasaAciertos_media_deterioro']);
 
-                    const myChart = new Chart(ctx, {
+                    const myChart = new Chart(ctx, { //Creo la grafica para mostrar estadisticas generales
                         type: 'line',
                         data: {
                             labels: labels,
@@ -345,31 +341,30 @@ $(function () {
             }
         })
     })
-    function formJuegoConcreto(categoria) {
+    function formJuegoConcreto(categoria) { //funcion de form para seleccionar un juego concreto
         $("#cajaJuegoConcreto").removeClass('d-none')
 
-        $.ajax({
+        $.ajax({ //leo todos los juegos en funcion de su categoria
             method: "GET",
             url: "/juego/juegosPorCategoria",
             data: { categoria: categoria },
             success: function (datos, state, jqXHR) {
                 $("#selectJuegoConcreto").empty()
                 datos.forEach(function (dato) {
-                    $("#selectJuegoConcreto").append($('<option>', {
+                    $("#selectJuegoConcreto").append($('<option>', { //agrego la informacion a un select
                         value: dato.id,
                         text: dato.nombre
                     }));
                 });
             },
             error: function (jqXHR, statusText, errorThrown) {
-                nuevoToast("Ha ocurrido un error con las categorias")
+                nuevoToast("Ha ocurrido un error con las categorias") //Si ocurre algun error informo
             }
         });
 
     }
 })
-
-
+//Funcion para mostrar un toast abajo a la derecha
 function nuevoToast(text) {
     Toastify({
         text: text,

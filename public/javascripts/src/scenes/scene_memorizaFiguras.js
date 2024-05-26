@@ -41,7 +41,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         this.mostrarTres();
 
         var self = this
-
+        //Cuando se pulsa una carta 
         $(document).on("click", ".carta", function (event) {
             if (self.seleccionable && $(this).data("seleccionable", true)) {
                 self.seleccionadas.push($(this).data("valor"))//Me guardo el id de la carta selccionada
@@ -69,7 +69,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
             }
         })
     }
-
+//Cubro con acierto o fallo
     cubrirResultado(esAcierto) {
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');
@@ -94,7 +94,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
             }
         });
     }
-
+ //Muestro las cartas que se deben recordar
     mostrarTres() {
         this.seleccionable = false //ya no se podra seleccionar 
         this.cartasGrupo = this.add.group();
@@ -132,7 +132,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
         }, 6000);
 
     }
-
+    //Mostrar todas las cartas 
     mostrarTodas() {
         this.seleccionable = true
         $("#contenedorCartas").empty()
@@ -158,7 +158,7 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
             this.finalizarJuego()
         }
     }
-
+    //Logica para llamar a la escena final pasando aciertos, fallos y tiempo invertido.
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#ventanaOrden').css('z-index', '1');

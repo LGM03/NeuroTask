@@ -7,6 +7,7 @@ export default class scene_refranes extends Phaser.Scene {
         this.fechaInicio = new Date();
         this.RONDAS_TOTALES = 6
         this.rondas_actuales = 0
+        //Refranes segun su dificultad
         this.refranesFaciles = [
             "Más vale tarde que nunca.",
             "El que la sigue, la consigue.",
@@ -69,7 +70,7 @@ export default class scene_refranes extends Phaser.Scene {
         if (this.plan != null) {
             this.nivel = this.plan.nivel
         }
-
+        //Segun la dificultad elijo una lista de refranes
         switch (this.nivel) {
             case 1:
                 this.casos = this.refranesFaciles.concat();
@@ -88,12 +89,12 @@ export default class scene_refranes extends Phaser.Scene {
         this.crearInterfaz();
         const self = this
         $("#tituloJuego").text("Ordena las palabras y descubre el refrán")
-
+        //Cuando pulso una palabra
         $(document).on("click", ".botonPalabra", function (event) {
-            self.fraseFormada.push($(this).text())
+            self.fraseFormada.push($(this).text()) //La agrego a mi frase actual
             $("#fraseFormada").text($("#fraseFormada").text() + " " + $(this).text())
             $(this).remove()
-
+            //Si la frase actual es igual a la que se espera de resultado
             if (self.fraseFormada.length == self.solucion.length) {
                 if (self.fraseFormada.every((element, index) => element === self.solucion[index])) {
                     self.puntuacion++
@@ -107,7 +108,7 @@ export default class scene_refranes extends Phaser.Scene {
             
             }
         })
-
+        //El boton corregir resetea el juego
         $("#btnCorregir").on("click", function (event) {
             $("#contenedorBotones .botonPalabra").remove()
             $("#fraseFormada").text("")
@@ -119,13 +120,13 @@ export default class scene_refranes extends Phaser.Scene {
 
         })
     }
-
+    //Paso a la siguiente ronda 
     siguienteRonda(){
         $("#contenedorBotones .botonPalabra").remove()
         $("#fraseFormada").text("")
         this.crearInterfaz();
     }
-
+    //Cubro los resultado de acierto o fallo 
     cubrirResultado(esAcierto) {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');
@@ -149,7 +150,7 @@ export default class scene_refranes extends Phaser.Scene {
             }
         });
     }
-
+    //Creo la interfaz para el inicio del juego
     crearInterfaz() {
 
         var elegido = Phaser.Math.Between(0, this.casos.length - 1)
@@ -173,7 +174,7 @@ export default class scene_refranes extends Phaser.Scene {
             $('#contenedorBotones').append(botonPalabra)
         }))
     }
-
+    //Compruebo que se hayan cumplido todas las rondas 
     async update(){
         if(this.rondas_actuales==this.RONDAS_TOTALES){
             await this.esperar(400)
@@ -185,7 +186,7 @@ export default class scene_refranes extends Phaser.Scene {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-
+    //Logica para llamar a la escena final pasando aciertos, fallos y tiempo invertido.
     finalizarJuego() {
         $('canvas').css('z-index', '2');
         $('#juegoLenguaje').css('z-index', '1');

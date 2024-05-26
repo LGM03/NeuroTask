@@ -32,7 +32,7 @@ export default class scene_fin extends Phaser.Scene {
             fontSize: '25px',
             color: '#000000',
         };
-
+        //Defino la cantidad de estrellas en funcion de aciertos y fallos 
         if (this.info.fallos > this.info.aciertos || this.info.aciertos == 0) {
             this.icPuntuacion = this.add.image(this.sys.game.config.width / 2, this.sys.game.config.height / 2, "UnaEstrella")
         } else if (this.info.aciertos - this.info.fallos > 3) {
@@ -43,7 +43,7 @@ export default class scene_fin extends Phaser.Scene {
 
         this.icPuntuacion.setOrigin(0.5, 0.5);
 
-
+        //Posiciono los mensajes de puntuacion y tiempo
         this.tFallos = this.add.text(this.icPuntuacion.x + this.icPuntuacion.width / 5, this.icPuntuacion.y + 20, this.info.fallos * 100 + " pts", estiloTexto)
         this.tFallos.setOrigin(0, 0.5);
         this.tFallos.setScale(1.2);
@@ -55,7 +55,7 @@ export default class scene_fin extends Phaser.Scene {
         if(this.info.duracion.segundos <10){
             this.info.duracion.segundos = "0"+this.info.duracion.segundos
         }
-        
+
         this.tTiempo = this.add.text(this.icPuntuacion.x - 35, this.icPuntuacion.y + this.icPuntuacion.y / 4 + 30, this.info.duracion.minutos + ":" + this.info.duracion.segundos + " min", estiloTexto)
         this.tTiempo.setOrigin(0, 0.5);
         this.tTiempo.setScale(1.2);
@@ -68,7 +68,7 @@ export default class scene_fin extends Phaser.Scene {
 
         this.icContinuar.setInteractive();
 
-        this.icContinuar.on("pointerdown", () => { //Sale del juego, envia los datos al servidor  //Tiene que haber otra forma de hacer esto
+        this.icContinuar.on("pointerdown", () => { //Sale del juego, envia los datos al servidor 
             if (this.info.plan == null) {
                 window.location.href = `/juego/finJuego?aciertos=${this.info.aciertos}&fallos=${this.info.fallos}&idJuego=${this.info.idJuego}&fechaInicio=${this.info.fechaInicio}&duracion=${this.info.segundos}&nivel=${this.info.nivel}`;
             }else{

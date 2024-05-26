@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) { //meter BD aqui
   if(req.session.usuario  != undefined && req.session.usuario.tipo == "terapeuta"){
   res.render("admin", {exito : req.query.exito, error : req.query.error})
   }else{
-    res.redirect("/")
+    res.redirect("/") 
   }
 });
 

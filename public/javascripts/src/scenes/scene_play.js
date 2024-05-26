@@ -22,7 +22,7 @@ export default class scene_play extends Phaser.Scene {
         $('#ventanaInicio').removeClass("d-none")
         $("#introduccion").text(this.info.descripcion)
 
-        $("#btnInicio").on("click", function (event) {
+        $("#btnInicio").on("click", function (event) { //Escena de inicio muestra la descripcion del juego
             event.preventDefault()
             $('#ventanaInicio').addClass("d-none");
             self.scene.start(self.info.juego, { idJuego: self.info.idJuego, nivel: self.info.nivel, plan: self.info.plan });

@@ -5,6 +5,7 @@ class DAOComentarios{
         this.pool = pool
     }
 
+    //Leer todos los comentarios asignados a un paciente
     leerPorUsuario(usuario, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) { 
@@ -23,6 +24,7 @@ class DAOComentarios{
         });
     }   
 
+    //Publicar un comentario, la fecha es automaticamente la actual
     publicar(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

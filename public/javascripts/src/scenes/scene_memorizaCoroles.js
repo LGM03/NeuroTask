@@ -48,27 +48,27 @@ export default class scene_memorizaColores extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5, 0.5)
         this.cobertura=this.add.group()
-
+        //Muestro las cartas que se deben memorizar
         this.mostrarTres();
-
+        //Cuanndo se pulse una carta
         this.input.on('gameobjectdown', async function (pointer, gameObject) {
             if (this.seleccionable) {
                 this.seleccionadas.push(gameObject.value)
 
                 const scaleX = gameObject.scaleX;
                 const scaleY = gameObject.scaleY;
-
+                //Cubro la carta como seleccionada 
                 this.cobertura.add(this.add.rectangle(gameObject.x, gameObject.y, gameObject.width * scaleX, gameObject.height * scaleY, 0xFFFFFF, 0.75).setOrigin(0.5, 0.5));
-                
+                //Si se han pulsado la cantidad de cartas esperadas en la solucion
                 if (this.seleccionadas.length == this.secuencia_objetivo.length) {
-                
+                    //Compruebo que se hayan pulsado las cartas apropiadas
                     if (this.seleccionadas.every(element =>this.secuencia_objetivo.includes(element))) {
                         this.seleccionadas = []
                         this.secuencia_objetivo = []
                         this.cubrirResultado(true) //true porque es acierto
                         await this.esperar(750)
                         this.puntuacion++;
-                    } else {
+                    } else {//si hay fallo cubro con mensaje de error
                         this.fallos++;
                         this.cubrirResultado(false)
                         await this.esperar(750)
@@ -82,20 +82,16 @@ export default class scene_memorizaColores extends Phaser.Scene {
                     this.mostrarTres();
                 }
             }
-
         }, this);
     }
 
-    cubrirResultado(esAcierto) {
+    cubrirResultado(esAcierto) { //Cubro con acierto o fallo
 
-        
         var imagen = "fallo"
         if (esAcierto) {
             imagen = "acierto"
         }
         var cover = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height / 2, imagen).setScale(0.4).setOrigin(0.5, 0.5)//imagen de fondo
-
-
         this.tweens.add({
             targets: cover,
             alpha: 0,
@@ -108,7 +104,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
         });
     }
 
-    async mostrarTres() {
+    async mostrarTres() { //Muestro las cartas que se deben recordar
         this.seleccionable = false //ya no se podra seleccionar 
         this.coloresGrupo = this.add.group();
 
@@ -137,12 +133,12 @@ export default class scene_memorizaColores extends Phaser.Scene {
             this.objetivoGrupo.add(carta)
         }
 
-        setTimeout(async () => {
+        setTimeout(async () => { //Pasado el tiempo necesario muestro todas para que el usuario elija
             this.mostrarTodas();
         }, 3000);
 
     }
-
+    //Mostrar todas las cartas 
     mostrarTodas() {
         this.seleccionable = true
         this.objetivoGrupo.clear(true,true) //elimino todas la cartas objetivo
@@ -175,7 +171,6 @@ export default class scene_memorizaColores extends Phaser.Scene {
         amarillo.value = 4;
         this.coloresGrupo.add(amarillo)
 
-
         const marron = this.add.rectangle(3 * this.sys.canvas.width / 8, 3 * this.sys.canvas.height / 8, 200, 250, 0x582900).setOrigin(0.5).setStrokeStyle(4, 0x888888);;
         marron.setInteractive();
         marron.value = 5;
@@ -204,7 +199,7 @@ export default class scene_memorizaColores extends Phaser.Scene {
             this.finalizarJuego()
         }
     }
-
+    //Logica para llamar a la escena final pasando aciertos, fallos y tiempo invertido.
     finalizarJuego() {
         var fechaFin = new Date();
         var tiempoTranscurrido = fechaFin - this.fechaInicio

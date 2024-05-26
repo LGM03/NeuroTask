@@ -1,6 +1,6 @@
 
 $(function () {
-
+    //logica para la generacion de un enlace de inicio de sesion automatico
     $(document).on("click", ".btnCopiarURL", function (event) {
         event.preventDefault()
         var divContenedor = $(this).closest('.cajaPaciente');
@@ -16,10 +16,8 @@ $(function () {
                     const elementoTemporal = $('<textarea>');
                     elementoTemporal.val(datos);
                     $('body').append(elementoTemporal);
-                    // Seleccionar el texto dentro del elemento de texto
-                    elementoTemporal.select();
-                    // Copiar el texto al portapapeles
-                    document.execCommand('copy');
+                    elementoTemporal.select(); 
+                    document.execCommand('copy'); // Copiar el texto al portapapeles
                     // Eliminar el elemento temporal
                     elementoTemporal.remove();
                     nuevoToast("URL copiada en portapapeles")
@@ -28,14 +26,14 @@ $(function () {
                 }
 
             },
-            error: function (jqXHR, statusText, errorThrown) {
+            error: function (jqXHR, statusText, errorThrown) { //Cuando ocurra un error muestro un toast 
                 nuevoToast("No se pudo generar la url de inicio de sesión")
             }
         });
     })
 })
 
-
+//Logica ara mostrar un toast abajo a la derecha
 function nuevoToast(text) {
     Toastify({
         text: text,

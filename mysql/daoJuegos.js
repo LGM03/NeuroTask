@@ -5,6 +5,7 @@ class DAOJuegos {
         this.pool = pool
     }
 
+    //Lee la informacion de todos los juegos
     leerTodos(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -22,7 +23,7 @@ class DAOJuegos {
             }
         });
     }
-
+    //Lee la informacion de un juego por su ID
     leerPorID(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -40,7 +41,7 @@ class DAOJuegos {
             }
         });
     }
-
+    //Lee todas las categorias disponibles
     leerCategorias(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -58,7 +59,7 @@ class DAOJuegos {
             }
         });
     }
-
+    //Guardo el resultado de una partida
     guardarPartida(datosJuego, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -77,7 +78,7 @@ class DAOJuegos {
             }
         })
     }
-
+    //Guarda la informacion de una partida que forma parte de un plan
     guardarPartidaPlan(datosJuego, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -104,7 +105,7 @@ class DAOJuegos {
             }
         })
     }
-
+    //Lee los juegos en funcion de la categoria
     leerjuegosCategorias(categoria, callback) {  //Almaceno la durancion en s, usar momento.js para humanizar 
         this.pool.getConnection(function (err, connection) {
             if (err) {

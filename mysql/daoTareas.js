@@ -4,7 +4,7 @@ class DAOTareas {
     constructor(pool) {
         this.pool = pool
     }
-
+    //lee las treas que un usuario tiene asignadas a un dia concreto
     tareaUsuarioDia(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -24,7 +24,7 @@ class DAOTareas {
             }
         });
     } 
-
+    //Lee las tareas pendientes para un dia y paciente
     tareaPendienteDia(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -44,7 +44,7 @@ class DAOTareas {
             }
         });
     } 
-
+    //Lee el historial de partidas de un usuario
     historialUsuario(usuario, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -62,7 +62,7 @@ class DAOTareas {
             }
         });
     }
-
+    //Lee las planificaciones que ha jugado un paciente
     planificacionesJugadas(datos, callback) { 
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -82,7 +82,7 @@ class DAOTareas {
             }
         });
     }
-
+    //Lee el redimiento general de un paciente en comparacion con el resto de usuario de un mismo grado de deterioro
     rendimientoGeneral(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -100,7 +100,7 @@ class DAOTareas {
             }
         });
     }
-
+    //Lee el progreso de un paciente en una categoria en comparación con el resto de paciente de su mismo grado de deterioro
     progresoCategoria(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -136,7 +136,7 @@ class DAOTareas {
             }
         });
     }  
-
+    //Lee el progreso de un paciente en un juego en comparacion con el resto de pacientes del mismo grado de deterioro
     progresoJuego(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -160,8 +160,7 @@ class DAOTareas {
             }
         });
     } 
-
-    
+    //Lee el progreso total de un paciente
     progresoTotal(datos, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -184,8 +183,7 @@ class DAOTareas {
             }
         });
     } 
-
-
+    //Elimina una tarea de la planificacion de un paciente
     borrarTarea(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -204,7 +202,7 @@ class DAOTareas {
         });
     }
 
-
+    //Asigna una tarea a un paciente 
     asignarTarea(data, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

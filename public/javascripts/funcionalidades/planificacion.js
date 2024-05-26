@@ -1,5 +1,6 @@
 $(function(){
 
+    //Cuando pulso el boton para ver la planificacion de un paciente
     $(document).on("click", ".btnVerPlanificacion", function () {
         $('#calendario').fullCalendar('removeEvents');
         $('#calendario').fullCalendar('removeEventSources');
@@ -17,32 +18,33 @@ $(function(){
         //Logica de calendario a mes visto
         crearCalendario(usuario)
     })
-
+    //Para eliminar una tarea de una planificacion
     $(document).on("click", ".btnEliminarTarea", function (event) {
         var idTarea = $(this).closest('tr.tareaJugador').data("idtarea");
         var divTarea = $(this).closest('tr.tareaJugador')
         var data = { id: idTarea };
+        //Solicito la confirmacion del usuario antes de eliminar
         if (confirm("Esta tarea y sus repeticiones se eliminarán ¿Estás seguro?")) {
-            $.ajax({
+            $.ajax({ //elimino la tarea
                 url: "/tareas/eliminar",
                 method: "DELETE",
                 data: data,
                 success: function (datos, state, jqXHR) {
 
-                    if (datos == 0) {
+                    if (datos == 0) { //Si ocurre un error lo indico
                         nuevoToast("No se pudo eliminar la tarea")
-                    } else {
+                    } else { //si todo va bien elimino el div de la tarea y lo indico
                         nuevoToast("Se eliminó la tarea")
                         divTarea.slideUp(1000)
                     }
                 },
-                error: function (jqXHR, statusText, errorThrown) {
+                error: function (jqXHR, statusText, errorThrown) { //Si ocurre un error lo indico
                     nuevoToast("No se pudo eliminar la tarea")
                 }
             })
         }
     })
-
+    //Logica para asignar una tarea aun paciente
     $("#asignarTarea").on("click", function (event) {
 
         var divContenedor = $('.correoPaciente');
@@ -72,31 +74,30 @@ $(function(){
                     data.fecha = dia
             }
 
-            $.ajax({
+            $.ajax({ //Funcion para asignar una tarea 
                 url: "/tareas/asignar",
                 method: "POST",
                 data: data,
                 success: function (datos, state, jqXHR) {
 
-                    if (datos == 0) {
+                    if (datos == 0) { //Si no se puedo asignar la tarea lo indico
                         nuevoToast("No se pudo asignar la tarea")
-                    } else {
+                    } else {//Si todo va bien lo indico y refresco el calendario
                         $('#crearTarea').modal('hide');
                         // Refresca el calendario
                         crearCalendario(usuario)
-
                         nuevoToast("Tarea asignada con éxito")
                     }
                 },
-                error: function (jqXHR, statusText, errorThrown) {
+                error: function (jqXHR, statusText, errorThrown) { //Si ocurre un error indico
                     nuevoToast("No se pudo asignar la tarea")
                 }
             })
         }
     })
 
-    function crearCalendario(usuario) {
-        $("#calendario").fullCalendar('destroy')
+    function crearCalendario(usuario) { //Funcion para crear un calendario
+        $("#calendario").fullCalendar('destroy') //Si ya existia un calendario lo elimino para volver a generarlo
         $('#calendario').fullCalendar({ //
             header: {
                 left: 'prev,next today',  //opciones para moverse por las fechas del calendario
@@ -181,16 +182,16 @@ $(function(){
     }
 })
 
-
+//Funcion para mostrar un toast abajo a la derecha
 function nuevoToast(text) {
     Toastify({
         text: text,
         duration: 3000,
         newWindow: true,
         close: true,
-        gravity: "bottom", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
+        gravity: "bottom",
+        position: "right", 
+        stopOnFocus: true, 
         style: {
             background: "#FFFFFF",
             color: "#fe8ee5"
