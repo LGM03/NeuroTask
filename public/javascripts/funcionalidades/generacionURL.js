@@ -12,7 +12,6 @@ $(function () {
             data: { usuario: usuario },
             success: function (datos, state, jqXHR) {
                 if (datos != 0) {
-                    console.log(datos)
                     const elementoTemporal = $('<textarea>');
                     elementoTemporal.val(datos);
                     $('body').append(elementoTemporal);

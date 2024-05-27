@@ -46,7 +46,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
                 const sql = "INSERT INTO `usuario`(correo, nombre, apellido, contraseña, salt) VALUES (?,?,?,?,?);";
                 connection.query(sql, [datosUsuario.correo, datosUsuario.nombre, datosUsuario.apellido, datosUsuario.contraseña, datosUsuario.salt], function (err, resultado) {
                     if (err) {
-                        console.log(err)
                         connection.release();
                         callback(err, null); //Si ocurre algun error retornamos el error
                     } else {
@@ -55,7 +54,6 @@ class DAOUsuario {   //DAO que accede a los destinos y su respectiva informació
                         connection.query(sql2, [datosUsuario.correo, datosUsuario.clinica], function (err, resultado2) {
                             connection.release();
                             if (err) {
-                                console.log(err)
                                 callback(err, null); //Si ocurre algun error retornamos el error
                             } else {
                                 callback(null, "1")

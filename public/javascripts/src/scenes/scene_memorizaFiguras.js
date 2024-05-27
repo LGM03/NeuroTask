@@ -152,7 +152,6 @@ export default class scene_memorizaFiguras extends Phaser.Scene {
     }
 
     async update(){
-        console.log(this.rondas_actuales + " "+ this.RONDAS_TOTALES)
         if(this.rondas_actuales==this.RONDAS_TOTALES){
             await this.esperar(900)
             this.finalizarJuego()

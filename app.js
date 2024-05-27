@@ -25,7 +25,6 @@ const middlewareSession = session({
 
 app.use(middlewareSession);
 
-console.log("correcto 1")
 var indexRouter = require('./routes/index');
 var juegoRouter = require('./routes/juego');
 var adminRouter = require('./routes/admin');
@@ -45,7 +44,6 @@ app.use(cookieParser());
 
 app.use(function (req, res, next) {
 
-  console.log("correcto 2")
   res.locals.usuario = req.session.usuario || null;
   next();
 });
@@ -57,8 +55,6 @@ app.use('/user', usuarioRouter);
 app.use('/tareas', tareasRouter);
 app.use('/comentarios', comentariosRouter);
 
-
-console.log("correcto 3")
 app.get('/generar-url', (req, res) => {
   const userId = req.query.usuario//req.query.usuario; // Obtener el ID del usuario
 
@@ -71,7 +67,6 @@ app.get('/generar-url', (req, res) => {
         const sql = 'SELECT * FROM usuario WHERE correo = ?';
         connection.query(sql, [userId], (error, results) => { //busco el token en la bd 
           if (error) {
-            console.error('Error al consultar la base de datos:', error);
             res.status(500).send('Error al generar la URL de inicio de sesión automático');
             return;
           }
@@ -91,7 +86,6 @@ app.get('/generar-url', (req, res) => {
             const updateSql = 'UPDATE usuario SET token = ? WHERE correo = ?';
             connection.query(updateSql, [token, userId], (updateError, updateResults) => {
               if (updateError) {
-                console.error('Error al actualizar el token en la base de datos:', updateError);
                 res.status(500).send('Error al generar la URL de inicio de sesión automático');
                 return;
               }
@@ -127,7 +121,6 @@ app.get('/iniciar-sesion', (req, res) => {
       const sql = 'SELECT * FROM usuario WHERE token = ?';
       connection.query(sql, [token], (error, results) => {
         if (error) {
-          console.error('Error al consultar la base de datos:', error);
           res.status(500).send('Error al iniciar sesión');
           return;
         }
@@ -154,14 +147,12 @@ app.get('/iniciar-sesion', (req, res) => {
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
 
-  console.log("err 1")
   next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
 
-  console.log("err 2")
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -173,10 +173,8 @@ class DAOTareas {
                connection.query(sql, [datos.usuario, datos.juego,datos.usuario], function (err, resultado) {
                     connection.release();
                     if (err) {
-                        console.log(err)
                         callback(err, null);
                     } else {
-                        console.log(resultado)
                         callback(null, resultado);
                     }
                 });
