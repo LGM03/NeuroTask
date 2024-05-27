@@ -31,19 +31,32 @@ Para importar la base de datos, utilizaremos el archivo neurotask.sql del reposi
 <p style="text-align: justify;">
 Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> 
   
-Para acceder a la base de datos creada desde el código, será necesario modificar el fichero llamado .env de la raíz del proyecto, e incluir las varibles con los datos correspondientes a la base  de datos creada, por defecto, este fichero contendrá la información para ejecutar una base de datos localhost con usuario root y sin contraseña
+Para acceder a la base de datos creada desde el código, el fichero config.js  contiene los siguientes valores por defecto :
+<p align='center'">
+module.exports = {<br>
+    PORT: process.env.PORT || 3000,<br>
+    VAR_HOST: process.env.VAR_HOST || "localhost",<br>
+    VAR_USER: process.env.VAR_USER || "root",<br>
+    VAR_PASSWORD: process.env.VAR_PASSWORD,<br>
+    VAR_DATABASE: process.env.VAR_DATABASE || "neurotask",<br>
+    VAR_PORT_DB:  process.env.VAR_PORT_DB || 3306
+}<br>
+</p>
+
+
+Paramodificar estos valores, será necesario crear un fichero llamado .env de la raíz del proyecto, e incluir las varibles con los datos correspondientes a la base  de datos creada.
 </p>
 
 <p align='center'">
-PORT=3000<br>
-VAR_HOST=localhost<br>
-VAR_USER=root<br>
-VAR_PASSWORD=<br>
-VAR_DATABASE=neurotask<br>
-VAR_PORT_DB=3306<br>
+PORT=tu_puerto<br>
+VAR_HOST=tu_host<br>
+VAR_USER=tu_usuario<br>
+VAR_PASSWORD=tu_contraseña<br>
+VAR_DATABASE=tu_base_de_datos<br>
+VAR_PORT_DB=tu_puerto_de_bd<br>
 </p>
   
- Finalmente, será necesario escribir en la consola <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
+ Finalmente, será necesario escribir en la consola <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si los pasos se han seguido correctamente, veremos en la consola el inicio de Nodemon.
 
 </p>
 <p style="text-align: justify;">
