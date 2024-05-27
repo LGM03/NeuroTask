@@ -35,10 +35,10 @@ Para acceder a la base de datos creada desde el código, el fichero config.js  c
 <p align='center'">
 module.exports = {<br>
     PORT: process.env.PORT || 3000,<br>
-    VAR_HOST: process.env.VAR_HOST || localhost,<br>
-    VAR_USER: process.env.VAR_USER || root,<br>
+    VAR_HOST: process.env.VAR_HOST || "localhost",<br>
+    VAR_USER: process.env.VAR_USER || "root",<br>
     VAR_PASSWORD: process.env.VAR_PASSWORD,<br>
-    VAR_DATABASE: process.env.VAR_DATABASE || neurotask,<br>
+    VAR_DATABASE: process.env.VAR_DATABASE || "neurotask",<br>
     VAR_PORT_DB:  process.env.VAR_PORT_DB || 3306
 }<br>
 </p>
