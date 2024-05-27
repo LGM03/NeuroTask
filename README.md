@@ -31,31 +31,23 @@ Para importar la base de datos, utilizaremos el archivo neurotask.sql del reposi
 <p style="text-align: justify;">
 Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los siguientes comando : <strong>npm install</strong> <em>(Para instalar los paquetes incluidos en el archivo .json)</em> 
   
-Para acceder a la base de datos creada desde el código, las variables se encuentran predefinidas en el fichero llamado config.js que contiene los siguientes valores por defecto :
-<p align='center'">
-module.exports = {<br>
-    VAR_PORT: process.env.ENV_PORT || 3000,<br>
-    VAR_HOST: process.env.ENV_HOST || "localhost",<br>
-    VAR_USER: process.env.ENV_USER || "root",<br>
-    VAR_PASSWORD: process.env.ENV_PASSWORD || "",<br>
-    VAR_DATABASE: process.env.ENV_DATABASE || "neurotask"}<br>
-</p>
-Estos valores podrán ser modificados, creando un fichero llamado .env en la raíz del proyecto, e incluyendo las siguientes varibles con los datos correspondientes
+Para acceder a la base de datos creada desde el código, será necesario modificar el fichero llamado .env de la raíz del proyecto, e incluir las varibles con los datos correspondientes a la base  de datos creada, por defecto, este fichero contendrá la información para ejecutar una base de datos localhost con usuario root y sin contraseña
 </p>
 
 <p align='center'">
-ENV_PORT= tu_puerto<br>
-ENV_HOST= "tu_host"<br>
-ENV_USER= "tu_usuario"<br>
-ENV_PASSWORD= "tu_contraseña"<br>
-ENV_DATABASE= "tu_bd"<br>
+PORT=3000<br>
+VAR_HOST=localhost<br>
+VAR_USER=root<br>
+VAR_PASSWORD=<br>
+VAR_DATABASE=neurotask<br>
+VAR_PORT_DB=3306<br>
 </p>
   
- Finalmente, será necesario escribri en la consola <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
+ Finalmente, será necesario escribir en la consola <strong>npm start</strong> <em>para poner en funcionamiento el servidor</em>. Si todo ha funcionado correctamente veremos en la consola el inicio de Nodemon.
 
 </p>
 <p style="text-align: justify;">
-A partir de este momento será posible acceder a la aplicación desde localhost, por defecto desde el puerto 3000, mediante la ruta http://localhost:3000/.
+A partir de este momento será posible acceder a la aplicación desde localhost, por defecto desde el puerto 3000, mediante la ruta http://localhost:3000
 Este puerto podrá ser modificado en nuestro codigo en el fichero bin/www, donde se declara la instancia de nuestra aplicación web y el puerto de escucha mediante el siguiente codigo o en el fichero .env creado anteriormente</p>
 <p align='center'">
 var app = require('../app');<br>
