@@ -34,11 +34,13 @@ Después, clonamos el código y lo abrimos en Visual Studio Code, corremos los s
 Para acceder a la base de datos creada desde el código, el fichero config.js  contiene los siguientes valores por defecto :
 <p align='center'">
 module.exports = {<br>
-    VAR_PORT: process.env.ENV_PORT || 3000,<br>
-    VAR_HOST: process.env.ENV_HOST || "localhost",<br>
-    VAR_USER: process.env.ENV_USER || "root",<br>
-    VAR_PASSWORD: process.env.ENV_PASSWORD || "",<br>
-    VAR_DATABASE: process.env.ENV_DATABASE || "neurotask"}<br>
+    PORT: process.env.PORT || 3000,<br>
+    VAR_HOST: process.env.VAR_HOST || localhost,<br>
+    VAR_USER: process.env.VAR_USER || root,<br>
+    VAR_PASSWORD: process.env.VAR_PASSWORD,<br>
+    VAR_DATABASE: process.env.VAR_DATABASE || neurotask,<br>
+    VAR_PORT_DB:  process.env.VAR_PORT_DB || 3306
+}<br>
 </p>
 
 
