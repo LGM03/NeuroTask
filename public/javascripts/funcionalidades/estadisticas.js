@@ -95,6 +95,10 @@ $(function () {
     //Boton para ver las graficas de una categoria concreta
     $('#btnGraficos').on("click", function (event) {
         event.preventDefault()
+        $("#cajaGraficoJuego").empty()
+        $("#cajaGraficoJuegoTotal").empty()
+        $("#cajaGraficoHechos").empty()
+        $("#cajaGraficoProgreso").empty()
         $(".alertaEstadisticas").remove()
         $("#cajaEstadisticas").removeClass('d-none')
         var opcionSeleccionada = $("#selectCategorias").val();
@@ -160,6 +164,7 @@ $(function () {
             data: { categoria: opcionSeleccionada, usuario: usuario, fecha: fechaSeleccionada },
             success: function (datos, state, jqXHR) {
                 if (datos.length == 0) {  //Si no hay nada que mostrar lo indico
+                    $("#cajaJuegoConcreto").addClass('d-none')
                     nuevoToast("No hay estadísticas sobre esta categoría disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre progreso </div>');
                     $("#cajaGraficoProgreso").append(alerta)
@@ -229,7 +234,9 @@ $(function () {
                 if (datos.length == 0) {  
                     nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
+                    $("#cajaGraficoJuego").empty()
                     $("#cajaGraficoJuego").append(alerta)
+                    
                 } else {  //Si hay datos muestro el canvas
 
                     $("#cajaGraficoJuego .alertaEstadisticas").remove()
@@ -289,6 +296,7 @@ $(function () {
                 if (datos.length == 0) {  
                     nuevoToast("No hay estadísticas sobre este juego disponibles para mostrar")
                     var alerta = $('<div class="alert alert-secondary alertaEstadisticas mt-3" role="alert" > No hay estadísticas sobre el juego </div>');
+                    $("#cajaGraficoJuegoTotal").empty()
                     $("#cajaGraficoJuegoTotal").append(alerta)
                 } else {  //Si hay datos muestro el canvas
 
